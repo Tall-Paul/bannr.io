@@ -1,0 +1,52 @@
+body,html{width:100%;height:100%;padding:0;margin:0;}
+.clearfix:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+#main{
+   float: right;
+   height:100%;
+    width: 75%;
+}
+#sidebar{
+   width:25%;
+   float: left;
+   height:100%;
+   /*overflow-y: hidden;*/
+}
+
+#dragbar{
+   background-color:black;
+   height:100%;
+   float: right;
+   width: 3px;
+   cursor: col-resize;
+}
+#ghostbar{
+    width:3px;
+    background-color:#000;
+    opacity:0.5;
+    position:absolute;
+    cursor: col-resize;
+    z-index:999
+}
+#preview {
+  width: 98%;
+  height: 98%;
+  /*border: 1px solid black;*/
+  z-index: 998;
+}
+.rowElem{
+  margin: 15px;
+}
+.rowElem  label {
+  width: 70px;
+  float: left;
+}
+
+
+#template_editor_html {
+  width: 400px;
+  height: 250px;
+}
