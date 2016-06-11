@@ -25,6 +25,27 @@ var dragging = false;
      targetFrame.contentWindow.postMessage(msg, '*');
    });
 
+
+   function show_editor(){
+       $('.main-panel').removeClass('col-lg-12').addClass('col-lg-8');
+       $('.side-panel').removeClass('col-lg-0').addClass('col-lg-4');
+       $('.editor_hidden').show();
+   }
+
+   function hide_editor(){
+       $('.main-panel').removeClass('col-lg-8').addClass('col-lg-12');
+       $('.side-panel').removeClass('col-lg-4').addClass('col-lg-0');
+       $('.editor_hidden').hide();
+   }
+
+   $('#show_editor').click(function(){
+      show_editor();
+   });
+
+   $('#hide_editor').click(function(){
+      hide_editor();
+   });
+
    $(document).mousedown(function(e){
        if ($(e.target).attr('id') == 'dragbar'){
          e.preventDefault();

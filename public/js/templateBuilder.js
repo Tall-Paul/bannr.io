@@ -21,6 +21,7 @@ templateBuilder.init = function(){
       case "div_selected":
         jQuery(templateBuilder.editorHtmlID).val(beautify_html(m.data.html));
         jQuery(templateBuilder.editorTargetID).val(m.data.target);
+        show_editor();
         break;
     }
   }, false);

@@ -87,10 +87,14 @@ input.spectrum {
 }
 
 iframe#site{
-  min-height: 300px;
+  min-height: 800px;
 }
 
 .template_accordion{
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.header-btn{
+    margin-top: -8px;
 }

@@ -33,7 +33,7 @@ campaignBuilder.init = function(){
 
 campaignBuilder.reInit = function(){
   $(campaignBuilder.editorAccordionID).html(' ');
-  $(campaignBuilder.editorAccordionID).accordian().accordion('destroy');
+  $(campaignBuilder.editorAccordionID).accordion().accordion('destroy');
   campaignBuilder.loadCampaigns();
 }
 
