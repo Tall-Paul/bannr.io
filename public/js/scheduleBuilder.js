@@ -23,7 +23,7 @@ scheduleBuilder.init = function(){
     editorAPI.loadCampaign($(scheduleBuilder.editorSitesID).val(),campaign,scheduleBuilder.addCampaign);
   });
 
-  $(this.editorScheduleID).change(function(){
+  $(this.editorSchedulesID).change(function(){
     scheduleBuilder.loadSchedule();
   });
 
@@ -37,6 +37,7 @@ scheduleBuilder.init = function(){
 }
 
 scheduleBuilder.reInit = function(){
+  scheduleBuilder.reset();
   $(scheduleBuilder.editorAccordionID).html(' ');
   $(scheduleBuilder.editorAccordionID).accordion().accordion('destroy');
   scheduleBuilder.loadSchedules();
@@ -112,7 +113,7 @@ scheduleBuilder.loadCampaigns = function(){
 
   scheduleBuilder.populateSchedules = function(data){
     var appen = "";
-    appen += "<option value=''>New...</option>";
+    appen += "<option value='new'>New...</option>";
     $.each(data,function(index,obj){
       appen += "<option value='"+obj.id+"' >"+obj.name+"</option>";
     });
@@ -164,22 +165,60 @@ scheduleBuilder.loadCampaigns = function(){
         return false;
       } else {
          var returnData = {};
+         returnData.name = $(scheduleBuilder.editorNameID).val();
          returnData.campaigns = schedule_campaigns;
          returnData._token = $('#_token').val();
          returnData.begin = $(scheduleBuilder.editorStartID).val();
          returnData.finish = $(scheduleBuilder.editorFinishID).val();
+         returnData.templates = {};
          $('.schedule_editor_data_elements').each(function(){
              var template_data = {};
              $(this).find('input').each(function(){
                eval("template_data."+$(this).data('inputname')+" = '"+$(this).val()+"';");
              });
-             eval("returnData.template_"+$(this).data('templateid')+" = template_data;");
+             eval("returnData.templates.template_"+$(this).data('templateid')+" = template_data;");
          });
-         editorAPI.saveCampaign($(scheduleBuilder.editorSitesID).val(),$(scheduleBuilder.editorScheduleID).val(),returnData,scheduleBuilder.savedSchedule);
+         editorAPI.saveSchedule($(scheduleBuilder.editorSitesID).val(),$(scheduleBuilder.editorSchedulesID).val(),returnData,scheduleBuilder.savedSchedule);
 
       }
   }
 
   scheduleBuilder.savedSchedule = function(ret){
-      //TODO
+      ret = JSON.parse(ret);
+      if (ret.status == 'success'){
+        scheduleBuilder.reInit();
+        alert('schedule saved');
+      } else {
+        alert('Error saving data!!');
+      }
+  }
+
+  scheduleBuilder.reset = function(){
+      $(scheduleBuilder.editorNameID).val('');
+      $(scheduleBuilder.editorStartID).val('');
+      $(scheduleBuilder.editorFinishID).val('');
+      $(scheduleBuilder.editorAccordionID).html(' ');
+      $(scheduleBuilder.editorAccordionID).accordion().accordion('destroy');
+  }
+
+  scheduleBuilder.loadSchedule = function(){
+      scheduleBuilder.reset();
+      if ($(campaignBuilder.editorSchedulesID).val() == 'new')
+        return;
+      editorAPI.loadSchedule($(scheduleBuilder.editorSiteID).val(),$(scheduleBuilder.editorSchedulesID).val(),scheduleBuilder.populateSchedule);
+  }
+
+  scheduleBuilder.populateSchedule = function(ret){
+      $(scheduleBuilder.editorNameID).val(ret.name);
+      $(scheduleBuilder.editorStartID).val(ret.start_at);
+      $(scheduleBuilder.editorFinishID).val(ret.finish_at);
+      var inject_data = JSON.parse(ret.data);
+      $.each(ret.campaigns,function(el,index,arr){
+          schedule_campaigns.push(index.id);
+      });
+      console.log(ret);
+      $.each(inject_data,function(el,index,arr){
+          var template_id = el.replace('template_','');
+          editorAPI.loadTemplateWithData($(scheduleBuilder.editorSitesID).val(),template_id,index,scheduleBuilder.addTemplate);
+      });
   }

@@ -30,6 +30,6 @@
     </div>
   </form>
     <button type="button" class='btn btn-primary' id="schedule_editor_preview_schedule">Preview</button>
-      <button type="button" class= 'btn btn-primary' id="schedule_save_button">Save</button>
+      <button type="button" class='btn btn-primary' id="schedule_save_button">Save</button>
   </div>
   @endsection

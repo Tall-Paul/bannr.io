@@ -5,7 +5,9 @@ var i = 0;
 var dragging = false;
    $(document).ready(function(){
      $('.tabs').tabs();
-     $('.datetimepicker').datetimepicker();
+     $('.datetimepicker').datetimepicker({
+         format: 'DD/MM/YYYY HH:mm'
+     });
      $('#preview_url').change(function(){
        //$('#preview').attr('src','/proxy/index.php?url='+$('#preview_url').val());
      });
@@ -13,6 +15,10 @@ var dragging = false;
      templateBuilder.init();
      campaignBuilder.init();
      scheduleBuilder.init();
+     $('#live_preview_time').datetimepicker({
+            inline: true,
+            sideBySide: true
+     });
    });
 
    $('#behaviour input').change(function(){

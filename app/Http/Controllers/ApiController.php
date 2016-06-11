@@ -6,11 +6,13 @@ use Auth;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Session;
+use Carbon;
 use App\User;
 use App\Team;
 use App\Site;
 use App\Campaign;
 use App\Template;
+use App\Schedule;
 
 class ApiController extends Controller
 {
@@ -27,16 +29,16 @@ class ApiController extends Controller
       $team = Team::find($team);
       if ($team == null){
         //TODO log hacking attempt
-        $this->error('access control error');
+        return null;
       }
       if (!Auth::user()->teams->contains($team)){
         //TODO log hacking attempt
-        $this->error('access control error');
+        return null;
       }
       if ($site_id > 0){
         $site = Site::find($site_id);
         if (!$team->sites->contains($site)){
-          $this->error('access control error');
+          return null;
         }
       }
 
@@ -55,6 +57,8 @@ class ApiController extends Controller
 
     public function getSite($site_id){
       $team = $this->checkTeam($site_id);
+      if ($team == null)
+        return $this->error("Access Control Error");
       $site = Site::find($site_id);
       $out = Array('data'=>json_encode($site->toArray()));
       return view('api/response')->with($out);
@@ -62,6 +66,8 @@ class ApiController extends Controller
 
     public function getTemplates($site_id){
       $team = $this->checkTeam($site_id);
+      if ($team == null)
+        return $this->error("Access Control Error");
       $site = Site::find($site_id);
       $out = Array('data'=>json_encode($site->templates->toArray()));
       return view('api/response')->with($out);
@@ -69,6 +75,8 @@ class ApiController extends Controller
 
     public function postTemplate($site_id,$template_id){
       $team = $this->checkTeam($site_id);
+      if ($team == null)
+        return $this->error("Access Control Error");
       $site = Site::find($site_id);
       if ($template_id == 'new'){
         $template = new Template();
@@ -93,6 +101,8 @@ class ApiController extends Controller
 
     public function getCampaigns($site_id){
       $team = $this->checkTeam($site_id);
+      if ($team == null)
+        return $this->error("Access Control Error");
       $site = Site::find($site_id);
       $out = Array('data'=>json_encode($site->campaigns()->with('templates')->get()->toArray()));
       return view('api/response')->with($out);
@@ -100,6 +110,8 @@ class ApiController extends Controller
 
     public function postCampaign($site_id,$campaign_id){
       $team = $this->checkTeam($site_id);
+      if ($team == null)
+        return $this->error("Access Control Error");
       $site = Site::find($site_id);
       if ($campaign_id == 'new'){
         $campaign = new Campaign();
@@ -111,7 +123,6 @@ class ApiController extends Controller
       }
       $campaign->name = request('name');
       $campaign->data = json_encode(request('templates'));
-
       $campaign->site_id = $site_id;
       $campaign->save();
       $campaign->templates()->detach();
@@ -125,14 +136,69 @@ class ApiController extends Controller
 
     }
 
+    private function convertDateFromMysql($sqldate){
+        return Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$sqldate)->format('d/m/Y H:i');
+    }
+
     public function getSchedules($site_id){
       $team = $this->checkTeam($site_id);
+      if ($team == null)
+        return $this->error("Access Control Error");
       $site = Site::find($site_id);
-      $out = Array('data'=>json_encode($site->schedules()->with('campaigns')->get()->toArray()));
+      Carbon\Carbon::setToStringFormat('d/m/Y H:i');
+      $dat = $site->schedules()->with('campaigns')->get()->toArray();
+      foreach($dat as &$schedule){
+           $schedule['start_at'] = $this->convertDateFromMysql($schedule['start_at']);
+           $schedule['finish_at'] = $this->convertDateFromMysql($schedule['finish_at']);
+      }
+      $out = Array('data'=>json_encode($dat));
       return view('api/response')->with($out);
     }
 
     public function postSchedule($site_id,$schedule_id){
+        $team = $this->checkTeam($site_id);
+        if ($team == null)
+          return $this->error("Access Control Error");
+        $site = Site::find($site_id);
+        if ($schedule_id == 'new'){
+          $schedule = new Schedule();
+        } else {
+          $schedule = Schedule::find($schedule_id);
+          if (!$site->schedules->contains($schedule)){
+            return $this->error('Access control error');
+          }
+        }
+        $schedule->name = request('name');
+        $schedule->site_id = $site_id;
+        $schedule->start_at = Carbon\Carbon::createFromFormat('d/m/Y H:i', request('begin'));
+        $schedule->finish_at = Carbon\Carbon::createFromFormat('d/m/Y H:i', request('finish'));
+        $schedule->data = json_encode(request('templates'));
+        $schedule->save();
+        $schedule->campaigns()->detach();
+        foreach(request('campaigns') as $campaign_id){
+            $schedule->campaigns()->attach($campaign_id);
+        }
+        $data = Array('status'=>'success','schedule_id'=>$schedule->id);
+        $out = Array('data'=>json_encode($data));
+        return view('api/response')->with($out);
 
+    }
+
+    public function getLiveSchedule($site_id,$time){
+        $team = $this->checkTeam($site_id);
+        if ($team == null)
+          return $this->error("Access Control Error");
+        $site = Site::find($site_id);
+        if ($time == 'now')
+            $time = Carbon\Carbon::now();
+        else
+            $time = Carbon\Carbon::createFromFormat('d/m/Y H:i',$time);
+        $schedules = Schedule::where('site_id',$site_id)
+                        ->where('start_at','<=',$time)
+                        ->where('finish_at','>=',$time)
+                        ->with('campaigns')
+                        ->get()
+                        ->toArray();
+        var_dump($schedules);
     }
 }

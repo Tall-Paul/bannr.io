@@ -15,5 +15,7 @@ class Schedule extends Model
       return $this->belongsTo('App\Site');
   }
 
-  public
+  public function getMergedCampaigns(){
+      return null;
+  }
 }

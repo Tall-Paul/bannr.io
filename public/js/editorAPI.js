@@ -41,7 +41,13 @@ editorAPI.returnTemplate = function(template_id,callback_func){
   });
 }
 
-
+editorAPI.returnSchedule = function(schedule_id,callback_func){
+  $.each(editorAPI.loadedSchedules,function(el,ind,arr){
+    if (schedule_id == ind.id){
+        callback_func(ind);
+    }
+  });
+}
 
 editorAPI.returnCampaign = function(campaign_id,callback_func){
   $.each(editorAPI.loadedCampaigns,function(el,ind,arr){
@@ -143,7 +149,7 @@ editorAPI.returnSchedules = function(callback_func){
   callback_func(editorAPI.loadedSchedules);
 }
 
-editorAPI.loadSchedules= function(site_id,callback_func){
+editorAPI.loadSchedules = function(site_id,callback_func){
   if (editorAPI.loadedSchedules === null){
     $.getJSON('/api/sites/'+site_id+'/schedules',function(data){
       editorAPI.loadedSchedules = data;
@@ -175,6 +181,18 @@ editorAPI.loadCampaign = function(site_id,campaign_id,callback_func){
     editorAPI.returnCampaign(campaign_id,callback_func);
   }
 }
+
+editorAPI.loadSchedule = function(site_id, schedule_id, callback_func){
+    if (editorAPI.loadedSchedules === null){
+      $.getJSON('/api/sites/'+site_id+'/schedules',function(data){
+        editorAPI.loadedSchedules = data;
+        editorAPI.returnSchedule(schedule_id,callback_func);
+      });
+    } else {
+      editorAPI.returnSchedule(schedule_id,callback_func);
+    }
+}
+
 
 editorAPI.parseDataElements = function(html){
   var dataElements = html.match(/{{\s*[\w\.]+\s*}}/g).map(function(x) { return x.match(/[\w\.]+/)[0]; });

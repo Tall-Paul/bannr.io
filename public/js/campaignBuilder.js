@@ -196,7 +196,7 @@ campaignBuilder.loadCampaign = function(){
   campaignBuilder.reset();
   if ($(campaignBuilder.editorCampaignID).val() == 'new')
     return;
-  editorAPI.loadCampaign($(campaignBuilder.editorCampaignID).val(),$(this.editorCampaignID).val(),campaignBuilder.populateCampaign);
+  editorAPI.loadCampaign($(campaignBuilder.editorSiteID).val(),$(this.editorCampaignID).val(),campaignBuilder.populateCampaign);
 }
 
 

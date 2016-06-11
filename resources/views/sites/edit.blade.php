@@ -4,6 +4,7 @@
  @include('sites.edit.campaigns')
  @include('sites.edit.settings')
   @include('sites.edit.schedule')
+  @include('sites.edit.live')
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -31,7 +32,7 @@
                         <li class='active'><a href="#templates" role="tab" data-toggle="tab" onClick="templateBuilder.reInit();">Templates</a></li>
                         <li><a href="#campaigns" role="tab" data-toggle="tab" onClick="campaignBuilder.reInit();">Campaigns</a></li>
                         <li><a href="#schedule" role="tab" data-toggle="tab" onClick="scheduleBuilder.reInit();">Schedule</a></li>
-                        <li><a href="#live" role="tab" data-toggle="tab">Live</a></li>
+                        <li><a href="#live" role="tab" data-toggle="tab"><i class="fa fa-btn fa-clock-o"></i></a></li>
                       <li><a href="#settings" role="tab" data-toggle="tab"><i class="fa fa-btn fa-gears"></i></a></li>
                     </ul>
 
