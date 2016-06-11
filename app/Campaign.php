@@ -10,4 +10,14 @@ class Campaign extends Model
   {
       return $this->belongsToMany('App\Template');
   }
+
+  public function site(){
+    return $this->belongsTo('App\Campaign');
+  }
+
+  public function schedules()
+  {
+      return $this->belongsToMany('App\Schedule');
+  }
+
 }

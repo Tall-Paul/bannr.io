@@ -21,5 +21,13 @@ class Site extends Model
     return $this->hasMany('App\Campaign');
   }
 
-  
+  public function schedules()
+  {
+    return $this->hasMany('App\Schedule');
+  }
+
+  public function save(array $options = Array()){
+    //TODO: add site to proxy
+    return parent::save();
+  }
 }

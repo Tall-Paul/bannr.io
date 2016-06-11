@@ -89,3 +89,8 @@ input.spectrum {
 iframe#site{
   min-height: 300px;
 }
+
+.template_accordion{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

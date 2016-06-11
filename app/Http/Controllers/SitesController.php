@@ -26,7 +26,7 @@ class SitesController extends Controller
     }
 
     protected function checkTeam(){
-      $team = Session::get('team');;
+      $team = Session::get('team');
       $team = Team::find($team);
       if ($team == null){
         //TODO log hacking attempt
@@ -96,20 +96,13 @@ class SitesController extends Controller
 
     public function edit(){
       $team = $this->checkTeam();
+      $tier = $team->tier();
       $site = Site::find(request('modify'));
-      if (request('modify')){
-        if ($site == null)
-          $new = true;
-        else
-          $new = false;
-      }
-      else {
-        $new = true;
-      }
-
+      if (!$team->sites->contains($site))
+        redirect()->action('TeamsController@index');
       $data = array(
         'site' => $site,
-        'new' => $new
+        'tier' => $tier
       );
       return view('sites/edit')->with($data);
     }

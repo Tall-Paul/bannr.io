@@ -1,13 +1,15 @@
 var campaignBuilder = campaignBuilder || {};
 
 campaignBuilder.init = function(){
-  this.editorSitesID = '#campaign_editor_sites';
+  this.editorSitesID = '#editor_siteid';
   this.editorCampaignID = '#campaign_editor_campaign';
   this.editorTemplatesID = '#campaign_editor_template';
   this.editorAddTemplateID = '#campaign_editor_add_template';
   this.editorAccordionID = "#campaign_editor_accordion";
   this.editorPreviewButtonID = "#campaign_editor_preview_campaign";
-  campaignBuilder.loadSites();
+  this.editorSaveButtonID = "#campaign_save_button";
+  this.editorNameID = "#campaign_editor_name";
+  campaignBuilder.loadCampaigns();
 
   $(this.editorAddTemplateID).click(function(){
     var template = $(campaignBuilder.editorTemplatesID).val();
@@ -21,6 +23,53 @@ campaignBuilder.init = function(){
   $(this.editorPreviewButtonID).click(function(){
     campaignBuilder.getPreviewData();
   });
+
+  $(this.editorSaveButtonID).click(function(){
+    campaignBuilder.saveCampaign();
+  });
+
+
+}
+
+campaignBuilder.reInit = function(){
+  $(campaignBuilder.editorAccordionID).html(' ');
+  $(campaignBuilder.editorAccordionID).accordian().accordion('destroy');
+  campaignBuilder.loadCampaigns();
+}
+
+campaignBuilder.saveCampaign = function(){
+  if ($(campaignBuilder.editorNameID).val() == ""){
+    alert('please enter a name for this campaign!!');
+    return false;
+  } else {
+    var datstr = '{"name":"'+$(campaignBuilder.editorNameID).val()+'",';
+    datstr += '"_token":"'+$('#_token').val()+'",'
+    datstr += '"templates":{'
+    $('.campaign_editor_data_elements').each(function(){
+      var template_id= $(this).data('templateid');
+      datstr += '"template_'+template_id+'":{';
+      $(this).find('input').each(function(){
+        datstr += '"'+$(this).data('inputname')+'":"'+$(this).val()+'",';
+      });
+      datstr = datstr.slice(0, -1);
+      datstr += '},';
+    });
+    datstr = datstr.slice(0, -1);
+    datstr += '}}';
+    var dat = JSON.parse(datstr);
+    editorAPI.saveCampaign($(campaignBuilder.editorSitesID).val(),$(campaignBuilder.editorCampaignID).val(),dat,campaignBuilder.savedCampaign);
+  }
+}
+
+campaignBuilder.savedCampaign = function(ret){
+  ret = JSON.parse(ret);
+  if (ret.status == 'success'){
+    campaignBuilder.reset();
+    campaignBuilder.loadCampaigns();
+    alert('campaign saved');
+  } else {
+    alert('Error saving data!!');
+  }
 }
 
 campaignBuilder.getPreviewData = function(){
@@ -55,7 +104,6 @@ campaignBuilder.getPreviewData = function(){
   datstr = datstr.slice(0, -1);
   datstr += ']';
   dat = JSON.parse(datstr);
-  console.log(dat);
   targetFrame = document.getElementById('preview');
   var msg = {message: 'template_preview', html: html, dat: dat };
   targetFrame.contentWindow.postMessage(msg, '*');
@@ -69,21 +117,24 @@ campaignBuilder.reset = function(){
 }
 
 campaignBuilder.addTemplate = function(template){
-  //console.log(template);
+  console.log(template);
   //TODO: check if template already present in this campaign!!
   if (template.data == undefined || template.data == null){
     data = template.default;
   } else {
     data = template.data;
   }
-  var label = template.label;
-  var formElements = editorAPI.parseDataElements(template.html+" "+template.javascript);
+  var label = template.name;
+  var template_id = template.id;
+  var html = editorAPI.decodeString(template.html);
+  var js = editorAPI.decodeString(template.javascript);
+  var formElements = editorAPI.parseDataElements(html+" "+js);
   el = "<h3>"+label+"</h3>";
-  el += "<div class='campaign_editor_data_elements' data-templatename='"+label+"' data-target='"+template.target+"' data-inject='"+template.inject+"'>";
+  el += "<div class='campaign_editor_data_elements' data-templatename='"+label+"' data-templateid='"+template_id+"' data-target='"+template.target+"' data-inject='"+template.inject+"'>";
   var html_id = "campaign_input_"+label+"_html";
   var js_id = "campaign_input_"+label+"_js";
-  el += "<textarea id='"+html_id+"' style='display:none' class='html_textarea'>"+template.html+"</textarea>";
-  el += "<textarea id='"+js_id+"' style='display:none' class='js_textarea'>"+template.javascript+"</textarea>";
+  el += "<textarea id='"+html_id+"' style='display:none' class='html_textarea'>"+html+"</textarea>";
+  el += "<textarea id='"+js_id+"' style='display:none' class='js_textarea'>"+js+"</textarea>";
   for (var i = 0; i < formElements.length; i++) {
     var dat = formElements[i];
     var el_id = "campaign_input_"+label+"_"+dat.name;
@@ -96,7 +147,7 @@ campaignBuilder.addTemplate = function(template){
   }
   el += "</div>";
   $(campaignBuilder.editorAccordionID).append(el);
-  $(campaignBuilder.editorAccordionID).accordion('destroy').accordion();
+  $(campaignBuilder.editorAccordionID).accordion().accordion('destroy').accordion();
   $.each(data,function(index,obj){
     $("#campaign_input_"+label+"_"+index).val(obj);
   });
@@ -121,7 +172,7 @@ campaignBuilder.populateCampaigns = function(data){
   var appen = "";
   appen += "<option value='new'>New...</option>";
   $.each(data,function(index,obj){
-    appen += "<option value='"+index+"' >"+obj.label+"</option>";
+    appen += "<option value='"+obj.id+"' >"+obj.name+"</option>";
   });
   $(campaignBuilder.editorCampaignID).html(appen);
   campaignBuilder.loadTemplates();
@@ -135,7 +186,7 @@ campaignBuilder.populateTemplates = function(data){
   var appen = "";
   appen += "<option value=''>Select...</option>";
   $.each(data,function(index,obj){
-    appen += "<option value='"+index+"' >"+obj.label+"</option>";
+    appen += "<option value='"+obj.id+"' >"+obj.name+"</option>";
   });
   $(campaignBuilder.editorTemplatesID).html(appen);
   $(campaignBuilder.editorAccordionID).accordion();
@@ -151,8 +202,10 @@ campaignBuilder.loadCampaign = function(){
 
 campaignBuilder.populateCampaign = function(data){
   var templates = data.templates;
-  var dat = data.data;
+  var inject_data = JSON.parse(data.data);
+  $(campaignBuilder.editorNameID).val(data.name);
   $.each(templates,function(el,index,arr){
-    editorAPI.loadTemplateWithData($(campaignBuilder.editorSitesID).val(),index,dat[el],campaignBuilder.addTemplate);
+    var dat = eval('inject_data.template_'+index.id);
+    editorAPI.loadTemplateWithData($(campaignBuilder.editorSitesID).val(),index.id,dat,campaignBuilder.addTemplate);
   });
 }

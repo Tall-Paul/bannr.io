@@ -5,12 +5,24 @@ var i = 0;
 var dragging = false;
    $(document).ready(function(){
      $('.tabs').tabs();
+     $('.datetimepicker').datetimepicker();
      $('#preview_url').change(function(){
        //$('#preview').attr('src','/proxy/index.php?url='+$('#preview_url').val());
      });
      editorAPI.init();
      templateBuilder.init();
      campaignBuilder.init();
+     scheduleBuilder.init();
+   });
+
+   $('#behaviour input').change(function(){
+     targetFrame = document.getElementById('preview');
+     if ($('input[name=behaviour]:checked', '#behaviour').val() == 'select'){
+        msg = {message: 'set_select'};
+     } else {
+       msg = {message: 'set_navigate'};
+     }
+     targetFrame.contentWindow.postMessage(msg, '*');
    });
 
    $(document).mousedown(function(e){

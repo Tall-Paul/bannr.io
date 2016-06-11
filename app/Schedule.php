@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Template extends Model
+class Schedule extends Model
 {
-  public function campaigns()
+  public function campaign()
   {
-      return $this->belongsToMany('App\Campaign');
+      return $this->belongsTo('App\Campaign');
   }
 
   public function site(){

@@ -28,3 +28,16 @@ Route::get('/sites', 'SitesController@index');
 Route::get('/sites/edit', 'SitesController@edit');
 Route::get('/sites/frame', 'SitesController@frame');
 Route::any('/sites/edit/frame', 'SitesController@editframe');
+
+//api routes
+//
+Route::get('/api/sites/{site_id}','ApiController@getSite');
+
+Route::get('/api/sites/{site_id}/templates','ApiController@getTemplates');
+Route::post('/api/sites/{site_id}/templates/{template_id}','ApiController@postTemplate');
+
+Route::get('/api/sites/{site_id}/campaigns','ApiController@getCampaigns');
+Route::post('/api/sites/{site_id}/campaigns/{campaign_id}','ApiController@postCampaign');
+
+Route::get('/api/sites/{site_id}/schedules','ApiController@getSchedules');
+Route::post('/api/sites/{site_id}/schedules/{schedule_id}','ApiController@postSchedule');

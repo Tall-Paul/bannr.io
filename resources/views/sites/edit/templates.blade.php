@@ -39,6 +39,7 @@
   </div>
   <div id="template_editor_data_inputs">
   </div>
-  <button type="button" id="preview_button">Preview</button>
+  <button type="button" class='btn btn-primary' id="template_preview_button">Preview</button>
+  <button type="button" class= 'btn btn-primary' id="template_save_button">Save</button>
   <form>
 @endsection
