@@ -1,0 +1,57 @@
+<html>
+<head>
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+  <script src='/templates/js/jquery.jqtransform.js'></script>
+  <script src='/templates/js/editor.js'></script>
+  <link rel="stylesheet" type="text/css" href="/templates/css/editor.css" media="all" />
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+</head>
+<body>
+  <div class="clearfix">
+  <div id="sidebar">
+      <span id="position"></span>
+      <div id="dragbar"> </div>
+      <iframe id="preview" src="http://missguided.nodeploy.it"  onload="iframeLoaded();"></iframe>
+  </div>
+  <div id="main">
+      <div class="tabs">
+        <ul>
+          <li><a href="#tabs-1">Templates</a></li>
+          <li><a href="#tabs-2">Campaigns</a></li>
+        </ul>
+      <div id='tabs-1' class='tab-content'>
+          <form>
+          <div class="rowElem">
+              <label for="name">Name: </label>
+              <input type='text' id='template_editor_name' name='name' />
+          </div>
+          <div class="rowElem">
+            <label for="target">Target: </label>
+            <input type='text' id='template_editor_target' name='target' />
+          </div>
+          <div class="rowElem">
+            <label for="replacement">inject: </label>
+            <select id='template_editor_inject'>
+              <option value="replace">replace</option>
+              <option value="prepend">prepend</option>
+              <option value="append">append</option>
+            </select>
+          </div>
+          <div class="rowElem">
+            <label for="html">HTML: </label>
+            <textarea id="template_editor_html" name='html'></textarea>
+          </div>
+          <div id="template_editor_data_inputs">
+          </div>
+          <button type="button" id="preview_button">Preview</button>
+          <form>
+      </div>
+      <div id="tabs-2" class='tab-content'>
+      </div>
+      </div>
+  </div>
+  </div>
+  <div id="console"></div>
+</body>
+</html>
