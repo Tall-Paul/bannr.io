@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Schedule extends Model
 {
-  public function campaign()
+  public function campaigns()
   {
-      return $this->belongsTo('App\Campaign');
+      return $this->belongsToMany('App\Campaign');
   }
 
   public function site(){
       return $this->belongsTo('App\Site');
   }
+
+  public
 }

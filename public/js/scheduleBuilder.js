@@ -157,3 +157,29 @@ scheduleBuilder.loadCampaigns = function(){
       var msg = {message: 'template_preview', html: html, dat: dat };
       targetFrame.contentWindow.postMessage(msg, '*');
   }
+
+  scheduleBuilder.saveSchedule = function(){
+      if ($(scheduleBuilder.editorNameID).val() == ""){
+        alert('please enter a name for this campaign!!');
+        return false;
+      } else {
+         var returnData = {};
+         returnData.campaigns = schedule_campaigns;
+         returnData._token = $('#_token').val();
+         returnData.begin = $(scheduleBuilder.editorStartID).val();
+         returnData.finish = $(scheduleBuilder.editorFinishID).val();
+         $('.schedule_editor_data_elements').each(function(){
+             var template_data = {};
+             $(this).find('input').each(function(){
+               eval("template_data."+$(this).data('inputname')+" = '"+$(this).val()+"';");
+             });
+             eval("returnData.template_"+$(this).data('templateid')+" = template_data;");
+         });
+         editorAPI.saveCampaign($(scheduleBuilder.editorSitesID).val(),$(scheduleBuilder.editorScheduleID).val(),returnData,scheduleBuilder.savedSchedule);
+
+      }
+  }
+
+  scheduleBuilder.savedSchedule = function(ret){
+      //TODO
+  }

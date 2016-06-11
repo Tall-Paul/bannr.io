@@ -69,6 +69,16 @@ editorAPI.saveCampaign = function(site_id,campaign_id,data,callback_func){
   });
 }
 
+editorAPI.saveSchedule = function(site_id,schedule_id,data,callback_func){
+    var url = '/api/sites/'+site_id+'/schedules/'+schedule_id;
+    $.post(url,data,function(ret){
+      editorAPI.loadedSchedules = null;
+      callback_func(ret);
+    });
+}
+
+
+
 
 editorAPI.loadSites = function(callback_func){
   if (editorAPI.loadedSites === null){
