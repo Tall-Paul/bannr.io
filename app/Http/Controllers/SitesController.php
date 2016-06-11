@@ -29,12 +29,10 @@ class SitesController extends Controller
       $team = Session::get('team');
       $team = Team::find($team);
       if ($team == null){
-        //TODO log hacking attempt
-        redirect()->action('TeamsController@index');
+        return null;
       }
       if (!Auth::user()->teams->contains($team)){
-        //TODO log hacking attempt
-        redirect()->action('TeamsController@index');
+        return null;
       }
       return $team;
     }
@@ -46,7 +44,9 @@ class SitesController extends Controller
      */
     public function index()
     {
-        $this->checkTeam();
+        $team = $this->checkTeam();
+        if ($team == null)
+            return redirect()->action('TeamsController@index');
         $grid = \DataGrid::source(Site::with('users'));
         $grid->add('name','Name', true);
         $grid->add('url','Url', true);
@@ -67,6 +67,8 @@ class SitesController extends Controller
     public function frame(){
 
       $team = $this->checkTeam();
+      if ($team == null)
+        return redirect()->action('TeamsController@index');
       $source = $team->sites()->get()->toArray();
       $grid = \DataGrid::source($source);
       $grid->add('name','Name', true);
@@ -86,6 +88,8 @@ class SitesController extends Controller
 
     public function editframe(){
       $team = $this->checkTeam();
+      if ($team == null)
+        return redirect()->action('TeamsController@index');
       $edit = \DataEdit::source(new Site);
       $edit->set('team_id',$team->id);
       $edit->add('name','Name', 'text')->rule('required');
@@ -96,10 +100,12 @@ class SitesController extends Controller
 
     public function edit(){
       $team = $this->checkTeam();
+      if ($team == null)
+        return redirect()->action('TeamsController@index');
       $tier = $team->tier();
       $site = Site::find(request('modify'));
       if (!$team->sites->contains($site))
-        redirect()->action('TeamsController@index');
+        return redirect()->action('TeamsController@index');
       $data = array(
         'site' => $site,
         'tier' => $tier

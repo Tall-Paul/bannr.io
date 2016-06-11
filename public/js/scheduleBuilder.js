@@ -9,7 +9,7 @@ scheduleBuilder.init = function(){
   this.editorStartID = "#schedule_editor_start";
   this.editorFinishID = "#schedule_editor_finish";
   this.editorCampaignsID = "#schedule_editor_campaigns";
-  this.editorPreviewButtonID = "#schedule_preview_button";
+  this.editorPreviewButtonID = "#schedule_editor_preview_schedule";
   this.editorAddScheduleID = "#schedule_editor_add_campaign";
   this.editorSaveButtonID = "#schedule_save_button";
   this.editorAccordionID = "#schedule_editor_accordion";
@@ -45,7 +45,6 @@ scheduleBuilder.reInit = function(){
 }
 
 scheduleBuilder.addTemplate = function(template){
-    //TODO: check if template already present in this campaign!!
     if (template.data == undefined || template.data == null){
       data = template.default;
     } else {
@@ -53,7 +52,7 @@ scheduleBuilder.addTemplate = function(template){
     }
       var label = template.name;
       var template_id = template.id;
-      if (!$('#schedule_template_container_'+template_id).length){
+      if (!$('#schedule_template_container_'+template_id).length){ //if template is already contained in this schedule don't add it again!
         var html = editorAPI.decodeString(template.html);
         var js = editorAPI.decodeString(template.javascript);
         var formElements = editorAPI.parseDataElements(html+" "+js);
@@ -119,4 +118,42 @@ scheduleBuilder.loadCampaigns = function(){
     });
     $(scheduleBuilder.editorSchedulesID).html(appen);
     $(scheduleBuilder.editorScheduleID).accordion();
+  }
+
+  scheduleBuilder.getPreviewData = function(){
+      var html = "";
+      datstr = '[';
+
+      $('.schedule_editor_data_elements').each(function(){
+        var template_name = $(this).data('templatename');
+        var template_target = $(this).data('target');
+        var template_inject = $(this).data('inject');
+        //console.log(template_name);
+        //build html
+        html += "<div class='"+template_name+" preview_div' data-target='"+template_target+"' data-inject='"+template_inject+"'>";
+        var str = $(this).children('textarea.html_textarea').html();
+        var js = editorAPI.encodeString($(this).children('textarea.js_textarea').val());
+        str = jQuery('<div/>').html(str).text();
+        //js = jQuery('<div/>').html(js).text();
+        html += str;
+        html += "</div>";
+        //build data
+        datstr +=  '{"preview":';
+        datstr += '{';
+        datstr += '"template" : "'+template_name+'",';
+        $(this).find('input').each(function(){
+            datstr += '"'+$(this).data('inputname')+'":"'+$(this).val()+'",';
+        });
+        datstr += '"javascript":"'+js+'"';
+        //datstr = datstr.slice(0, -1);
+        datstr += '}';
+        datstr += '},';
+      });
+      datstr = datstr.slice(0, -1);
+      datstr += ']';
+      dat = JSON.parse(datstr);
+      console.log(dat);
+      targetFrame = document.getElementById('preview');
+      var msg = {message: 'template_preview', html: html, dat: dat };
+      targetFrame.contentWindow.postMessage(msg, '*');
   }
