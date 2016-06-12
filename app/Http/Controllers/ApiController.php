@@ -7,6 +7,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use Session;
 use Carbon;
+use Cache;
 use App\User;
 use App\Team;
 use App\Site;
@@ -52,7 +53,7 @@ class ApiController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     public function getSite($site_id){
@@ -184,10 +185,7 @@ class ApiController extends Controller
 
     }
 
-    public function getLiveSchedule($site_id,$time){
-        $team = $this->checkTeam($site_id);
-        if ($team == null)
-          return $this->error("Access Control Error");
+    public function getSchedulesForTime($site_id,$time){
         $site = Site::find($site_id);
         if ($time == 'now')
             $time = Carbon\Carbon::now();
@@ -199,6 +197,63 @@ class ApiController extends Controller
                         ->with('campaigns')
                         ->get()
                         ->toArray();
-        var_dump($schedules);
+        $return = Array();
+
+        foreach($schedules as $schedule){
+            $return['expire'] = $this->convertDateFromMysql($schedule['finish_at']);
+            $data = JSON_decode($schedule['data'],true);
+            $campaigns = $schedule['campaigns'];
+            foreach($campaigns as $campaign){
+                $templates =  Campaign::find($campaign['id'])->templates()->get()->toArray();
+                foreach($templates as $template){
+                    $html = base64_decode($template['html']);
+                    $javascript = base64_decode($template['javascript']);
+                    $template_data = $data['template_'.$template['id']];
+                    foreach($template_data as $name=>$value){
+                        $html = str_replace('{{'.$name.'}}',$value,$html);
+                        $javascript = str_replace('{{'.$name.'}}',$value,$javascript);
+                    }
+                    $return['template_'.$template['id']]['target'] = $template['target'];
+                    $return['template_'.$template['id']]['inject'] = $template['inject'];
+                    $return['template_'.$template['id']]['html'] = base64_encode($html);
+                    $return['template_'.$template['id']]['javascript'] = base64_encode($javascript);
+                }
+            }
+        }
+        return $return;
+    }
+
+    public function getCurrentSchedule($site_id){
+        if (Cache::has($site_id)){
+            return Cache::get($site_id);
+        } else {
+            $schedule = $this->getSchedulesForTime($site_id,'now');
+            Cache::put($site_id,$schedule,Carbon\Carbon::createFromFormat('d/m/Y H:i',$schedule['expire']));
+            return $schedule;
+        }
+    }
+
+    public function getLiveSchedule($site_id,$time){
+        $team = $this->checkTeam($site_id);
+        if ($team == null)
+          return $this->error("Access Control Error");
+        return $this->getSchedulesForTime($site_id,$time);
+    }
+
+    public function getJsFile($site_id){
+        $out = Array('data'=>json_encode($this->getCurrentSchedule($site_id)));
+        return view('loader')->with($out);
+    }
+
+    public function getCssFile($site_id){
+        $schedule = $this->getCurrentSchedule($site_id);
+        $outString = "";
+        foreach($schedule as $template){
+            if (isset($template['target']))
+                $outString .= $template['target'].", ";
+        }
+        $outString = rtrim($outString, ', ');
+        $out = Array('data'=>$outString);
+        return response()->view('loaderCss',$out)->header('Content-Type', 'text/css');
     }
 }

@@ -15,6 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/api/sites/{site_id}/schedules/current','ApiController@getCurrentSchedule');
+Route::get('/loader/{site_id}.js','ApiController@getJsFile');
+Route::get('/loader/{site_id}.css','ApiController@getCssFile');
+
+
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
