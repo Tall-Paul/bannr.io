@@ -241,7 +241,7 @@ class ApiController extends Controller
     }
 
     public function getJsFile($site_id){
-        $out = Array('data'=>json_encode($this->getCurrentSchedule($site_id)));
+        $out = Array('site'=>$_SERVER['SERVER_NAME'],'data'=>json_encode($this->getCurrentSchedule($site_id)));
         return view('loader')->with($out);
     }
 
