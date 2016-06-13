@@ -97,6 +97,7 @@ class ApiController extends Controller
       $template->save();
       $data = Array('status'=>'success','template_id'=>$template->id);
       $out = Array('data'=>json_encode($data));
+      Cache::forget($site_id);
       return view('api/response')->with($out);
     }
 
@@ -133,6 +134,7 @@ class ApiController extends Controller
       }
       $data = Array('status'=>'success','campaign_id'=>$campaign->id);
       $out = Array('data'=>json_encode($data));
+      Cache::forget($site_id);
       return view('api/response')->with($out);
 
     }
@@ -181,6 +183,7 @@ class ApiController extends Controller
         }
         $data = Array('status'=>'success','schedule_id'=>$schedule->id);
         $out = Array('data'=>json_encode($data));
+        Cache::forget($site_id);
         return view('api/response')->with($out);
 
     }
