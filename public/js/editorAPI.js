@@ -228,7 +228,7 @@ editorAPI.loadSchedule = function(site_id, schedule_id, callback_func){
 }
 
 editorAPI.loadLive = function(site_id, timestring, callback_func){
-    $.getJSON('/api/sites/{site_id}/schedules/live/'+timestring,function(data){
+    $.getJSON('/api/sites/'+site_id+'/schedules/live/'+encodeURIComponent(timestring),function(data){
         callback_func(data);
     });
 }

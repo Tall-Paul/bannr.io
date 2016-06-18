@@ -4,6 +4,8 @@
       <div id='live_preview_time'></div>
     </div>
 </div>
-    <button type="button" class='btn btn-primary' id="schedule_editor_preview_schedule">Preview</button>
+    <div id="live_schedule_target" class="rowElem">
+        
+    </div>
 
 @endsection

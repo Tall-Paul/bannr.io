@@ -13,6 +13,9 @@ scheduleBuilder.init = function(){
   this.editorAddScheduleID = "#schedule_editor_add_campaign";
   this.editorSaveButtonID = "#schedule_save_button";
   this.editorAccordionID = "#schedule_editor_accordion";
+  this.editorDeleteButtonID = "#schedule_delete_button";
+  this.livePreviewButtonID = "#live_preview_schedule";
+  this.liveTimer = window.setTimeout(scheduleBuilder.loadLive, 500);
 
   scheduleBuilder.loadSchedules();
   scheduleBuilder.loadCampaigns();
@@ -31,9 +34,61 @@ scheduleBuilder.init = function(){
     scheduleBuilder.getPreviewData();
   });
 
+
+
+  $('#live_preview_time').on('dp.change',function(){
+      clearTimeout(scheduleBuilder.liveTimer);
+      scheduleBuilder.liveTimer = window.setTimeout(scheduleBuilder.loadLive, 500);
+  });
+
+
   $(this.editorSaveButtonID).click(function(){
     scheduleBuilder.saveSchedule();
   });
+
+  $(this.editorDeleteButtonID).click(function(){
+    scheduleBuilder.deleteSchedule();
+  });
+}
+
+scheduleBuilder.populateLiveSchedule = function(){
+    $(scheduleBuilder.editorSchedulesID).val($('#live_schedule_id').val());
+    scheduleBuilder.loadSchedule();
+}
+
+scheduleBuilder.liveEdit = function(){
+    $('#editorTabs a[href="#schedule"]').tab('show');
+    scheduleBuilder.populateLiveSchedule();
+
+}
+
+scheduleBuilder.livePreview = function(){
+    scheduleBuilder.populateLiveSchedule();
+    scheduleBuilder.getPreviewData();
+}
+
+scheduleBuilder.updateLive = function(ret){
+    $('#live_schedule_target').html('');
+    var appen = "";
+    if (ret.name !== undefined){
+        appen += "<input type='text' style='display:none' value='"+ret.id+"' id='live_schedule_id' >";
+        appen += "<span>"+ret.name+" expires at "+ret.expire+"</span>";
+        appen += "<div><button type='button' class='btn btn-primary' id='live_schedule_preview'>Preview</button>&nbsp;<button type='button' class= 'btn btn-primary' id='live_schedule_edit'>Edit Schedule</button></div>";
+    } else {
+        appen += "<span>No Schedule Defined</span>";
+    }
+    $('#live_schedule_target').html(appen);
+    $('#live_schedule_preview').click(function(){
+        scheduleBuilder.livePreview();
+    });
+    $('#live_schedule_edit').click(function(){
+        scheduleBuilder.liveEdit();
+    });
+}
+
+scheduleBuilder.loadLive = function(){
+    editorAPI.loadLive($(scheduleBuilder.editorSitesID).val(),$('#live_preview_time').data("DateTimePicker").date().format('DD-MM-YYYY HH:mm'),scheduleBuilder.updateLive);
+
 }
 
 scheduleBuilder.reInit = function(){
@@ -92,6 +147,11 @@ scheduleBuilder.addCampaign = function(data){
     var dat = eval('inject_data.template_'+index.id);
     editorAPI.loadTemplateWithData($(scheduleBuilder.editorSitesID).val(),index.id,dat,scheduleBuilder.addTemplate);
   });
+}
+
+scheduleBuilder.deleteSchedule = function(data){
+    editorAPI.deleteSchedule($(scheduleBuilder.editorSitesID).val(),$(scheduleBuilder.editorSchedulesID).val(),scheduleBuilder.savedSchedule);
+
 }
 
 scheduleBuilder.loadCampaigns = function(){
@@ -203,8 +263,9 @@ scheduleBuilder.loadCampaigns = function(){
 
   scheduleBuilder.loadSchedule = function(){
       scheduleBuilder.reset();
-      if ($(campaignBuilder.editorSchedulesID).val() == 'new')
+      if ($(scheduleBuilder.editorSchedulesID).val() == 'new')
         return;
+      console.log('loading schedule '+$(scheduleBuilder.editorSchedulesID).val());
       editorAPI.loadSchedule($(scheduleBuilder.editorSiteID).val(),$(scheduleBuilder.editorSchedulesID).val(),scheduleBuilder.populateSchedule);
   }
 

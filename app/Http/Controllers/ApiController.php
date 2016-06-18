@@ -179,15 +179,19 @@ class ApiController extends Controller
             return $this->error('Access control error');
           }
         }
-        $schedule->name = request('name');
-        $schedule->site_id = $site_id;
-        $schedule->start_at = Carbon\Carbon::createFromFormat('d/m/Y H:i', request('begin'));
-        $schedule->finish_at = Carbon\Carbon::createFromFormat('d/m/Y H:i', request('finish'));
-        $schedule->data = json_encode(request('templates'));
-        $schedule->save();
-        $schedule->campaigns()->detach();
-        foreach(request('campaigns') as $campaign_id){
-            $schedule->campaigns()->attach($campaign_id);
+        if (request('delete') == true){
+          $schedule->delete();
+        } else {
+            $schedule->name = request('name');
+            $schedule->site_id = $site_id;
+            $schedule->start_at = Carbon\Carbon::createFromFormat('d/m/Y H:i', request('begin'));
+            $schedule->finish_at = Carbon\Carbon::createFromFormat('d/m/Y H:i', request('finish'));
+            $schedule->data = json_encode(request('templates'));
+            $schedule->save();
+            $schedule->campaigns()->detach();
+            foreach(request('campaigns') as $campaign_id){
+                $schedule->campaigns()->attach($campaign_id);
+            }
         }
         $data = Array('status'=>'success','schedule_id'=>$schedule->id);
         $out = Array('data'=>json_encode($data));
@@ -212,6 +216,8 @@ class ApiController extends Controller
 
         foreach($schedules as $schedule){
             $return['expire'] = $this->convertDateFromMysql($schedule['finish_at']);
+            $return['name'] = $schedule['name'];
+            $return['id'] = $schedule['id'];
             $data = JSON_decode($schedule['data'],true);
             $campaigns = $schedule['campaigns'];
             foreach($campaigns as $campaign){
@@ -248,6 +254,8 @@ class ApiController extends Controller
         $team = $this->checkTeam($site_id);
         if ($team == null)
           return $this->error("Access Control Error");
+        $time = Carbon\Carbon::createFromFormat('d-m-Y H:i',$time);
+        $time = $time->format('d/m/Y H:i');
         return $this->getSchedulesForTime($site_id,$time);
     }
 

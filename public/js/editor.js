@@ -17,9 +17,12 @@ var dragging = false;
      scheduleBuilder.init();
      $('#live_preview_time').datetimepicker({
             inline: true,
-            sideBySide: true
+            sideBySide: true,
+            format: 'DD-MM-YYYY HH:mm',
+            useCurrent: true
      });
    });
+
 
    $('#behaviour input').change(function(){
      targetFrame = document.getElementById('preview');

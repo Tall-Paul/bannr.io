@@ -13,7 +13,7 @@
     <label for="name">Template: </label>
     <select id='campaign_editor_template'>
     </select>
-    <button type="button" class='btn btn-primary' id="campaign_editor_add_template">Add</button>
+    <button type="button" class='btn btn-small' id="campaign_editor_add_template">Add</button>
   </div>
   <div class="rowElem">
   <div id="campaign_editor_template_container">

@@ -21,7 +21,7 @@
     <label for="name">Campaign: </label>
     <select id='schedule_editor_campaigns'>
     </select>
-    <button type="button" class='btn btn-primary' id="schedule_editor_add_campaign">Add</button>
+    <button type="button" class='btn btn-small' id="schedule_editor_add_campaign">Add</button>
   </div>
   </form>
    <div class="rowElem">
@@ -32,4 +32,7 @@
   </div>
   <button type="button" class='btn btn-primary' id="schedule_editor_preview_schedule">Preview</button>
     <button type="button" class='btn btn-primary' id="schedule_save_button">Save</button>
+    <div class="pull-right">
+        <button type="button" class= 'btn btn-primary' id="schedule_delete_button">Delete</button>
+    </div>
   @endsection

@@ -98,3 +98,8 @@ iframe#site{
 .header-btn{
     margin-top: -8px;
 }
+
+.btn-small{
+    font-size: 12px;
+    padding: 0px 12px;
+}
