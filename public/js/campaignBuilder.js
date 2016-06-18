@@ -9,6 +9,7 @@ campaignBuilder.init = function(){
   this.editorPreviewButtonID = "#campaign_editor_preview_campaign";
   this.editorSaveButtonID = "#campaign_save_button";
   this.editorNameID = "#campaign_editor_name";
+  this.editorDeleteButtonID = "#campaign_delete_button";
   campaignBuilder.loadCampaigns();
 
   $(this.editorAddTemplateID).click(function(){
@@ -28,7 +29,14 @@ campaignBuilder.init = function(){
     campaignBuilder.saveCampaign();
   });
 
+  $(this.editorDeleteButtonID).click(function(){
+    campaignBuilder.deleteCampaign();
+  });
 
+}
+
+campaignBuilder.deleteCampaign = function(){
+    editorAPI.deleteCampaign($(campaignBuilder.editorSitesID).val(),$(campaignBuilder.editorCampaignID).val(),campaignBuilder.savedCampaign);
 }
 
 campaignBuilder.reInit = function(){
@@ -66,7 +74,7 @@ campaignBuilder.savedCampaign = function(ret){
   if (ret.status == 'success'){
     campaignBuilder.reset();
     campaignBuilder.loadCampaigns();
-    alert('campaign saved');
+    //alert('campaign saved');
   } else {
     alert('Error saving data!!');
   }

@@ -87,14 +87,18 @@ class ApiController extends Controller
           $this->error('Access control error');
         }
       }
-      $template->name = request('name');
-      $template->html = request('html');
-      $template->target = request('target');
-      $template->inject = request('inject');
-      $template->javascript = request('js');
-      $template->site_id = $site_id;
-      $template->defaults = json_encode(request('defaults'));
-      $template->save();
+      if (request('delete') == true){
+        $template->delete();
+      } else {
+          $template->name = request('name');
+          $template->html = request('html');
+          $template->target = request('target');
+          $template->inject = request('inject');
+          $template->javascript = request('js');
+          $template->site_id = $site_id;
+          $template->defaults = json_encode(request('defaults'));
+          $template->save();
+      }
       $data = Array('status'=>'success','template_id'=>$template->id);
       $out = Array('data'=>json_encode($data));
       Cache::forget($site_id);
@@ -123,14 +127,18 @@ class ApiController extends Controller
           $this->error('Access control error');
         }
       }
-      $campaign->name = request('name');
-      $campaign->data = json_encode(request('templates'));
-      $campaign->site_id = $site_id;
-      $campaign->save();
-      $campaign->templates()->detach();
-      foreach(request('templates') as $template_name=>$placeholders){
-        $template_name = str_replace('template_','',$template_name);
-        $campaign->templates()->attach($template_name);
+      if (request('delete') == true){
+        $campaign->delete();
+      } else {
+          $campaign->name = request('name');
+          $campaign->data = json_encode(request('templates'));
+          $campaign->site_id = $site_id;
+          $campaign->save();
+          $campaign->templates()->detach();
+          foreach(request('templates') as $template_name=>$placeholders){
+            $template_name = str_replace('template_','',$template_name);
+            $campaign->templates()->attach($template_name);
+          }
       }
       $data = Array('status'=>'success','campaign_id'=>$campaign->id);
       $out = Array('data'=>json_encode($data));

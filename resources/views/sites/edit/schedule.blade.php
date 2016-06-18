@@ -24,12 +24,12 @@
     <button type="button" class='btn btn-primary' id="schedule_editor_add_campaign">Add</button>
   </div>
   </form>
+   <div class="rowElem">
   <div id="schedule_editor_template_container">
-    <form>
     <div id="schedule_editor_accordion" class='template_accordion'>
     </div>
-  </form>
-    <button type="button" class='btn btn-primary' id="schedule_editor_preview_schedule">Preview</button>
-      <button type="button" class='btn btn-primary' id="schedule_save_button">Save</button>
+</div>
   </div>
+  <button type="button" class='btn btn-primary' id="schedule_editor_preview_schedule">Preview</button>
+    <button type="button" class='btn btn-primary' id="schedule_save_button">Save</button>
   @endsection

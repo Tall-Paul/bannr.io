@@ -14,6 +14,7 @@ templateBuilder.init = function(){
   this.editorInputContainerID = '#template_editor_data_inputs';
   this.editorPreviewButtonID = '#template_preview_button';
   this.editorSaveButtonID = '#template_save_button';
+  this.editorDeleteButtonID = '#template_delete_button';
 
 
   window.addEventListener('message', function (m) {
@@ -28,6 +29,10 @@ templateBuilder.init = function(){
 
   $(templateBuilder.editorSaveButtonID).click(function(){
     templateBuilder.saveData();
+  });
+
+  $(templateBuilder.editorDeleteButtonID).click(function(){
+    templateBuilder.deleteTemplate();
   });
 
   $(templateBuilder.editorPreviewButtonID).click(function(){
@@ -97,6 +102,12 @@ templateBuilder.renderForm = function(){
     $('.spectrum').show();
 }
 
+templateBuilder.deleteTemplate = function(){
+    editorAPI.deleteTemplate($(templateBuilder.editorSitesID).val(),$(templateBuilder.editorTemplatesID).val(),templateBuilder.savedTemplate);
+}
+
+
+
 templateBuilder.saveData = function(){
   if ($(templateBuilder.editorNameID).val() == ""){
     alert('please enter a name for this template!!');
@@ -136,7 +147,6 @@ templateBuilder.savedTemplate = function(ret){
   if (ret.status == 'success'){
     templateBuilder.reset();
     templateBuilder.loadTemplates();
-    alert('template saved');
   } else {
     alert('Error saving data!!');
   }

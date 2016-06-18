@@ -25,6 +25,42 @@ editorAPI.escapeJSON = function(str){
 };
 
 
+editorAPI.deleteTemplate = function(site_id,template_id,callback_func){
+    var url = '/api/sites/'+site_id+'/templates/'+template_id;
+    var dat = {
+                _token:$('#_token').val(),
+                delete:"true"
+            };
+    $.post(url,dat,function(ret){
+      editorAPI.loadedTemplates = null;
+      callback_func(ret);
+    });
+}
+
+editorAPI.deleteCampaign = function(site_id,campaign_id,callback_func){
+    var url = '/api/sites/'+site_id+'/campaigns/'+campaign_id;
+    var dat = {
+                _token:$('#_token').val(),
+                delete:"true"
+            };
+    $.post(url,dat,function(ret){
+      editorAPI.loadedCampaigns = null;
+      callback_func(ret);
+    });
+}
+
+editorAPI.deleteSchedule = function(site_id,schedule_id,callback_func){
+    var url = '/api/sites/'+site_id+'/schedules/'+schedule_id;
+    var dat = {
+                _token:$('#_token').val(),
+                delete:"true"
+            };
+    $.post(url,dat,function(ret){
+      editorAPI.loadedSchedules = null;
+      callback_func(ret);
+    });
+}
+
 editorAPI.returnSites = function(callback_func){
   callback_func(editorAPI.loadedSites);
 }
@@ -82,8 +118,6 @@ editorAPI.saveSchedule = function(site_id,schedule_id,data,callback_func){
       callback_func(ret);
     });
 }
-
-
 
 
 editorAPI.loadSites = function(callback_func){
@@ -193,6 +227,11 @@ editorAPI.loadSchedule = function(site_id, schedule_id, callback_func){
     }
 }
 
+editorAPI.loadLive = function(site_id, timestring, callback_func){
+    $.getJSON('/api/sites/{site_id}/schedules/live/'+timestring,function(data){
+        callback_func(data);
+    });
+}
 
 editorAPI.parseDataElements = function(html){
   var dataElements = html.match(/{{\s*[\w\.]+\s*}}/g).map(function(x) { return x.match(/[\w\.]+/)[0]; });
