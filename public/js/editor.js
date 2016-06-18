@@ -21,6 +21,7 @@ var dragging = false;
             format: 'DD-MM-YYYY HH:mm',
             useCurrent: true
      });
+     $('.datetimepicker').data('dateTimePicker').date(moment().format('DD/MM/YYYY HH:mm'));
    });
 
 

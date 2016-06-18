@@ -51,6 +51,11 @@ scheduleBuilder.init = function(){
   });
 }
 
+scheduleBuilder.setLive = function(){
+    console.log('setting time to '+moment().format("DD-MM-YYYY HH:mm"));
+    $('#live_preview_time').data("DateTimePicker").date(moment().format("DD-MM-YYYY HH:mm"));
+}
+
 scheduleBuilder.populateLiveSchedule = function(){
     $(scheduleBuilder.editorSchedulesID).val($('#live_schedule_id').val());
     scheduleBuilder.loadSchedule();
