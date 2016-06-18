@@ -24,6 +24,45 @@ editorAPI.escapeJSON = function(str){
     .replace(/[\t]/g, '\\t');
 };
 
+editorAPI.afterFormRender = function(){
+    $('.spectrum').spectrum({preferredFormat: "name"});
+    $('.spectrum').show();
+}
+
+editorAPI.parseDataElements = function(html){
+  var dataElements = html.match(/{{\s*[\w\.]+\s*}}/g).map(function(x) { return x.match(/[\w\.]+/)[0]; });
+  returnArray = [];
+  for (var i = 0; i < dataElements.length; i++) {
+    var el = new Object();
+    el.name = dataElements[i];
+    el.type = "text";
+    if (html.indexOf('color:'+'{{'+el.name+'}}') > -1){
+      el.type = "colour";
+    }
+    if (html.indexOf('src:'+'{{'+el.name+'}}') > -1){
+      el.type = "file";
+    }
+    returnArray.push(el);
+  }
+  return returnArray;
+}
+
+editorAPI.renderFormElement = function(id,name,type){
+    el = "";
+    switch (type){
+        case "colour":
+            el += "  <div class='rowElem spectrum'><label for='"+name+"'>"+name+": </label>";
+            el += "<input type='text' class='template_editor_data_input spectrum' data-inputname='"+name+"' id='"+id+"' value='placeholder' name='"+name+"' /></div>";
+            break;
+        default:
+            el += "  <div class='rowElem'><label for='"+name+"'>"+name+": </label>";
+            el += "<input type='text' class='template_editor_data_input' data-inputname='"+name+"' id='"+id+"' value='placeholder' name='"+name+"' /></div>";
+            break;
+    }
+    return el;
+
+}
+
 
 editorAPI.deleteTemplate = function(site_id,template_id,callback_func){
     var url = '/api/sites/'+site_id+'/templates/'+template_id;
@@ -233,21 +272,7 @@ editorAPI.loadLive = function(site_id, timestring, callback_func){
     });
 }
 
-editorAPI.parseDataElements = function(html){
-  var dataElements = html.match(/{{\s*[\w\.]+\s*}}/g).map(function(x) { return x.match(/[\w\.]+/)[0]; });
-  returnArray = [];
-  for (var i = 0; i < dataElements.length; i++) {
-    var el = new Object();
-    el.name = dataElements[i];
-    if (html.indexOf('color:'+'{{'+el.name+'}}') > -1){
-      el.type = "colour";
-    } else {
-      el.type = "text";
-    }
-    returnArray.push(el);
-  }
-  return returnArray;
-}
+
 
 
 

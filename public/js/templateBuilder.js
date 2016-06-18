@@ -89,17 +89,10 @@ templateBuilder.renderForm = function(){
     var addEl = "";
     for (var i = 0; i < placeholders.length; i++) {
       var dat = placeholders[i];
-      var typeclass = '';
-      if (dat.type == 'colour'){
-        typeclass = 'spectrum';
-      }
-      addEl += "  <div class='rowElem "+typeclass+"'><label for='"+dat.name+"'>"+dat.name+": </label>";
-
-      addEl += "<input type='text' class='template_editor_data_input "+typeclass+"' id='"+dat.name+"' value='placeholder' name='"+dat.name+"'/></div>";
+      addEl += editorAPI.renderFormElement(dat.name,dat.name,dat.type);
     }
     $(templateBuilder.editorInputContainerID).append(addEl);
-    $('.spectrum').spectrum({preferredFormat: "name"});
-    $('.spectrum').show();
+    editorAPI.afterFormRender();
 }
 
 templateBuilder.deleteTemplate = function(){

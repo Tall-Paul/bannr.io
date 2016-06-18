@@ -42,6 +42,7 @@ campaignBuilder.deleteCampaign = function(){
 campaignBuilder.reInit = function(){
   $(campaignBuilder.editorAccordionID).html(' ');
   $(campaignBuilder.editorAccordionID).accordion().accordion('destroy');
+  $(campaignBuilder.editorNameID).val('');
   campaignBuilder.loadCampaigns();
 }
 
@@ -120,6 +121,7 @@ campaignBuilder.getPreviewData = function(){
 
 campaignBuilder.reset = function(){
   $(campaignBuilder.editorAccordionID).html(' ');
+
   $(campaignBuilder.editorAccordionID).accordion('destroy');
   campaignBuilder.loadTemplates();
 }
@@ -147,11 +149,7 @@ campaignBuilder.addTemplate = function(template){
     var dat = formElements[i];
     var el_id = "campaign_input_"+label+"_"+dat.name;
     var typeclass = '';
-    if (dat.type == 'colour'){
-      typeclass = 'spectrum';
-    }
-    el += "  <div class='rowElem "+typeclass+"'><label for='"+dat.name+"'>"+dat.name+": </label>";
-    el += "<input type='text' class='campaign_editor_data_input "+typeclass+"' id='"+el_id+"' value='placeholder' data-inputname='"+dat.name+"' name='"+dat.name+"'/></div>";
+    el += editorAPI.renderFormElement(el_id,dat.name,dat.type);
   }
   el += "</div>";
   $(campaignBuilder.editorAccordionID).append(el);
@@ -159,8 +157,7 @@ campaignBuilder.addTemplate = function(template){
   $.each(data,function(index,obj){
     $("#campaign_input_"+label+"_"+index).val(obj);
   });
-  $('.spectrum').spectrum({preferredFormat: "name"});
-  $('.spectrum').show();
+  editorAPI.afterFormRender();
 }
 
 campaignBuilder.loadSites = function(){

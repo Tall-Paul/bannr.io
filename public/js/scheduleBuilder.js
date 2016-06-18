@@ -121,12 +121,7 @@ scheduleBuilder.addTemplate = function(template){
         for (var i = 0; i < formElements.length; i++) {
           var dat = formElements[i];
           var el_id = "schedule_input_"+label+"_"+dat.name;
-          var typeclass = '';
-          if (dat.type == 'colour'){
-            typeclass = 'spectrum';
-          }
-          el += "  <div class='rowElem "+typeclass+"'><label for='"+dat.name+"'>"+dat.name+": </label>";
-          el += "<input type='text' class='schedule_editor_data_input "+typeclass+"' id='"+el_id+"' value='placeholder' data-inputname='"+dat.name+"' name='"+dat.name+"'/></div>";
+          el += editorAPI.renderFormElement(el_id,dat.name,dat.type);
         }
         el += "</div>";
         $(scheduleBuilder.editorAccordionID).append(el);
@@ -135,8 +130,7 @@ scheduleBuilder.addTemplate = function(template){
     $.each(data,function(index,obj){
       $("#schedule_input_"+label+"_"+index).val(obj);
     });
-    $('.spectrum').spectrum({preferredFormat: "name"});
-    $('.spectrum').show();
+    editorAPI.afterFormRender();
 }
 
 scheduleBuilder.addCampaign = function(data){
