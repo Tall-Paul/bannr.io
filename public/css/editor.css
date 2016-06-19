@@ -45,6 +45,10 @@ body,html{width:100%;height:100%;padding:0;margin:0;}
   margin-bottom: -6px;
 }
 
+.rowElem.negPad{
+    margin-bottom: -21px;
+}
+
 .editor-panel {
   min-height: 900px;
 }
@@ -56,13 +60,21 @@ body,html{width:100%;height:100%;padding:0;margin:0;}
 }
 
 .rowElem  label {
-  width: 50%;
+  width: 25%;
   float: left;
 }
 .rowElem input {
+  width: 75%;
+  float: left;
+}
+
+.rowElem input.filename {
   width: 50%;
   float: left;
 }
+
+
+
 
 input.spectrum {
   width: 37% !important;
@@ -102,4 +114,24 @@ iframe#site{
 .btn-small{
     font-size: 12px;
     padding: 0px 12px;
+}
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-left: 5px;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
 }

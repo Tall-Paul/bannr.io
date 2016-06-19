@@ -87,6 +87,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
     <script src="{{{ asset('/js/moment.min.js') }}}"></script>
+    <script src="{{{ asset('/js/jquery.form.js') }}}"></script>
     <script src="{{{ asset('/js/editorAPI.js') }}}"></script>
     <script src="{{{ asset('/js/bundle.js') }}}"></script>
     <script src="{{{ asset('/js/templateBuilder.js') }}}"></script>

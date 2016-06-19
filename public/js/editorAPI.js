@@ -39,7 +39,7 @@ editorAPI.parseDataElements = function(html){
     if (html.indexOf('color:'+'{{'+el.name+'}}') > -1){
       el.type = "colour";
     }
-    if (html.indexOf('src:'+'{{'+el.name+'}}') > -1){
+    if (html.indexOf('src\=\"'+'{{'+el.name+'}}') > -1){
       el.type = "file";
     }
     returnArray.push(el);
@@ -54,10 +54,22 @@ editorAPI.renderFormElement = function(id,name,type){
             el += "  <div class='rowElem spectrum'><label for='"+name+"'>"+name+": </label>";
             el += "<input type='text' class='template_editor_data_input spectrum' data-inputname='"+name+"' id='"+id+"' value='placeholder' name='"+name+"' /></div>";
             break;
+        case "file":
+            el += "  <div class='rowElem negPad'><label for='"+name+"'>"+name+": </label>";
+            el += "<form class='form-horizontal' id='upload_"+name+"' enctype='multipart/form-data' method='post' action='/api/sites/"+$(scheduleBuilder.editorSitesID).val()+"/image' autocomplete='off'>";
+            el +=  "<input type='hidden' name='_token' value='"+$('#_token').val()+"' />";
+            el += "<input type='text' class='filename'/>";
+            el += "<div class='fileUpload btn btn-primary'>";
+            el += "<span>Upload</span>";
+            el += "<input type='file' class='upload' name='image' id='image'/>";
+            el += "</div>";
+            el += "</form></div>";
+            break;
         default:
             el += "  <div class='rowElem'><label for='"+name+"'>"+name+": </label>";
             el += "<input type='text' class='template_editor_data_input' data-inputname='"+name+"' id='"+id+"' value='placeholder' name='"+name+"' /></div>";
             break;
+
     }
     return el;
 
