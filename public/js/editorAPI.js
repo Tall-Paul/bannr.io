@@ -300,6 +300,7 @@ editorAPI.loadLive = function(site_id, timestring, callback_func){
         url: '/api/sites/'+site_id+'/schedules/live/'+encodeURIComponent(timestring),
         beforeSend: function(request){
                 request.setRequestHeader("CF-IPCountry", $('#live_preview_country').val());
+                request.setRequestHeader("Preview-IPCountry", $('#live_preview_country').val());
         },
         success: function(data){
             callback_func(data);
