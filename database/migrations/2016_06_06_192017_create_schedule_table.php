@@ -17,6 +17,7 @@ class CreateScheduleTable extends Migration
           $table->string('name');
           $table->dateTime('start_at');
           $table->dateTime('finish_at');
+          $table->string('country_codes');
           $table->text('data');
           $table->integer('site_id');
           $table->dateTime('created_at');

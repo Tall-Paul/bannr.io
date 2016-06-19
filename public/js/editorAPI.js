@@ -295,8 +295,15 @@ editorAPI.loadSchedule = function(site_id, schedule_id, callback_func){
 }
 
 editorAPI.loadLive = function(site_id, timestring, callback_func){
-    $.getJSON('/api/sites/'+site_id+'/schedules/live/'+encodeURIComponent(timestring),function(data){
-        callback_func(data);
+    $.ajax({
+        dataType: "json",
+        url: '/api/sites/'+site_id+'/schedules/live/'+encodeURIComponent(timestring),
+        beforeSend: function(request){
+                request.setRequestHeader("CF-IPCountry", $('#live_preview_country').val());
+        },
+        success: function(data){
+            callback_func(data);
+        }
     });
 }
 

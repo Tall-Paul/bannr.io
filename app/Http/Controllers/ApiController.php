@@ -188,6 +188,7 @@ class ApiController extends Controller
         } else {
             $schedule->name = request('name');
             $schedule->site_id = $site_id;
+            $schedule->country_codes = request('geo');
             $schedule->start_at = Carbon\Carbon::createFromFormat('d/m/Y H:i', request('begin'));
             $schedule->finish_at = Carbon\Carbon::createFromFormat('d/m/Y H:i', request('finish'));
             $schedule->data = json_encode(request('templates'));
@@ -205,6 +206,17 @@ class ApiController extends Controller
     }
 
     public function getSchedulesForTime($site_id,$time){
+        $request_code = Request::header('HTTP_CF_IPCOUNTRY');
+        if ($request_code == null){
+            foreach(getallheaders() as $key=>$value){
+                if ($key == 'Cf-Ipcountry' && $request_code == null){
+                    $request_code = $value;
+                }
+                if ($key == 'Preview-Ipcountry'){
+                    $request_code = $value;
+                }
+            }
+        }
         $site = Site::find($site_id);
         if ($time == 'now')
             $time = Carbon\Carbon::now();
@@ -216,9 +228,19 @@ class ApiController extends Controller
                         ->with('campaigns')
                         ->get()
                         ->toArray();
-        $return = Array();
+        $return_default = Array();
+        $return_matching = Array();
 
         foreach($schedules as $schedule){
+            if ($schedule['country_codes'] !== null){
+                if (in_array($request_code,explode(',',$schedule['country_codes']))){
+                    $return = &$return_matching;
+                } else {
+                    $return = &$return_default;
+                }
+            } else {
+                $return = &$return_default;
+            }
             $return['expire'] = $this->convertDateFromMysql($schedule['finish_at']);
             $return['name'] = $schedule['name'];
             $return['id'] = $schedule['id'];
@@ -241,7 +263,11 @@ class ApiController extends Controller
                 }
             }
         }
-        return $return;
+        if (isset($return_matching['name'])){
+            return $return_matching;
+        }
+        else
+            return $return_default;
     }
 
     public function getCurrentSchedule($site_id){

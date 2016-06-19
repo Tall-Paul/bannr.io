@@ -8,6 +8,7 @@ scheduleBuilder.init = function(){
   this.editorNameID = "#schedule_editor_name";
   this.editorStartID = "#schedule_editor_start";
   this.editorFinishID = "#schedule_editor_finish";
+  this.editorGeoID = '#schedule_editor_geo';
   this.editorCampaignsID = "#schedule_editor_campaigns";
   this.editorPreviewButtonID = "#schedule_editor_preview_schedule";
   this.editorAddScheduleID = "#schedule_editor_add_campaign";
@@ -37,6 +38,11 @@ scheduleBuilder.init = function(){
 
 
   $('#live_preview_time').on('dp.change',function(){
+      clearTimeout(scheduleBuilder.liveTimer);
+      scheduleBuilder.liveTimer = window.setTimeout(scheduleBuilder.loadLive, 500);
+  });
+
+  $('#live_preview_country').change(function(){
       clearTimeout(scheduleBuilder.liveTimer);
       scheduleBuilder.liveTimer = window.setTimeout(scheduleBuilder.loadLive, 500);
   });
@@ -230,6 +236,7 @@ scheduleBuilder.loadCampaigns = function(){
          returnData._token = $('#_token').val();
          returnData.begin = $(scheduleBuilder.editorStartID).val();
          returnData.finish = $(scheduleBuilder.editorFinishID).val();
+         returnData.geo = $(scheduleBuilder.editorGeoID).val();
          returnData.templates = {};
          $('.schedule_editor_data_elements').each(function(){
              var template_data = {};
@@ -274,6 +281,7 @@ scheduleBuilder.loadCampaigns = function(){
       $(scheduleBuilder.editorNameID).val(ret.name);
       $(scheduleBuilder.editorStartID).val(ret.start_at);
       $(scheduleBuilder.editorFinishID).val(ret.finish_at);
+      $(scheduleBuilder.editorGeoID).val(ret.country_codes);
       var inject_data = JSON.parse(ret.data);
       $.each(ret.campaigns,function(el,index,arr){
           schedule_campaigns.push(index.id);
