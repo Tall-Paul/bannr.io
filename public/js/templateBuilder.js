@@ -168,6 +168,7 @@ templateBuilder.getData = function(){
     html += "</div>"
     //post preview data to preview frame
     targetFrame = document.getElementById('preview');
+    console.log(dat);
     var msg = {message: 'template_preview', html: html, dat: dat };
     targetFrame.contentWindow.postMessage(msg, '*');
   }

@@ -202,7 +202,8 @@ scheduleBuilder.loadCampaigns = function(){
         datstr += '{';
         datstr += '"template" : "'+template_name+'",';
         $(this).find('input').each(function(){
-            datstr += '"'+$(this).data('inputname')+'":"'+$(this).val()+'",';
+            if ($(this).data('inputname') !== undefined)
+                datstr += '"'+$(this).data('inputname')+'":"'+$(this).val()+'",';
         });
         datstr += '"javascript":"'+js+'"';
         //datstr = datstr.slice(0, -1);
@@ -233,7 +234,8 @@ scheduleBuilder.loadCampaigns = function(){
          $('.schedule_editor_data_elements').each(function(){
              var template_data = {};
              $(this).find('input').each(function(){
-               eval("template_data."+$(this).data('inputname')+" = '"+$(this).val()+"';");
+               if ($(this).data('inputname') !== undefined)
+                    eval("template_data."+$(this).data('inputname')+" = '"+$(this).val()+"';");
              });
              eval("returnData.templates.template_"+$(this).data('templateid')+" = template_data;");
          });

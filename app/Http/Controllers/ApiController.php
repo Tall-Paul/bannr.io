@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Http\Requests;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Contracts\Filesystem\Filesystem;
+use League\Flysystem\AwsS3v3\AwsS3Adapter;
+use Validator;
 use Session;
 use Carbon;
 use Cache;
@@ -274,5 +278,28 @@ class ApiController extends Controller
         $outString = rtrim($outString, ', ');
         $out = Array('data'=>$outString);
         return response()->view('loaderCss',$out)->header('Content-Type', 'text/css');
+    }
+
+    public function uploadImage($site_id){
+        $team = $this->checkTeam($site_id);
+        if ($team == null)
+          return $this->error("Access Control Error");
+        $image = Request::file('image');
+  		$input = array('image' => $image);
+  		$rules = array(
+  			'image' => 'image'
+  		);
+  		$validator = Validator::make($input, $rules);
+        if ( $validator->fails() )
+		{
+			return Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
+
+		} else {
+            $imageFileName = time() . '.' . $image->getClientOriginalExtension();
+            $filePath =  $site_id."_".$imageFileName;
+            $s3 = \Storage::disk('s3');
+            $s3->put($filePath, file_get_contents($image), 'public');
+            return Response::json(['success' => true, 'filename' => 'http://images.bannr.io/'.$filePath, 'target' => request('file_target')]);
+        }
     }
 }

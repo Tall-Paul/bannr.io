@@ -47,3 +47,5 @@ Route::post('/api/sites/{site_id}/campaigns/{campaign_id}','ApiController@postCa
 Route::get('/api/sites/{site_id}/schedules','ApiController@getSchedules');
 Route::get('/api/sites/{site_id}/schedules/live/{time}','ApiController@getLiveSchedule');
 Route::post('/api/sites/{site_id}/schedules/{schedule_id}','ApiController@postSchedule');
+
+Route::post('/api/sites/{site_id}/images','ApiController@uploadImage');

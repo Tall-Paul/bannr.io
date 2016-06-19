@@ -58,7 +58,8 @@ campaignBuilder.saveCampaign = function(){
       var template_id= $(this).data('templateid');
       datstr += '"template_'+template_id+'":{';
       $(this).find('input').each(function(){
-        datstr += '"'+$(this).data('inputname')+'":"'+$(this).val()+'",';
+        if ($(this).data('inputname') !== undefined)
+            datstr += '"'+$(this).data('inputname')+'":"'+$(this).val()+'",';
       });
       datstr = datstr.slice(0, -1);
       datstr += '},';
@@ -103,7 +104,8 @@ campaignBuilder.getPreviewData = function(){
     datstr += '{';
     datstr += '"template" : "'+template_name+'",';
     $(this).find('input').each(function(){
-        datstr += '"'+$(this).data('inputname')+'":"'+$(this).val()+'",';
+        if ($(this).data('inputname') !== undefined)
+            datstr += '"'+$(this).data('inputname')+'":"'+$(this).val()+'",';
     });
     datstr += '"javascript":"'+js+'"';
     //datstr = datstr.slice(0, -1);

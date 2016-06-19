@@ -10,7 +10,13 @@ editorAPI.init = function(){
   this.loadedTemplates = null;
   this.loadedCampaigns = null;
   this.loadedSchedules = null;
+  this.uploadOptions = {
+		        success:       editorAPI.fileUploaded,
+		        dataType: 'json'
+                };
 }
+
+
 
 editorAPI.escapeJSON = function(str){
   return str
@@ -27,6 +33,12 @@ editorAPI.escapeJSON = function(str){
 editorAPI.afterFormRender = function(){
     $('.spectrum').spectrum({preferredFormat: "name"});
     $('.spectrum').show();
+}
+
+editorAPI.fileUploaded = function(dat){
+    var filename = dat.filename;
+    var target = dat.target;
+    $('#'+target).val(filename);
 }
 
 editorAPI.parseDataElements = function(html){
@@ -56,14 +68,18 @@ editorAPI.renderFormElement = function(id,name,type){
             break;
         case "file":
             el += "  <div class='rowElem negPad'><label for='"+name+"'>"+name+": </label>";
-            el += "<form class='form-horizontal' id='upload_"+name+"' enctype='multipart/form-data' method='post' action='/api/sites/"+$(scheduleBuilder.editorSitesID).val()+"/image' autocomplete='off'>";
+            el += "<form class='form-horizontal' id='form_"+id+"' enctype='multipart/form-data' method='post' action='/api/sites/"+$(scheduleBuilder.editorSitesID).val()+"/images' autocomplete='off'>";
             el +=  "<input type='hidden' name='_token' value='"+$('#_token').val()+"' />";
-            el += "<input type='text' class='filename'/>";
+            el += "<input type='hidden' name='file_target' value='"+id+"' />";
+            el += "<input type='text' class='filename template_editor_data_input' data-inputname='"+name+"' id='"+id+"'/>";
             el += "<div class='fileUpload btn btn-primary'>";
             el += "<span>Upload</span>";
-            el += "<input type='file' class='upload' name='image' id='image'/>";
+            el += "<input type='file' class='upload ' name='image' id='upload_"+id+"' />";
             el += "</div>";
             el += "</form></div>";
+            el += "<script>";
+            el += "$('body').delegate('#upload_"+id+"','change', function(){ $('#form_"+id+"').ajaxForm(editorAPI.uploadOptions).submit();  	});";
+            el += "</script>";
             break;
         default:
             el += "  <div class='rowElem'><label for='"+name+"'>"+name+": </label>";

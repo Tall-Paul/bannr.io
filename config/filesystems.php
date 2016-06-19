@@ -56,10 +56,10 @@ return [
 
         's3' => [
             'driver' => 's3',
-            'key' => 'your-key',
-            'secret' => 'your-secret',
-            'region' => 'your-region',
-            'bucket' => 'your-bucket',
+            'key' => 'AKIAIB5L2XEM6Q6DDHKA',
+            'secret' => 'GwV27y273CGMXBrNuS+RQrJYCWQZYgpUTeuGiNdw',
+            'region' => 'us-west-2',
+            'bucket' => 'images.bannr.io',
         ],
 
     ],
