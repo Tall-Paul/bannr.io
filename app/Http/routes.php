@@ -29,10 +29,14 @@ Route::any('/teams/edit', 'TeamsController@edit');
 Route::get('/tiers', 'TiersController@index');
 Route::any('/tiers/edit', 'TiersController@edit');
 
-Route::get('/sites', 'SitesController@index');
+//Route::get('/sites', 'SitesController@index');
 Route::get('/sites/edit', 'SitesController@edit');
 Route::get('/sites/frame', 'SitesController@frame');
 Route::any('/sites/edit/frame', 'SitesController@editframe');
+
+Route::get('/users/frame', 'UsersController@frame');
+Route::get('/users/edit/frame', 'UsersController@editframe');
+
 
 //api routes
 //

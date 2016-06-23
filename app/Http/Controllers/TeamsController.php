@@ -70,8 +70,11 @@ class TeamsController extends Controller
           return redirect()->action('TeamsController@index');
         }
         Session::put('team', request('modify'));
-        $edit->add('site','Sites','iframe')->src('/sites/frame');
+        $edit->add('site_iframe','Sites','iframe')->src('/sites/frame');
+        $edit->add('user_iframe','Users','iframe')->src('/users/frame');
+        //$edit->add('site','Sites','container')->view('sites/frame');
       }
+      $edit->build();
       return $edit->view('teams/edit', compact('edit'));
 
     }

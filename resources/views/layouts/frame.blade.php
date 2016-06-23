@@ -21,7 +21,7 @@
             width: 98%;
             padding: 20px;
             border-radius: 4px;
-            border: 1px solid #ddd;
+            border-left: 1px solid #ddd;
         }
 
         .fa-btn {

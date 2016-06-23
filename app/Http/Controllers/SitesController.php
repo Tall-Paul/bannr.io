@@ -73,7 +73,7 @@ class SitesController extends Controller
       $grid = \DataGrid::source($source);
       $grid->add('name','Name', true);
       $grid->add('url','Url', true);
-      $grid->add('validated','Validated', true);
+      //$grid->add('validated','Validated', true);
       $grid->edit('/sites/edit', 'Edit','modify|delete');
       $grid->link('/sites/edit/frame',"Add New", "TR");  //add button
       $grid->orderBy('name','desc'); //default orderby
@@ -88,6 +88,7 @@ class SitesController extends Controller
 
     public function editframe(){
       $team = $this->checkTeam();
+
       if ($team == null)
         return redirect()->action('TeamsController@index');
       $edit = \DataEdit::source(new Site);
@@ -104,6 +105,20 @@ class SitesController extends Controller
         return redirect()->action('TeamsController@index');
       $tier = $team->tier();
       $site = Site::find(request('modify'));
+      if ($site == null){
+          $delete = Site::find(request('delete'));
+          if ($delete == null){
+              return redirect()->action('TeamsController@index');
+          } else {
+              if (!$team->sites->contains($delete)){
+                  return redirect()->action('TeamsController@index');
+              } else {
+                   $team->sites()->detach($delete);
+                  $delete->delete();
+                  return redirect()->action('SitesController@frame');
+              }
+          }
+      }
       if (!$team->sites->contains($site))
         return redirect()->action('TeamsController@index');
       $data = array(

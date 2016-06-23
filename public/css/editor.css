@@ -1,4 +1,8 @@
 body,html{width:100%;height:100%;padding:0;margin:0;}
+textarea {
+    width: 100%;
+}
+
 .clearfix:after {
     content: '';
     display: table;
@@ -84,9 +88,13 @@ input.spectrum {
   padding: 2px !important;
 }
 
+select {
+    width: 75%;
+    font-size: larger;
+}
 
 #template_editor_html, #template_editor_javascript {
-  width: 400px;
+  width: 100%;
   height: 250px;
 }
 
@@ -98,9 +106,14 @@ input.spectrum {
   background-color: black !important;
 }
 
-iframe#site{
-  min-height: 800px;
+iframe#site_iframe{
+  min-height: 300px;
 }
+
+iframe#user_iframe{
+  min-height: 300px;
+}
+
 
 .template_accordion{
   margin-top: 10px;
@@ -134,4 +147,14 @@ iframe#site{
     cursor: pointer;
     opacity: 0;
     filter: alpha(opacity=0);
+}
+
+#div_tier_id label{
+    margin-right: 16px;
+    margin-top: 10px;
+    margin-left: 0px;
+}
+
+.top-margin-20 {
+    margin-top: 20px;
 }
