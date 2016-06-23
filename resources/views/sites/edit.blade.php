@@ -29,26 +29,32 @@
                     <input type='text' id='editor_siteid' value='{{$site->id}}' style='display:none'/>
                     <div class="editor_hidden">
                     <ul class="nav nav-tabs" id="editorTabs" role="tablist">
-                        <li class='active'><a href="#templates" role="tab" data-toggle="tab" onClick="templateBuilder.reInit();">Templates</a></li>
-                        <li><a href="#campaigns" role="tab" data-toggle="tab" onClick="campaignBuilder.reInit();">Campaigns</a></li>
+                        <li class='active'><a href="#live" role="tab" data-toggle="tab" onClick="scheduleBuilder.setLive();"><i class="fa fa-btn fa-clock-o"></i></a></li>
                         <li><a href="#schedule" role="tab" data-toggle="tab" onClick="scheduleBuilder.reInit();">Schedule</a></li>
-                        <li><a href="#live" role="tab" data-toggle="tab" onClick="scheduleBuilder.setLive();"><i class="fa fa-btn fa-clock-o"></i></a></li>
+                        <li><a href="#campaigns" role="tab" data-toggle="tab" onClick="campaignBuilder.reInit();">Campaigns</a></li>
+                        <li ><a href="#templates" role="tab" data-toggle="tab" onClick="templateBuilder.reInit();">Templates</a></li>
+
+
+
                       <li><a href="#settings" role="tab" data-toggle="tab"><i class="fa fa-btn fa-gears"></i></a></li>
                     </ul>
 
                    <div class="tab-content">
-                      <div class="tab-pane active" id="templates">
+                       <div class="tab-pane active" id="live">
+                         @yield('pane-live')
+                       </div>
+                       <div class="tab-pane" id="schedule">
+                         @yield('pane-schedule')
+                       </div>
+                       <div class="tab-pane" id="campaigns">
+                         @yield('pane-campaigns')
+                       </div>
+                      <div class="tab-pane " id="templates">
                         @yield('pane-templates')
                       </div>
-                      <div class="tab-pane" id="campaigns">
-                        @yield('pane-campaigns')
-                      </div>
-                      <div class="tab-pane" id="schedule">
-                        @yield('pane-schedule')
-                      </div>
-                      <div class="tab-pane" id="live">
-                        @yield('pane-live')
-                      </div>
+
+
+
                       <div class="tab-pane " id="settings">
                         @yield('pane-settings')
                       </div>

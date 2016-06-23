@@ -113,7 +113,6 @@ class SitesController extends Controller
               if (!$team->sites->contains($delete)){
                   return redirect()->action('TeamsController@index');
               } else {
-                   $team->sites()->detach($delete);
                   $delete->delete();
                   return redirect()->action('SitesController@frame');
               }

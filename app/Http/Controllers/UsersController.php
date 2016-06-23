@@ -26,6 +26,27 @@ class UsersController extends Controller {
       return $team;
     }
 
+    public function adduser(){
+        $team = $this->checkTeam();
+        if ($team == null)
+          return redirect()->action('TeamsController@index');
+        $email = request('email');
+        $user = User::where('email','=', $email)->get()->first();
+        if (!$user){
+            echo "not found";
+        } else {
+            if (request('admin')){
+                $admin = 1;
+            } else {
+                $admin = 0;
+            }
+            $team->users()->attach($user->id,array('admin'=>$admin));
+            return redirect()->action('UsersController@frame');
+        }
+
+
+    }
+
     public function editframe(){
         $team = $this->checkTeam();
         if ($team == null)
@@ -45,7 +66,7 @@ class UsersController extends Controller {
                 }
             }
         }
-        if (!$team->users->contains($users))
+        if (!$team->users->contains($user))
           return redirect()->action('TeamsController@index');
         $data = array(
           'user' => $user,
@@ -65,7 +86,7 @@ class UsersController extends Controller {
         $grid->add('email','Email', true);
         $grid->add('admin','Admin', true);
         //$grid->add('validated','Validated', true);
-        $grid->edit('/users/edit/frame', 'Edit','modify|delete');
+        $grid->edit('/users/edit/frame', 'Edit','modifyframe|delete');
         $grid->link('/users/edit/frame',"Add New", "TR");  //add button
         $grid->orderBy('name','desc'); //default orderby
         $grid->paginate(10);

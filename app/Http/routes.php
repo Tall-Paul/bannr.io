@@ -36,7 +36,7 @@ Route::any('/sites/edit/frame', 'SitesController@editframe');
 
 Route::get('/users/frame', 'UsersController@frame');
 Route::get('/users/edit/frame', 'UsersController@editframe');
-
+Route::post('/users/add','UsersController@adduser');
 
 //api routes
 //

@@ -18,7 +18,7 @@
     <input type='text' id='schedule_editor_finish' class='datetimepicker'/>
   </div>
   <div class="rowElem">
-    <label for="geo">Country Code(s): </label>
+    <label for="geo">Countries: </label>
     <input type='text' id='schedule_editor_geo'/>
   </div>
   <div class="rowElem nopad">

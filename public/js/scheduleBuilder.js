@@ -58,7 +58,7 @@ scheduleBuilder.init = function(){
 }
 
 scheduleBuilder.setLive = function(){
-    console.log('setting time to '+moment().format("DD-MM-YYYY HH:mm"));
+    //console.log('setting time to '+moment().format("DD-MM-YYYY HH:mm"));
     $('#live_preview_time').data("DateTimePicker").date(moment().format("DD-MM-YYYY HH:mm"));
 }
 
@@ -84,7 +84,7 @@ scheduleBuilder.updateLive = function(ret){
     if (ret.name !== undefined){
         appen += "<input type='text' style='display:none' value='"+ret.id+"' id='live_schedule_id' >";
         appen += "<span>"+ret.name+" expires at "+ret.expire+"</span>";
-        appen += "<div><button type='button' class='btn btn-primary' id='live_schedule_preview'>Preview</button>&nbsp;<button type='button' class= 'btn btn-primary' id='live_schedule_edit'>Edit Schedule</button></div>";
+        appen += "<div class='live_schedule_buttons'><button type='button' class='btn btn-primary' id='live_schedule_preview'>Preview</button>&nbsp;<button type='button' class= 'btn btn-primary' id='live_schedule_edit'>Edit Schedule</button></div>";
     } else {
         appen += "<span>No Schedule Defined</span>";
     }
