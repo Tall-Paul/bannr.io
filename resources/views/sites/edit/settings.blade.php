@@ -10,5 +10,6 @@
     <label for="name">URL: </label>
     <input type='text' id='site_editor_url' name='name' value='{{ $site->url }}' />
   </div>
+  <button type="button" class='btn btn-primary' id="settings_save_button">Save</button>
 </form>
 @endsection

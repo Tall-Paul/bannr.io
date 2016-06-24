@@ -21,7 +21,21 @@ var dragging = false;
             format: 'DD-MM-YYYY HH:mm',
             useCurrent: true
      });
-     $('.datetimepicker').data('dateTimePicker').date(moment().format('DD/MM/YYYY HH:mm'));
+     //$('.datetimepicker').data('dateTimePicker').date(moment().format('DD/MM/YYYY HH:mm'));
+
+     $('#settings_save_button').click(function(){
+        var site_name = $('#site_editor_name').val();
+        var site_url = $('#site_editor_url').val();
+        var site_id = $(scheduleBuilder.editorSitesID).val();
+        var token = $('#_token').val();
+        $.post('/api/sites/'+site_id,{
+            'name' : site_name,
+            'url' : site_url,
+            '_token' : token
+        },function(data){
+            $( '#preview' ).attr( 'src', function ( i, val ) { return val; });
+        });
+     });
    });
 
 
@@ -34,6 +48,8 @@ var dragging = false;
      }
      targetFrame.contentWindow.postMessage(msg, '*');
    });
+
+
 
 
    function show_editor(){
@@ -55,37 +71,3 @@ var dragging = false;
    $('#hide_editor').click(function(){
       hide_editor();
    });
-
-   $(document).mousedown(function(e){
-       if ($(e.target).attr('id') == 'dragbar'){
-         e.preventDefault();
-         dragging = true;
-         var main = $('#main');
-         var ghostbar = $('<div>',
-                          {id:'ghostbar',
-                           css: {
-                                  height: main.outerHeight(),
-                                  top: main.offset().top,
-                                  left: main.offset().left
-                                 }
-                          }).appendTo('body');
-
-          $(document).mousemove(function(e){
-            ghostbar.css("left",e.pageX+2);
-         });
-       }
-    });
-
-   $(document).mouseup(function(e){
-       if (dragging)
-       {
-           var percentage = (e.pageX / window.innerWidth) * 100;
-           var mainPercentage = 100-percentage;
-           $('#sidebar').css("width",percentage + "%");
-           //$('#preview').css("width",window.innerWidth - (window.innerWidth - e.pageX) + "px");
-           $('#main').css("width",mainPercentage + "%");
-           $('#ghostbar').remove();
-           $(document).unbind('mousemove');
-           dragging = false;
-       }
-    });

@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use Redis;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,7 +28,7 @@ class Site extends Model
   }
 
   public function save(array $options = Array()){
-    //TODO: add site to proxy
+    Redis::hset('routes',$this->id,$this->url);
     return parent::save();
   }
 }

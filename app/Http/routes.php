@@ -41,6 +41,7 @@ Route::post('/users/add','UsersController@adduser');
 //api routes
 //
 Route::get('/api/sites/{site_id}','ApiController@getSite');
+Route::post('/api/sites/{site_id}','ApiController@postSite');
 
 Route::get('/api/sites/{site_id}/templates','ApiController@getTemplates');
 Route::post('/api/sites/{site_id}/templates/{template_id}','ApiController@postTemplate');

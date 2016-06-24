@@ -119,7 +119,7 @@ return [
             'host' => env('REDIS_HOST', 'localhost'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_POST', 6379),
-            'database' => env('REDIS_DB_PROXY', 1),
+            'database' => env('REDIS_DB_PROXY', 0),
         ]
 
     ],

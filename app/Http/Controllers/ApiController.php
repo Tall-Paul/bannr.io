@@ -60,6 +60,18 @@ class ApiController extends Controller
         //$this->middleware('auth');
     }
 
+    public function postSite($site_id){
+        $team = $this->checkTeam($site_id);
+        if ($team == null)
+          return $this->error("Access Control Error");
+        $site = Site::find($site_id);
+        $site->name = request('name');
+        $site->url = request('url');
+        $site->save();
+        $out = Array('data'=>json_encode($site->toArray()));
+        return view('api/response')->with($out);
+    }
+
     public function getSite($site_id){
       $team = $this->checkTeam($site_id);
       if ($team == null)
