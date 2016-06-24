@@ -86,16 +86,16 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
-    <script src="{{{ asset('/js/moment.min.js') }}}"></script>
-    <script src="{{{ asset('/js/jquery.form.js') }}}"></script>
-    <script src="{{{ asset('/js/editorAPI.js') }}}"></script>
-    <script src="{{{ asset('/js/bundle.js') }}}"></script>
-    <script src="{{{ asset('/js/templateBuilder.js') }}}"></script>
-    <script src="{{{ asset('/js/spectrum.js') }}}"></script>
-    <script src="{{{ asset('/js/campaignBuilder.js') }}}"></script>
-    <script src="{{{ asset('/js/scheduleBuilder.js') }}}"></script>
-    <script src="{{{ asset('/js/editor.js') }}}"></script>
-    <script src="{{{ asset('/js/bootstrap-datetimepicker.js') }}}"></script>
+    <script src="{{{ secure_asset('/js/moment.min.js') }}}"></script>
+    <script src="{{{ secure_asset('/js/jquery.form.js') }}}"></script>
+    <script src="{{{ secure_asset('/js/editorAPI.js') }}}"></script>
+    <script src="{{{ secure_asset('/js/bundle.js') }}}"></script>
+    <script src="{{{ secure_asset('/js/templateBuilder.js') }}}"></script>
+    <script src="{{{ secure_asset('/js/spectrum.js') }}}"></script>
+    <script src="{{{ secure_asset('/js/campaignBuilder.js') }}}"></script>
+    <script src="{{{ secure_asset('/js/scheduleBuilder.js') }}}"></script>
+    <script src="{{{ secure_asset('/js/editor.js') }}}"></script>
+    <script src="{{{ secure_asset('/js/bootstrap-datetimepicker.js') }}}"></script>
 
 </body>
 </html>
