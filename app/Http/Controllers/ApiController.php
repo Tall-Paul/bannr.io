@@ -271,11 +271,21 @@ class ApiController extends Controller
     }
 
     public function getCurrentSchedule($site_id){
-        if (Cache::has($site_id)){
-            return Cache::get($site_id);
+        if ($request_code == null){
+            foreach(getallheaders() as $key=>$value){
+                if ($key == 'Cf-Ipcountry' && $request_code == null){
+                    $request_code = $value;
+                }
+                if ($key == 'Preview-Ipcountry'){
+                    $request_code = $value;
+                }
+            }
+        }
+        if (Cache::has($site_id."-".$request_code)){
+            return Cache::get($site_id."-".$request_code);
         } else {
             $schedule = $this->getSchedulesForTime($site_id,'now');
-            Cache::put($site_id,$schedule,Carbon\Carbon::createFromFormat('d/m/Y H:i',$schedule['expire']));
+            Cache::put($site_id."-".$request_code,$schedule,Carbon\Carbon::createFromFormat('d/m/Y H:i',$schedule['expire']));
             return $schedule;
         }
     }
