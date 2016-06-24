@@ -108,7 +108,9 @@ scheduleBuilder.reInit = function(){
   $(scheduleBuilder.editorAccordionID).accordion().accordion('destroy');
   scheduleBuilder.loadSchedules();
   scheduleBuilder.loadCampaigns();
-  $('.datetimepicker').data('dateTimePicker').date(moment().format('DD/MM/YYYY HH:mm'));
+  $('.datetimepicker').datetimepicker({
+      format: 'DD/MM/YYYY HH:mm'
+  });
   schedule_campaigns = [];
 }
 
@@ -287,9 +289,11 @@ scheduleBuilder.loadCampaigns = function(){
       $.each(ret.campaigns,function(el,index,arr){
           schedule_campaigns.push(index.id);
       });
-      console.log(ret);
       $.each(inject_data,function(el,index,arr){
           var template_id = el.replace('template_','');
           editorAPI.loadTemplateWithData($(scheduleBuilder.editorSitesID).val(),template_id,index,scheduleBuilder.addTemplate);
+      });
+      $('.datetimepicker').datetimepicker({
+          format: 'DD/MM/YYYY HH:mm'
       });
   }
