@@ -112,8 +112,15 @@ return [
             'host' => env('REDIS_HOST', 'localhost'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 6379),
-            'database' => 0,
+            'database' => env('REDIS_DB_DEFAULT', 0),
         ],
+
+        'proxy' => [
+            'host' => env('REDIS_HOST', 'localhost'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port' => env('REDIS_POST', 6379),
+            'database' => env('REDIS_DB_PROXY', 1),
+        ]
 
     ],
 
