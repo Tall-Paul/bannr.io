@@ -78,7 +78,7 @@ editorAPI.renderFormElement = function(id,name,type){
             el += "</div>";
             el += "</form></div>";
             el += "<script>";
-            el += "$('body').delegate('#upload_"+id+"','change', function(){ $('#form_"+id+"').ajaxForm(editorAPI.uploadOptions).submit();  	});";
+            el += "$('body').delegate('#upload_"+id+"','change', function(){ $('#form_"+id+"').ajaxForm(editorAPI.uploadOptions).submit(); });";
             el += "</script>";
             break;
         default:
