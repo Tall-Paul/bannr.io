@@ -10,7 +10,8 @@
 	       "zofe/rapyd": "2.2.*",
          "dingo/api": "1.0.*@dev",
         "league/flysystem-aws-s3-v3": "~1.0",
-        "ralouphie/getallheaders": "^2.0"
+        "ralouphie/getallheaders": "^2.0",
+        "predis/predis": "~1.1@dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
