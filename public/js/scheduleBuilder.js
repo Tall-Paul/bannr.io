@@ -108,6 +108,7 @@ scheduleBuilder.reInit = function(){
   $(scheduleBuilder.editorAccordionID).accordion().accordion('destroy');
   scheduleBuilder.loadSchedules();
   scheduleBuilder.loadCampaigns();
+  $('.datetimepicker').data('dateTimePicker').date(moment().format('DD/MM/YYYY HH:mm'));
   schedule_campaigns = [];
 }
 

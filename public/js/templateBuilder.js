@@ -114,7 +114,7 @@ templateBuilder.saveData = function(){
     js = $(templateBuilder.editorJsID).val();
     js = editorAPI.encodeString(js);
 
-    datstr = '{"name":"'+$(templateBuilder.editorNameID).val()+'",';
+    datstr = '{"name":"'+$(templateBuilder.editorNameID).val().trim()+'",';
     datstr += '"_token":"'+$('#_token').val()+'",'
     datstr += '"target":"'+$(templateBuilder.editorTargetID).val()+'",';
     datstr += '"inject":"'+$(templateBuilder.editorInjectID).val()+'",';
