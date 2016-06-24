@@ -296,7 +296,7 @@ class ApiController extends Controller
             return Cache::get($site_id."-".$request_code);
         } else {
             $schedule = $this->getSchedulesForTime($site_id,'now');
-            Cache::put($site_id."-".$request_code,$schedule,Carbon\Carbon::createFromFormat('d/m/Y H:i',$schedule['finish-at']));
+            Cache::put($site_id."-".$request_code,$schedule,Carbon\Carbon::createFromFormat('d/m/Y H:i',$schedule['finish_at']));
             return $schedule;
         }
     }
