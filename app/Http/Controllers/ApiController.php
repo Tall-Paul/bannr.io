@@ -283,6 +283,7 @@ class ApiController extends Controller
     }
 
     public function getCurrentSchedule($site_id){
+        $request_code = "any";
             foreach(getallheaders() as $key=>$value){
                 if ($key == 'Cf-Ipcountry' && $request_code == null){
                     $request_code = $value;
