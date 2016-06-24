@@ -39,12 +39,11 @@ function injectElements(){
     });
     window.setTimeout(function () {
         injectElements();
-    }, 5);
+    }, 10);
 }
 
 window.onload = function() {
     windowLoaded = true;
-
 }
 
 injectElements();
