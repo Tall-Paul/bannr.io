@@ -34,6 +34,6 @@ class Site extends Model
   }
 
   public function clearCachedSchedules(){
-      Cache::tags(['site_'.$site_id])->flush();
+      Cache::tags(['site_'.$this->site_id])->flush();
   }
 }
