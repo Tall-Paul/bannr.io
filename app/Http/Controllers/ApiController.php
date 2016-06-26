@@ -117,7 +117,7 @@ class ApiController extends Controller
       }
       $data = Array('status'=>'success','template_id'=>$template->id);
       $out = Array('data'=>json_encode($data));
-      Cache::forget($site_id);
+      $site->clearCachedSchedules();
       return view('api/response')->with($out);
     }
 
@@ -158,7 +158,7 @@ class ApiController extends Controller
       }
       $data = Array('status'=>'success','campaign_id'=>$campaign->id);
       $out = Array('data'=>json_encode($data));
-      Cache::forget($site_id);
+      $site->clearCachedSchedules();
       return view('api/response')->with($out);
 
     }
@@ -212,7 +212,7 @@ class ApiController extends Controller
         }
         $data = Array('status'=>'success','schedule_id'=>$schedule->id);
         $out = Array('data'=>json_encode($data));
-        Cache::forget($site_id);
+        $site->clearCachedSchedules();
         return view('api/response')->with($out);
 
     }
@@ -292,12 +292,12 @@ class ApiController extends Controller
                     $request_code = $value;
                 }
             }
-        if (Cache::has($site_id."-".$request_code)){
-            return Cache::get($site_id."-".$request_code);
+        if (Cache::has("schedule_".$site_id."_".$request_code)){
+            return Cache::get("schedule_".$site_id."_".$request_code);
         } else {
             $schedule = $this->getSchedulesForTime($site_id,'now');
             if ($schedule)
-                Cache::put($site_id."-".$request_code,$schedule,Carbon\Carbon::createFromFormat('d/m/Y H:i',$schedule['expire']));
+                Cache::tags(['site_'.$site_id])->put("schedule_".$site_id."_".$request_code,$schedule,Carbon\Carbon::createFromFormat('d/m/Y H:i',$schedule['expire']));
             return $schedule;
         }
     }

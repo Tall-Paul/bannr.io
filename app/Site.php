@@ -31,4 +31,8 @@ class Site extends Model
     Redis::hset('routes',$this->id,$this->url);
     return parent::save();
   }
+
+  public function clearCachedSchedules(){
+      Cache::tags(['site_'.$site_id])->flush();
+  }
 }
