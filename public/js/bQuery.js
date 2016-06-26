@@ -39,7 +39,7 @@ function injectElements(){
     });
     window.setTimeout(function () {
         injectElements();
-    }, 10);
+    }, 3);
 }
 
 window.onload = function() {
