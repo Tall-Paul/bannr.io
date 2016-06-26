@@ -2,6 +2,7 @@
 
 namespace App;
 use Redis;
+use Cache;
 
 use Illuminate\Database\Eloquent\Model;
 
