@@ -227,6 +227,7 @@ class ApiController extends Controller
                     $request_code = $value;
                 }
             }
+
         $site = Site::find($site_id);
         if ($time == 'now')
             $time = Carbon\Carbon::now();
@@ -242,11 +243,11 @@ class ApiController extends Controller
         $return_matching = Array();
 
         foreach($schedules as $schedule){
-            if ($schedule['country_codes'] !== null){
+            if ($schedule['country_codes'] !== null && $schedule['country_codes'] !== ""){
                 if (in_array($request_code,explode(',',$schedule['country_codes']))){
                     $return = &$return_matching;
                 } else {
-                    $return = &$return_default;
+                    continue;
                 }
             } else {
                 $return = &$return_default;
