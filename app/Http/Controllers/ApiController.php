@@ -218,9 +218,9 @@ class ApiController extends Controller
     }
 
     public function getSchedulesForTime($site_id,$time){
-        $request_code = "any";
+        $request_code = null;
             foreach(getallheaders() as $key=>$value){
-                if ($key == 'Cf-Ipcountry' && $request_code == 'any'){
+                if ($key == 'Cf-Ipcountry' && $request_code == null){
                     $request_code = $value;
                 }
                 if ($key == 'Preview-Ipcountry'){
@@ -281,15 +281,17 @@ class ApiController extends Controller
     }
 
     public function getCurrentSchedule($site_id){
-        $request_code = "any";
+        $request_code = null;
             foreach(getallheaders() as $key=>$value){
-                if ($key == 'Cf-Ipcountry' && $request_code == 'any'){
+                if ($key == 'Cf-Ipcountry' && $request_code == null){
                     $request_code = $value;
                 }
                 if ($key == 'Preview-Ipcountry'){
                     $request_code = $value;
                 }
             }
+        if ($request_code == null)
+            $request_code = 'any';
         if (Cache::has("schedule_".$site_id."_".$request_code)){
             return Cache::get("schedule_".$site_id."_".$request_code);
         } else {
