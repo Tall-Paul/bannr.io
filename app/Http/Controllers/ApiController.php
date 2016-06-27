@@ -218,17 +218,15 @@ class ApiController extends Controller
     }
 
     public function getSchedulesForTime($site_id,$time){
-        $request_code = Request::header('HTTP_CF_IPCOUNTRY');
-        if ($request_code == null){
+        $request_code = "any";
             foreach(getallheaders() as $key=>$value){
-                if ($key == 'Cf-Ipcountry' && $request_code == null){
+                if ($key == 'Cf-Ipcountry' && $request_code == 'any'){
                     $request_code = $value;
                 }
                 if ($key == 'Preview-Ipcountry'){
                     $request_code = $value;
                 }
             }
-        }
         $site = Site::find($site_id);
         if ($time == 'now')
             $time = Carbon\Carbon::now();
@@ -285,7 +283,7 @@ class ApiController extends Controller
     public function getCurrentSchedule($site_id){
         $request_code = "any";
             foreach(getallheaders() as $key=>$value){
-                if ($key == 'Cf-Ipcountry' && $request_code == null){
+                if ($key == 'Cf-Ipcountry' && $request_code == 'any'){
                     $request_code = $value;
                 }
                 if ($key == 'Preview-Ipcountry'){
