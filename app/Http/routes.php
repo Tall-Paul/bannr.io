@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return Redirect::to('/login');
 });
 
 Route::get('/api/sites/{site_id}/schedules/current','ApiController@getCurrentSchedule');

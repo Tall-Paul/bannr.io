@@ -13,10 +13,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
-    <link href="{{{ secure_asset('/css/editor.css') }}}" rel="stylesheet">
-    <link href="{{{ secure_asset('/css/spectrum.css') }}}" rel="stylesheet">
-    <link href="{{{ secure_asset('/css/datetimepicker.css') }}}" rel="stylesheet">
+    <link href="{{ asset('css/all.css') }}" rel="stylesheet">
     <style>
         body {
             font-family: 'Lato';
@@ -85,8 +82,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-    {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
-    <script src="{{{ secure_asset('/js/moment.min.js') }}}"></script>
+    <script src="{{ asset('js/all.js') }}"></script>
+    <!-- <script src="{{{ secure_asset('/js/moment.min.js') }}}"></script>
     <script src="{{{ secure_asset('/js/jquery.form.js') }}}"></script>
     <script src="{{{ secure_asset('/js/editorAPI.js') }}}"></script>
     <script src="{{{ secure_asset('/js/bundle.js') }}}"></script>
@@ -95,7 +92,7 @@
     <script src="{{{ secure_asset('/js/campaignBuilder.js') }}}"></script>
     <script src="{{{ secure_asset('/js/scheduleBuilder.js') }}}"></script>
     <script src="{{{ secure_asset('/js/editor.js') }}}"></script>
-    <script src="{{{ secure_asset('/js/bootstrap-datetimepicker.js') }}}"></script>
+    <script src="{{{ secure_asset('/js/bootstrap-datetimepicker.js') }}}"></script> -->
 
 </body>
 </html>
