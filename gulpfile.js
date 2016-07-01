@@ -21,6 +21,8 @@ elixir(function(mix) {
     ]);
 
     mix.scripts([
+        "ordered/moment.min.js",
+        "ordered/bootstrap-datetimepicker.js",
         "*.js",
     ]);
 });
