@@ -16,7 +16,7 @@ Route::get('/', 'HomeController@index');
 Route::get('/api/sites/{site_id}/schedules/current','ApiController@getCurrentSchedule');
 Route::get('/loader/{site_id}.js','ApiController@getJsFile');
 Route::get('/loader/{site_id}.css','ApiController@getCssFile');
-Route::get('/api/{site_id}/currentJson.json','ApiController@getCurrentScheduleJson');
+Route::get('/api/sites/{site_id}/currentJson.json','ApiController@getCurrentScheduleJson');
 
 Route::auth();
 
