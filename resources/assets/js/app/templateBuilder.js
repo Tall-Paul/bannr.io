@@ -72,11 +72,11 @@ templateBuilder.reInit = function(){
 }
 
 templateBuilder.reset = function(){
-  $(templateBuilder.editorNameID).val(' ');
-  $(templateBuilder.editorHtmlID).val(' ');
-  $(templateBuilder.editorTargetID).val(' ');
-  $(templateBuilder.editorInjectID).val(' ');
-  $(templateBuilder.editorJsID).val(' ');
+  $(templateBuilder.editorNameID).val('');
+  $(templateBuilder.editorHtmlID).val('');
+  $(templateBuilder.editorTargetID).val('');
+  $(templateBuilder.editorInjectID).val('');
+  $(templateBuilder.editorJsID).val('');
   $(templateBuilder.editorInputContainerID).html(' ');
 
 }
