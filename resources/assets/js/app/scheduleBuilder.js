@@ -3,6 +3,7 @@ var scheduleBuilder = scheduleBuilder || {};
 var schedule_campaigns = [];
 
 scheduleBuilder.init = function(){
+    
   this.editorSitesID = '#editor_siteid';
   this.editorSchedulesID = '#schedule_editor_schedule';
   this.editorNameID = "#schedule_editor_name";

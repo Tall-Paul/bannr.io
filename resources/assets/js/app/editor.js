@@ -4,6 +4,8 @@
 var i = 0;
 var dragging = false;
    $(document).ready(function(){
+     if (!$('#editor_siteid').length)
+         return;
      $('.tabs').tabs();
      $('.datetimepicker').datetimepicker({
          format: 'DD/MM/YYYY HH:mm'
