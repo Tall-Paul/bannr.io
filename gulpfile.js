@@ -23,6 +23,15 @@ elixir(function(mix) {
     mix.scripts([
         "ordered/moment.min.js",
         "ordered/bootstrap-datetimepicker.js",
+        "ordered/jquery.form.js",
+        "ordered/jquery.jqtransform.js",
+        "ordered/bundle.js",
+        "ordered/spectrum.js",
+        "app/editorAPI.js",
+        "app/templateBuilder.js",
+        "app/campaignBuilder.js",
+        "app/scheduleBuilder.js",
+        "app/editor.js",
         "*.js",
     ]);
 });

@@ -2558,6 +2558,385 @@ return a=K(a),this[a+"s"]()}function $c(a){return function(){return this._data[a
     };
 }));
 
+/*!
+ * jQuery Form Plugin
+ * version: 3.51.0-2014.06.20
+ * Requires jQuery v1.5 or later
+ * Copyright (c) 2014 M. Alsup
+ * Examples and documentation at: http://malsup.com/jquery/form/
+ * Project repository: https://github.com/malsup/form
+ * Dual licensed under the MIT and GPL licenses.
+ * https://github.com/malsup/form#copyright-and-license
+ */
+!function(e){"use strict";"function"==typeof define&&define.amd?define(["jquery"],e):e("undefined"!=typeof jQuery?jQuery:window.Zepto)}(function(e){"use strict";function t(t){var r=t.data;t.isDefaultPrevented()||(t.preventDefault(),e(t.target).ajaxSubmit(r))}function r(t){var r=t.target,a=e(r);if(!a.is("[type=submit],[type=image]")){var n=a.closest("[type=submit]");if(0===n.length)return;r=n[0]}var i=this;if(i.clk=r,"image"==r.type)if(void 0!==t.offsetX)i.clk_x=t.offsetX,i.clk_y=t.offsetY;else if("function"==typeof e.fn.offset){var o=a.offset();i.clk_x=t.pageX-o.left,i.clk_y=t.pageY-o.top}else i.clk_x=t.pageX-r.offsetLeft,i.clk_y=t.pageY-r.offsetTop;setTimeout(function(){i.clk=i.clk_x=i.clk_y=null},100)}function a(){if(e.fn.ajaxSubmit.debug){var t="[jquery.form] "+Array.prototype.join.call(arguments,"");window.console&&window.console.log?window.console.log(t):window.opera&&window.opera.postError&&window.opera.postError(t)}}var n={};n.fileapi=void 0!==e("<input type='file'/>").get(0).files,n.formdata=void 0!==window.FormData;var i=!!e.fn.prop;e.fn.attr2=function(){if(!i)return this.attr.apply(this,arguments);var e=this.prop.apply(this,arguments);return e&&e.jquery||"string"==typeof e?e:this.attr.apply(this,arguments)},e.fn.ajaxSubmit=function(t){function r(r){var a,n,i=e.param(r,t.traditional).split("&"),o=i.length,s=[];for(a=0;o>a;a++)i[a]=i[a].replace(/\+/g," "),n=i[a].split("="),s.push([decodeURIComponent(n[0]),decodeURIComponent(n[1])]);return s}function o(a){for(var n=new FormData,i=0;i<a.length;i++)n.append(a[i].name,a[i].value);if(t.extraData){var o=r(t.extraData);for(i=0;i<o.length;i++)o[i]&&n.append(o[i][0],o[i][1])}t.data=null;var s=e.extend(!0,{},e.ajaxSettings,t,{contentType:!1,processData:!1,cache:!1,type:u||"POST"});t.uploadProgress&&(s.xhr=function(){var r=e.ajaxSettings.xhr();return r.upload&&r.upload.addEventListener("progress",function(e){var r=0,a=e.loaded||e.position,n=e.total;e.lengthComputable&&(r=Math.ceil(a/n*100)),t.uploadProgress(e,a,n,r)},!1),r}),s.data=null;var c=s.beforeSend;return s.beforeSend=function(e,r){r.data=t.formData?t.formData:n,c&&c.call(this,e,r)},e.ajax(s)}function s(r){function n(e){var t=null;try{e.contentWindow&&(t=e.contentWindow.document)}catch(r){a("cannot get iframe.contentWindow document: "+r)}if(t)return t;try{t=e.contentDocument?e.contentDocument:e.document}catch(r){a("cannot get iframe.contentDocument: "+r),t=e.document}return t}function o(){function t(){try{var e=n(g).readyState;a("state = "+e),e&&"uninitialized"==e.toLowerCase()&&setTimeout(t,50)}catch(r){a("Server abort: ",r," (",r.name,")"),s(k),j&&clearTimeout(j),j=void 0}}var r=f.attr2("target"),i=f.attr2("action"),o="multipart/form-data",c=f.attr("enctype")||f.attr("encoding")||o;w.setAttribute("target",p),(!u||/post/i.test(u))&&w.setAttribute("method","POST"),i!=m.url&&w.setAttribute("action",m.url),m.skipEncodingOverride||u&&!/post/i.test(u)||f.attr({encoding:"multipart/form-data",enctype:"multipart/form-data"}),m.timeout&&(j=setTimeout(function(){T=!0,s(D)},m.timeout));var l=[];try{if(m.extraData)for(var d in m.extraData)m.extraData.hasOwnProperty(d)&&l.push(e.isPlainObject(m.extraData[d])&&m.extraData[d].hasOwnProperty("name")&&m.extraData[d].hasOwnProperty("value")?e('<input type="hidden" name="'+m.extraData[d].name+'">').val(m.extraData[d].value).appendTo(w)[0]:e('<input type="hidden" name="'+d+'">').val(m.extraData[d]).appendTo(w)[0]);m.iframeTarget||v.appendTo("body"),g.attachEvent?g.attachEvent("onload",s):g.addEventListener("load",s,!1),setTimeout(t,15);try{w.submit()}catch(h){var x=document.createElement("form").submit;x.apply(w)}}finally{w.setAttribute("action",i),w.setAttribute("enctype",c),r?w.setAttribute("target",r):f.removeAttr("target"),e(l).remove()}}function s(t){if(!x.aborted&&!F){if(M=n(g),M||(a("cannot access response document"),t=k),t===D&&x)return x.abort("timeout"),void S.reject(x,"timeout");if(t==k&&x)return x.abort("server abort"),void S.reject(x,"error","server abort");if(M&&M.location.href!=m.iframeSrc||T){g.detachEvent?g.detachEvent("onload",s):g.removeEventListener("load",s,!1);var r,i="success";try{if(T)throw"timeout";var o="xml"==m.dataType||M.XMLDocument||e.isXMLDoc(M);if(a("isXml="+o),!o&&window.opera&&(null===M.body||!M.body.innerHTML)&&--O)return a("requeing onLoad callback, DOM not available"),void setTimeout(s,250);var u=M.body?M.body:M.documentElement;x.responseText=u?u.innerHTML:null,x.responseXML=M.XMLDocument?M.XMLDocument:M,o&&(m.dataType="xml"),x.getResponseHeader=function(e){var t={"content-type":m.dataType};return t[e.toLowerCase()]},u&&(x.status=Number(u.getAttribute("status"))||x.status,x.statusText=u.getAttribute("statusText")||x.statusText);var c=(m.dataType||"").toLowerCase(),l=/(json|script|text)/.test(c);if(l||m.textarea){var f=M.getElementsByTagName("textarea")[0];if(f)x.responseText=f.value,x.status=Number(f.getAttribute("status"))||x.status,x.statusText=f.getAttribute("statusText")||x.statusText;else if(l){var p=M.getElementsByTagName("pre")[0],h=M.getElementsByTagName("body")[0];p?x.responseText=p.textContent?p.textContent:p.innerText:h&&(x.responseText=h.textContent?h.textContent:h.innerText)}}else"xml"==c&&!x.responseXML&&x.responseText&&(x.responseXML=X(x.responseText));try{E=_(x,c,m)}catch(y){i="parsererror",x.error=r=y||i}}catch(y){a("error caught: ",y),i="error",x.error=r=y||i}x.aborted&&(a("upload aborted"),i=null),x.status&&(i=x.status>=200&&x.status<300||304===x.status?"success":"error"),"success"===i?(m.success&&m.success.call(m.context,E,"success",x),S.resolve(x.responseText,"success",x),d&&e.event.trigger("ajaxSuccess",[x,m])):i&&(void 0===r&&(r=x.statusText),m.error&&m.error.call(m.context,x,i,r),S.reject(x,"error",r),d&&e.event.trigger("ajaxError",[x,m,r])),d&&e.event.trigger("ajaxComplete",[x,m]),d&&!--e.active&&e.event.trigger("ajaxStop"),m.complete&&m.complete.call(m.context,x,i),F=!0,m.timeout&&clearTimeout(j),setTimeout(function(){m.iframeTarget?v.attr("src",m.iframeSrc):v.remove(),x.responseXML=null},100)}}}var c,l,m,d,p,v,g,x,y,b,T,j,w=f[0],S=e.Deferred();if(S.abort=function(e){x.abort(e)},r)for(l=0;l<h.length;l++)c=e(h[l]),i?c.prop("disabled",!1):c.removeAttr("disabled");if(m=e.extend(!0,{},e.ajaxSettings,t),m.context=m.context||m,p="jqFormIO"+(new Date).getTime(),m.iframeTarget?(v=e(m.iframeTarget),b=v.attr2("name"),b?p=b:v.attr2("name",p)):(v=e('<iframe name="'+p+'" src="'+m.iframeSrc+'" />'),v.css({position:"absolute",top:"-1000px",left:"-1000px"})),g=v[0],x={aborted:0,responseText:null,responseXML:null,status:0,statusText:"n/a",getAllResponseHeaders:function(){},getResponseHeader:function(){},setRequestHeader:function(){},abort:function(t){var r="timeout"===t?"timeout":"aborted";a("aborting upload... "+r),this.aborted=1;try{g.contentWindow.document.execCommand&&g.contentWindow.document.execCommand("Stop")}catch(n){}v.attr("src",m.iframeSrc),x.error=r,m.error&&m.error.call(m.context,x,r,t),d&&e.event.trigger("ajaxError",[x,m,r]),m.complete&&m.complete.call(m.context,x,r)}},d=m.global,d&&0===e.active++&&e.event.trigger("ajaxStart"),d&&e.event.trigger("ajaxSend",[x,m]),m.beforeSend&&m.beforeSend.call(m.context,x,m)===!1)return m.global&&e.active--,S.reject(),S;if(x.aborted)return S.reject(),S;y=w.clk,y&&(b=y.name,b&&!y.disabled&&(m.extraData=m.extraData||{},m.extraData[b]=y.value,"image"==y.type&&(m.extraData[b+".x"]=w.clk_x,m.extraData[b+".y"]=w.clk_y)));var D=1,k=2,A=e("meta[name=csrf-token]").attr("content"),L=e("meta[name=csrf-param]").attr("content");L&&A&&(m.extraData=m.extraData||{},m.extraData[L]=A),m.forceSync?o():setTimeout(o,10);var E,M,F,O=50,X=e.parseXML||function(e,t){return window.ActiveXObject?(t=new ActiveXObject("Microsoft.XMLDOM"),t.async="false",t.loadXML(e)):t=(new DOMParser).parseFromString(e,"text/xml"),t&&t.documentElement&&"parsererror"!=t.documentElement.nodeName?t:null},C=e.parseJSON||function(e){return window.eval("("+e+")")},_=function(t,r,a){var n=t.getResponseHeader("content-type")||"",i="xml"===r||!r&&n.indexOf("xml")>=0,o=i?t.responseXML:t.responseText;return i&&"parsererror"===o.documentElement.nodeName&&e.error&&e.error("parsererror"),a&&a.dataFilter&&(o=a.dataFilter(o,r)),"string"==typeof o&&("json"===r||!r&&n.indexOf("json")>=0?o=C(o):("script"===r||!r&&n.indexOf("javascript")>=0)&&e.globalEval(o)),o};return S}if(!this.length)return a("ajaxSubmit: skipping submit process - no element selected"),this;var u,c,l,f=this;"function"==typeof t?t={success:t}:void 0===t&&(t={}),u=t.type||this.attr2("method"),c=t.url||this.attr2("action"),l="string"==typeof c?e.trim(c):"",l=l||window.location.href||"",l&&(l=(l.match(/^([^#]+)/)||[])[1]),t=e.extend(!0,{url:l,success:e.ajaxSettings.success,type:u||e.ajaxSettings.type,iframeSrc:/^https/i.test(window.location.href||"")?"javascript:false":"about:blank"},t);var m={};if(this.trigger("form-pre-serialize",[this,t,m]),m.veto)return a("ajaxSubmit: submit vetoed via form-pre-serialize trigger"),this;if(t.beforeSerialize&&t.beforeSerialize(this,t)===!1)return a("ajaxSubmit: submit aborted via beforeSerialize callback"),this;var d=t.traditional;void 0===d&&(d=e.ajaxSettings.traditional);var p,h=[],v=this.formToArray(t.semantic,h);if(t.data&&(t.extraData=t.data,p=e.param(t.data,d)),t.beforeSubmit&&t.beforeSubmit(v,this,t)===!1)return a("ajaxSubmit: submit aborted via beforeSubmit callback"),this;if(this.trigger("form-submit-validate",[v,this,t,m]),m.veto)return a("ajaxSubmit: submit vetoed via form-submit-validate trigger"),this;var g=e.param(v,d);p&&(g=g?g+"&"+p:p),"GET"==t.type.toUpperCase()?(t.url+=(t.url.indexOf("?")>=0?"&":"?")+g,t.data=null):t.data=g;var x=[];if(t.resetForm&&x.push(function(){f.resetForm()}),t.clearForm&&x.push(function(){f.clearForm(t.includeHidden)}),!t.dataType&&t.target){var y=t.success||function(){};x.push(function(r){var a=t.replaceTarget?"replaceWith":"html";e(t.target)[a](r).each(y,arguments)})}else t.success&&x.push(t.success);if(t.success=function(e,r,a){for(var n=t.context||this,i=0,o=x.length;o>i;i++)x[i].apply(n,[e,r,a||f,f])},t.error){var b=t.error;t.error=function(e,r,a){var n=t.context||this;b.apply(n,[e,r,a,f])}}if(t.complete){var T=t.complete;t.complete=function(e,r){var a=t.context||this;T.apply(a,[e,r,f])}}var j=e("input[type=file]:enabled",this).filter(function(){return""!==e(this).val()}),w=j.length>0,S="multipart/form-data",D=f.attr("enctype")==S||f.attr("encoding")==S,k=n.fileapi&&n.formdata;a("fileAPI :"+k);var A,L=(w||D)&&!k;t.iframe!==!1&&(t.iframe||L)?t.closeKeepAlive?e.get(t.closeKeepAlive,function(){A=s(v)}):A=s(v):A=(w||D)&&k?o(v):e.ajax(t),f.removeData("jqxhr").data("jqxhr",A);for(var E=0;E<h.length;E++)h[E]=null;return this.trigger("form-submit-notify",[this,t]),this},e.fn.ajaxForm=function(n){if(n=n||{},n.delegation=n.delegation&&e.isFunction(e.fn.on),!n.delegation&&0===this.length){var i={s:this.selector,c:this.context};return!e.isReady&&i.s?(a("DOM not ready, queuing ajaxForm"),e(function(){e(i.s,i.c).ajaxForm(n)}),this):(a("terminating; zero elements found by selector"+(e.isReady?"":" (DOM not ready)")),this)}return n.delegation?(e(document).off("submit.form-plugin",this.selector,t).off("click.form-plugin",this.selector,r).on("submit.form-plugin",this.selector,n,t).on("click.form-plugin",this.selector,n,r),this):this.ajaxFormUnbind().bind("submit.form-plugin",n,t).bind("click.form-plugin",n,r)},e.fn.ajaxFormUnbind=function(){return this.unbind("submit.form-plugin click.form-plugin")},e.fn.formToArray=function(t,r){var a=[];if(0===this.length)return a;var i,o=this[0],s=this.attr("id"),u=t?o.getElementsByTagName("*"):o.elements;if(u&&!/MSIE [678]/.test(navigator.userAgent)&&(u=e(u).get()),s&&(i=e(':input[form="'+s+'"]').get(),i.length&&(u=(u||[]).concat(i))),!u||!u.length)return a;var c,l,f,m,d,p,h;for(c=0,p=u.length;p>c;c++)if(d=u[c],f=d.name,f&&!d.disabled)if(t&&o.clk&&"image"==d.type)o.clk==d&&(a.push({name:f,value:e(d).val(),type:d.type}),a.push({name:f+".x",value:o.clk_x},{name:f+".y",value:o.clk_y}));else if(m=e.fieldValue(d,!0),m&&m.constructor==Array)for(r&&r.push(d),l=0,h=m.length;h>l;l++)a.push({name:f,value:m[l]});else if(n.fileapi&&"file"==d.type){r&&r.push(d);var v=d.files;if(v.length)for(l=0;l<v.length;l++)a.push({name:f,value:v[l],type:d.type});else a.push({name:f,value:"",type:d.type})}else null!==m&&"undefined"!=typeof m&&(r&&r.push(d),a.push({name:f,value:m,type:d.type,required:d.required}));if(!t&&o.clk){var g=e(o.clk),x=g[0];f=x.name,f&&!x.disabled&&"image"==x.type&&(a.push({name:f,value:g.val()}),a.push({name:f+".x",value:o.clk_x},{name:f+".y",value:o.clk_y}))}return a},e.fn.formSerialize=function(t){return e.param(this.formToArray(t))},e.fn.fieldSerialize=function(t){var r=[];return this.each(function(){var a=this.name;if(a){var n=e.fieldValue(this,t);if(n&&n.constructor==Array)for(var i=0,o=n.length;o>i;i++)r.push({name:a,value:n[i]});else null!==n&&"undefined"!=typeof n&&r.push({name:this.name,value:n})}}),e.param(r)},e.fn.fieldValue=function(t){for(var r=[],a=0,n=this.length;n>a;a++){var i=this[a],o=e.fieldValue(i,t);null===o||"undefined"==typeof o||o.constructor==Array&&!o.length||(o.constructor==Array?e.merge(r,o):r.push(o))}return r},e.fieldValue=function(t,r){var a=t.name,n=t.type,i=t.tagName.toLowerCase();if(void 0===r&&(r=!0),r&&(!a||t.disabled||"reset"==n||"button"==n||("checkbox"==n||"radio"==n)&&!t.checked||("submit"==n||"image"==n)&&t.form&&t.form.clk!=t||"select"==i&&-1==t.selectedIndex))return null;if("select"==i){var o=t.selectedIndex;if(0>o)return null;for(var s=[],u=t.options,c="select-one"==n,l=c?o+1:u.length,f=c?o:0;l>f;f++){var m=u[f];if(m.selected){var d=m.value;if(d||(d=m.attributes&&m.attributes.value&&!m.attributes.value.specified?m.text:m.value),c)return d;s.push(d)}}return s}return e(t).val()},e.fn.clearForm=function(t){return this.each(function(){e("input,select,textarea",this).clearFields(t)})},e.fn.clearFields=e.fn.clearInputs=function(t){var r=/^(?:color|date|datetime|email|month|number|password|range|search|tel|text|time|url|week)$/i;return this.each(function(){var a=this.type,n=this.tagName.toLowerCase();r.test(a)||"textarea"==n?this.value="":"checkbox"==a||"radio"==a?this.checked=!1:"select"==n?this.selectedIndex=-1:"file"==a?/MSIE/.test(navigator.userAgent)?e(this).replaceWith(e(this).clone(!0)):e(this).val(""):t&&(t===!0&&/hidden/.test(a)||"string"==typeof t&&e(this).is(t))&&(this.value="")})},e.fn.resetForm=function(){return this.each(function(){("function"==typeof this.reset||"object"==typeof this.reset&&!this.reset.nodeType)&&this.reset()})},e.fn.enable=function(e){return void 0===e&&(e=!0),this.each(function(){this.disabled=!e})},e.fn.selected=function(t){return void 0===t&&(t=!0),this.each(function(){var r=this.type;if("checkbox"==r||"radio"==r)this.checked=t;else if("option"==this.tagName.toLowerCase()){var a=e(this).parent("select");t&&a[0]&&"select-one"==a[0].type&&a.find("option").selected(!1),this.selected=t}})},e.fn.ajaxSubmit.debug=!1});
+
+/*
+ *
+ * jqTransform
+ * by mathieu vilaplana mvilaplana@dfc-e.com
+ * Designer ghyslain armand garmand@dfc-e.com
+ *
+ *
+ * Version 1.0 25.09.08
+ * Version 1.1 06.08.09
+ * Add event click on Checkbox and Radio
+ * Auto calculate the size of a select element
+ * Can now, disabled the elements
+ * Correct bug in ff if click on select (overflow=hidden)
+ * No need any more preloading !!
+ *
+ ******************************************** */
+
+(function($){
+	var defaultOptions = {preloadImg:true};
+	var jqTransformImgPreloaded = false;
+
+	var jqTransformPreloadHoverFocusImg = function(strImgUrl) {
+		//guillemets to remove for ie
+		strImgUrl = strImgUrl.replace(/^url\((.*)\)/,'$1').replace(/^\"(.*)\"$/,'$1');
+		var imgHover = new Image();
+		imgHover.src = strImgUrl.replace(/\.([a-zA-Z]*)$/,'-hover.$1');
+		var imgFocus = new Image();
+		imgFocus.src = strImgUrl.replace(/\.([a-zA-Z]*)$/,'-focus.$1');
+	};
+
+
+	/***************************
+	  Labels
+	***************************/
+	var jqTransformGetLabel = function(objfield){
+		var selfForm = $(objfield.get(0).form);
+		var oLabel = objfield.next();
+		if(!oLabel.is('label')) {
+			oLabel = objfield.prev();
+			if(oLabel.is('label')){
+				var inputname = objfield.attr('id');
+				if(inputname){
+					oLabel = selfForm.find('label[for="'+inputname+'"]');
+				}
+			}
+		}
+		if(oLabel.is('label')){return oLabel.css('cursor','pointer');}
+		return false;
+	};
+
+	/* Hide all open selects */
+	var jqTransformHideSelect = function(oTarget){
+		var ulVisible = $('.jqTransformSelectWrapper ul:visible');
+		ulVisible.each(function(){
+			var oSelect = $(this).parents(".jqTransformSelectWrapper:first").find("select").get(0);
+			//do not hide if click on the label object associated to the select
+			if( !(oTarget && oSelect.oLabel && oSelect.oLabel.get(0) == oTarget.get(0)) ){$(this).hide();}
+		});
+	};
+	/* Check for an external click */
+	var jqTransformCheckExternalClick = function(event) {
+		if ($(event.target).parents('.jqTransformSelectWrapper').length === 0) { jqTransformHideSelect($(event.target)); }
+	};
+
+	/* Apply document listener */
+	var jqTransformAddDocumentListener = function (){
+		$(document).mousedown(jqTransformCheckExternalClick);
+	};
+
+	/* Add a new handler for the reset action */
+	var jqTransformReset = function(f){
+		var sel;
+		$('.jqTransformSelectWrapper select', f).each(function(){sel = (this.selectedIndex<0) ? 0 : this.selectedIndex; $('ul', $(this).parent()).each(function(){$('a:eq('+ sel +')', this).click();});});
+		$('a.jqTransformCheckbox, a.jqTransformRadio', f).removeClass('jqTransformChecked');
+		$('input:checkbox, input:radio', f).each(function(){if(this.checked){$('a', $(this).parent()).addClass('jqTransformChecked');}});
+	};
+
+	/***************************
+	  Buttons
+	 ***************************/
+	$.fn.jqTransInputButton = function(){
+		return this.each(function(){
+			var newBtn = $('<button id="'+ this.id +'" name="'+ this.name +'" type="'+ this.type +'" class="'+ this.className +' jqTransformButton"><span><span>'+ $(this).attr('value') +'</span></span>')
+				.hover(function(){newBtn.addClass('jqTransformButton_hover');},function(){newBtn.removeClass('jqTransformButton_hover')})
+				.mousedown(function(){newBtn.addClass('jqTransformButton_click')})
+				.mouseup(function(){newBtn.removeClass('jqTransformButton_click')})
+			;
+			$(this).replaceWith(newBtn);
+		});
+	};
+
+	/***************************
+	  Text Fields
+	 ***************************/
+	$.fn.jqTransInputText = function(){
+		return this.each(function(){
+			var $input = $(this);
+
+			if($input.hasClass('jqtranformdone') || !$input.is('input')) {return;}
+			$input.addClass('jqtranformdone');
+
+			var oLabel = jqTransformGetLabel($(this));
+			oLabel && oLabel.bind('click',function(){$input.focus();});
+
+			var inputSize=$input.width();
+			if($input.attr('size')){
+				inputSize = $input.attr('size')*10;
+				$input.css('width',inputSize);
+			}
+
+			$input.addClass("jqTransformInput").wrap('<div class="jqTransformInputWrapper"><div class="jqTransformInputInner"><div></div></div></div>');
+			var $wrapper = $input.parent().parent().parent();
+			$wrapper.css("width", inputSize+10);
+			$input
+				.focus(function(){$wrapper.addClass("jqTransformInputWrapper_focus");})
+				.blur(function(){$wrapper.removeClass("jqTransformInputWrapper_focus");})
+				.hover(function(){$wrapper.addClass("jqTransformInputWrapper_hover");},function(){$wrapper.removeClass("jqTransformInputWrapper_hover");})
+			;
+
+			/* If this is safari we need to add an extra class */
+			//$.browser.safari && $wrapper.addClass('jqTransformSafari');
+			//$.browser.safari && $input.css('width',$wrapper.width()+16);
+			this.wrapper = $wrapper;
+
+		});
+	};
+
+	/***************************
+	  Check Boxes
+	 ***************************/
+	$.fn.jqTransCheckBox = function(){
+		return this.each(function(){
+			if($(this).hasClass('jqTransformHidden')) {return;}
+
+			var $input = $(this);
+			var inputSelf = this;
+
+			//set the click on the label
+			var oLabel=jqTransformGetLabel($input);
+			oLabel && oLabel.click(function(){aLink.trigger('click');});
+
+			var aLink = $('<a href="#" class="jqTransformCheckbox"></a>');
+			//wrap and add the link
+			$input.addClass('jqTransformHidden').wrap('<span class="jqTransformCheckboxWrapper"></span>').parent().prepend(aLink);
+			//on change, change the class of the link
+			$input.change(function(){
+				this.checked && aLink.addClass('jqTransformChecked') || aLink.removeClass('jqTransformChecked');
+				return true;
+			});
+			// Click Handler, trigger the click and change event on the input
+			aLink.click(function(){
+				//do nothing if the original input is disabled
+				if($input.attr('disabled')){return false;}
+				//trigger the envents on the input object
+				$input.trigger('click').trigger("change");
+				return false;
+			});
+
+			// set the default state
+			this.checked && aLink.addClass('jqTransformChecked');
+		});
+	};
+	/***************************
+	  Radio Buttons
+	 ***************************/
+	$.fn.jqTransRadio = function(){
+		return this.each(function(){
+			if($(this).hasClass('jqTransformHidden')) {return;}
+
+			var $input = $(this);
+			var inputSelf = this;
+
+			oLabel = jqTransformGetLabel($input);
+			oLabel && oLabel.click(function(){aLink.trigger('click');});
+
+			var aLink = $('<a href="#" class="jqTransformRadio" rel="'+ this.name +'"></a>');
+			$input.addClass('jqTransformHidden').wrap('<span class="jqTransformRadioWrapper"></span>').parent().prepend(aLink);
+
+			$input.change(function(){
+				inputSelf.checked && aLink.addClass('jqTransformChecked') || aLink.removeClass('jqTransformChecked');
+				return true;
+			});
+			// Click Handler
+			aLink.click(function(){
+				if($input.attr('disabled')){return false;}
+				$input.trigger('click').trigger('change');
+
+				// uncheck all others of same name input radio elements
+				$('input[name="'+$input.attr('name')+'"]',inputSelf.form).not($input).each(function(){
+					$(this).attr('type')=='radio' && $(this).trigger('change');
+				});
+
+				return false;
+			});
+			// set the default state
+			inputSelf.checked && aLink.addClass('jqTransformChecked');
+		});
+	};
+
+	/***************************
+	  TextArea
+	 ***************************/
+	$.fn.jqTransTextarea = function(){
+		return this.each(function(){
+			var textarea = $(this);
+
+			if(textarea.hasClass('jqtransformdone')) {return;}
+			textarea.addClass('jqtransformdone');
+
+			oLabel = jqTransformGetLabel(textarea);
+			oLabel && oLabel.click(function(){textarea.focus();});
+
+			var strTable = '<table cellspacing="0" cellpadding="0" border="0" class="jqTransformTextarea">';
+			strTable +='<tr><td id="jqTransformTextarea-tl"></td><td id="jqTransformTextarea-tm"></td><td id="jqTransformTextarea-tr"></td></tr>';
+			strTable +='<tr><td id="jqTransformTextarea-ml">&nbsp;</td><td id="jqTransformTextarea-mm"><div></div></td><td id="jqTransformTextarea-mr">&nbsp;</td></tr>';
+			strTable +='<tr><td id="jqTransformTextarea-bl"></td><td id="jqTransformTextarea-bm"></td><td id="jqTransformTextarea-br"></td></tr>';
+			strTable +='</table>';
+			var oTable = $(strTable)
+					.insertAfter(textarea)
+					.hover(function(){
+						!oTable.hasClass('jqTransformTextarea-focus') && oTable.addClass('jqTransformTextarea-hover');
+					},function(){
+						oTable.removeClass('jqTransformTextarea-hover');
+					})
+				;
+
+			textarea
+				.focus(function(){oTable.removeClass('jqTransformTextarea-hover').addClass('jqTransformTextarea-focus');})
+				.blur(function(){oTable.removeClass('jqTransformTextarea-focus');})
+				.appendTo($('#jqTransformTextarea-mm div',oTable))
+			;
+			this.oTable = oTable;
+			/*if($.browser.safari){
+				$('#jqTransformTextarea-mm',oTable)
+					.addClass('jqTransformSafariTextarea')
+					.find('div')
+						.css('height',textarea.height())
+						.css('width',textarea.width())
+				;
+			}*/
+		});
+	};
+
+	/***************************
+	  Select
+	 ***************************/
+	$.fn.jqTransSelect = function(){
+		return this.each(function(index){
+			var $select = $(this);
+
+			if($select.hasClass('jqTransformHidden')) {return;}
+			if($select.attr('multiple')) {return;}
+
+			var oLabel  =  jqTransformGetLabel($select);
+			/* First thing we do is Wrap it */
+			var $wrapper = $select
+				.addClass('jqTransformHidden')
+				.wrap('<div class="jqTransformSelectWrapper"></div>')
+				.parent()
+				.css({zIndex: 10-index})
+			;
+
+			/* Now add the html for the select */
+			$wrapper.prepend('<div><span></span><a href="#" class="jqTransformSelectOpen"></a></div><ul></ul>');
+			var $ul = $('ul', $wrapper).css('width',$select.width()).hide();
+			/* Now we add the options */
+			$('option', this).each(function(i){
+				var oLi = $('<li><a href="#" index="'+ i +'">'+ $(this).html() +'</a></li>');
+				$ul.append(oLi);
+			});
+
+			/* Add click handler to the a */
+			$ul.find('a').click(function(){
+					$('a.selected', $wrapper).removeClass('selected');
+					$(this).addClass('selected');
+					/* Fire the onchange event */
+					if ($select[0].selectedIndex != $(this).attr('index') && $select[0].onchange) { $select[0].selectedIndex = $(this).attr('index'); $select[0].onchange(); }
+					$select[0].selectedIndex = $(this).attr('index');
+					$('span:eq(0)', $wrapper).html($(this).html());
+					$ul.hide();
+					return false;
+			});
+			/* Set the default */
+			$('a:eq('+ this.selectedIndex +')', $ul).click();
+			$('span:first', $wrapper).click(function(){$("a.jqTransformSelectOpen",$wrapper).trigger('click');});
+			oLabel && oLabel.click(function(){$("a.jqTransformSelectOpen",$wrapper).trigger('click');});
+			this.oLabel = oLabel;
+
+			/* Apply the click handler to the Open */
+			var oLinkOpen = $('a.jqTransformSelectOpen', $wrapper)
+				.click(function(){
+					//Check if box is already open to still allow toggle, but close all other selects
+					if( $ul.css('display') == 'none' ) {jqTransformHideSelect();}
+					if($select.attr('disabled')){return false;}
+
+					$ul.slideToggle('fast', function(){
+						var offSet = ($('a.selected', $ul).offset().top - $ul.offset().top);
+						$ul.animate({scrollTop: offSet});
+					});
+					return false;
+				})
+			;
+
+			// Set the new width
+			var iSelectWidth = $select.outerWidth();
+			var oSpan = $('span:first',$wrapper);
+			var newWidth = (iSelectWidth > oSpan.innerWidth())?iSelectWidth+oLinkOpen.outerWidth():$wrapper.width();
+			$wrapper.css('width',newWidth);
+			$ul.css('width',newWidth-2);
+			oSpan.css({width:iSelectWidth});
+
+			// Calculate the height if necessary, less elements that the default height
+			//show the ul to calculate the block, if ul is not displayed li height value is 0
+			$ul.css({display:'block',visibility:'hidden'});
+			var iSelectHeight = ($('li',$ul).length)*($('li:first',$ul).height());//+1 else bug ff
+			(iSelectHeight < $ul.height()) && $ul.css({height:iSelectHeight,'overflow':'hidden'});//hidden else bug with ff
+			$ul.css({display:'none',visibility:'visible'});
+
+		});
+	};
+	$.fn.jqTransform = function(options){
+		var opt = $.extend({},defaultOptions,options);
+
+		/* each form */
+		 return this.each(function(){
+			var selfForm = $(this);
+			if(selfForm.hasClass('jqtransformdone')) {return;}
+			selfForm.addClass('jqtransformdone');
+
+			$('input:submit, input:reset, input[type="button"]', this).jqTransInputButton();
+			$('input:text, input:password', this).jqTransInputText();
+			$('input:checkbox', this).jqTransCheckBox();
+			$('input:radio', this).jqTransRadio();
+			$('textarea', this).jqTransTextarea();
+
+			if( $('select', this).jqTransSelect().length > 0 ){jqTransformAddDocumentListener();}
+			selfForm.bind('reset',function(){var action = function(){jqTransformReset(this);}; window.setTimeout(action, 10);});
+
+			//preloading dont needed anymore since normal, focus and hover image are the same one
+			/*if(opt.preloadImg && !jqTransformImgPreloaded){
+				jqTransformImgPreloaded = true;
+				var oInputText = $('input:text:first', selfForm);
+				if(oInputText.length > 0){
+					//pour ie on eleve les ""
+					var strWrapperImgUrl = oInputText.get(0).wrapper.css('background-image');
+					jqTransformPreloadHoverFocusImg(strWrapperImgUrl);
+					var strInnerImgUrl = $('div.jqTransformInputInner',$(oInputText.get(0).wrapper)).css('background-image');
+					jqTransformPreloadHoverFocusImg(strInnerImgUrl);
+				}
+
+				var oTextarea = $('textarea',selfForm);
+				if(oTextarea.length > 0){
+					var oTable = oTextarea.get(0).oTable;
+					$('td',oTable).each(function(){
+						var strImgBack = $(this).css('background-image');
+						jqTransformPreloadHoverFocusImg(strImgBack);
+					});
+				}
+			}*/
+
+
+		}); /* End Form each */
+
+	};/* End the Plugin */
+
+})(jQuery);
+
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 beautify_html = require('js-beautify').html;
 
@@ -6346,1300 +6725,6 @@ if (typeof define === "function" && define.amd) {
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}]},{},[1]);
 
-var campaignBuilder = campaignBuilder || {};
-
-campaignBuilder.init = function(){
-  this.editorSitesID = '#editor_siteid';
-  this.editorCampaignID = '#campaign_editor_campaign';
-  this.editorTemplatesID = '#campaign_editor_template';
-  this.editorAddTemplateID = '#campaign_editor_add_template';
-  this.editorAccordionID = "#campaign_editor_accordion";
-  this.editorPreviewButtonID = "#campaign_editor_preview_campaign";
-  this.editorSaveButtonID = "#campaign_save_button";
-  this.editorNameID = "#campaign_editor_name";
-  this.editorDeleteButtonID = "#campaign_delete_button";
-  campaignBuilder.loadCampaigns();
-
-  $(this.editorAddTemplateID).click(function(){
-    var template = $(campaignBuilder.editorTemplatesID).val();
-    editorAPI.loadTemplate($(campaignBuilder.editorSitesID).val(),template,campaignBuilder.addTemplate);
-  });
-
-  $(this.editorCampaignID).change(function(){
-    campaignBuilder.loadCampaign();
-  });
-
-  $(this.editorPreviewButtonID).click(function(){
-    campaignBuilder.getPreviewData();
-  });
-
-  $(this.editorSaveButtonID).click(function(){
-    campaignBuilder.saveCampaign();
-  });
-
-  $(this.editorDeleteButtonID).click(function(){
-    campaignBuilder.deleteCampaign();
-  });
-
-}
-
-campaignBuilder.deleteCampaign = function(){
-    editorAPI.deleteCampaign($(campaignBuilder.editorSitesID).val(),$(campaignBuilder.editorCampaignID).val(),campaignBuilder.savedCampaign);
-}
-
-campaignBuilder.reInit = function(){
-  $(campaignBuilder.editorAccordionID).html(' ');
-  $(campaignBuilder.editorAccordionID).accordion().accordion('destroy');
-  $(campaignBuilder.editorNameID).val('');
-  campaignBuilder.loadCampaigns();
-}
-
-campaignBuilder.saveCampaign = function(){
-  if ($(campaignBuilder.editorNameID).val() == ""){
-    alert('please enter a name for this campaign!!');
-    return false;
-  } else {
-    var datstr = '{"name":"'+$(campaignBuilder.editorNameID).val()+'",';
-    datstr += '"_token":"'+$('#_token').val()+'",'
-    datstr += '"templates":{'
-    $('.campaign_editor_data_elements').each(function(){
-      var template_id= $(this).data('templateid');
-      datstr += '"template_'+template_id+'":{';
-      $(this).find('input').each(function(){
-        if ($(this).data('inputname') !== undefined)
-            datstr += '"'+$(this).data('inputname')+'":"'+$(this).val()+'",';
-      });
-      datstr = datstr.slice(0, -1);
-      datstr += '},';
-    });
-    datstr = datstr.slice(0, -1);
-    datstr += '}}';
-    var dat = JSON.parse(datstr);
-    editorAPI.saveCampaign($(campaignBuilder.editorSitesID).val(),$(campaignBuilder.editorCampaignID).val(),dat,campaignBuilder.savedCampaign);
-  }
-}
-
-campaignBuilder.savedCampaign = function(ret){
-  ret = JSON.parse(ret);
-  if (ret.status == 'success'){
-    campaignBuilder.reset();
-    campaignBuilder.loadCampaigns();
-    //alert('campaign saved');
-  } else {
-    alert('Error saving data!!');
-  }
-}
-
-campaignBuilder.getPreviewData = function(){
-  var html = "";
-  datstr = '[';
-
-  $('.campaign_editor_data_elements').each(function(){
-    var template_name = $(this).data('templatename');
-    var template_target = $(this).data('target');
-    var template_inject = $(this).data('inject');
-    //console.log(template_name);
-    //build html
-    html += "<div class='"+template_name+" preview_div' data-target='"+template_target+"' data-inject='"+template_inject+"'>";
-    var str = $(this).children('textarea.html_textarea').html();
-    var js = editorAPI.encodeString($(this).children('textarea.js_textarea').val());
-    str = jQuery('<div/>').html(str).text();
-    //js = jQuery('<div/>').html(js).text();
-    html += str;
-    html += "</div>";
-    //build data
-    datstr +=  '{"preview":';
-    datstr += '{';
-    datstr += '"template" : "'+template_name+'",';
-    $(this).find('input').each(function(){
-        if ($(this).data('inputname') !== undefined)
-            datstr += '"'+$(this).data('inputname')+'":"'+$(this).val()+'",';
-    });
-    datstr += '"javascript":"'+js+'"';
-    //datstr = datstr.slice(0, -1);
-    datstr += '}';
-    datstr += '},';
-  });
-  datstr = datstr.slice(0, -1);
-  datstr += ']';
-  dat = JSON.parse(datstr);
-  targetFrame = document.getElementById('preview');
-  var msg = {message: 'template_preview', html: html, dat: dat };
-  targetFrame.contentWindow.postMessage(msg, '*');
-}
-
-
-campaignBuilder.reset = function(){
-  $(campaignBuilder.editorAccordionID).html(' ');
-
-  $(campaignBuilder.editorAccordionID).accordion('destroy');
-  campaignBuilder.loadTemplates();
-}
-
-campaignBuilder.addTemplate = function(template){
-  console.log(template);
-  //TODO: check if template already present in this campaign!!
-  if (template.data == undefined || template.data == null){
-    data = template.default;
-  } else {
-    data = template.data;
-  }
-  var label = template.name;
-  var template_id = template.id;
-  var html = editorAPI.decodeString(template.html);
-  var js = editorAPI.decodeString(template.javascript);
-  var formElements = editorAPI.parseDataElements(html+" "+js);
-  el = "<h3>"+label+"</h3>";
-  el += "<div class='campaign_editor_data_elements' data-templatename='"+label+"' data-templateid='"+template_id+"' data-target='"+template.target+"' data-inject='"+template.inject+"'>";
-  var html_id = "campaign_input_"+label+"_html";
-  var js_id = "campaign_input_"+label+"_js";
-  el += "<textarea id='"+html_id+"' style='display:none' class='html_textarea'>"+html+"</textarea>";
-  el += "<textarea id='"+js_id+"' style='display:none' class='js_textarea'>"+js+"</textarea>";
-  for (var i = 0; i < formElements.length; i++) {
-    var dat = formElements[i];
-    var el_id = "campaign_input_"+label+"_"+dat.name;
-    var typeclass = '';
-    el += editorAPI.renderFormElement(el_id,dat.name,dat.type);
-  }
-  el += "</div>";
-  $(campaignBuilder.editorAccordionID).append(el);
-  $(campaignBuilder.editorAccordionID).accordion().accordion('destroy').accordion();
-  $.each(data,function(index,obj){
-    $("#campaign_input_"+label+"_"+index).val(obj);
-  });
-  editorAPI.afterFormRender();
-}
-
-campaignBuilder.loadSites = function(){
-  editorAPI.loadSites(campaignBuilder.populateSites);
-}
-
-campaignBuilder.populateSites = function(html){
-    $(campaignBuilder.editorSitesID).html(html);
-    campaignBuilder.loadCampaigns();
-}
-
-campaignBuilder.loadCampaigns = function(){
-  editorAPI.loadCampaigns($(campaignBuilder.editorSitesID).val(),campaignBuilder.populateCampaigns);
-}
-
-campaignBuilder.populateCampaigns = function(data){
-  var appen = "";
-  appen += "<option value='new'>New...</option>";
-  $.each(data,function(index,obj){
-    appen += "<option value='"+obj.id+"' >"+obj.name+"</option>";
-  });
-  $(campaignBuilder.editorCampaignID).html(appen);
-  campaignBuilder.loadTemplates();
-}
-
-campaignBuilder.loadTemplates = function(){
-  editorAPI.loadTemplates($(campaignBuilder.editorSitesID).val(),campaignBuilder.populateTemplates);
-}
-
-campaignBuilder.populateTemplates = function(data){
-  var appen = "";
-  appen += "<option value=''>Select...</option>";
-  $.each(data,function(index,obj){
-    appen += "<option value='"+obj.id+"' >"+obj.name+"</option>";
-  });
-  $(campaignBuilder.editorTemplatesID).html(appen);
-  $(campaignBuilder.editorAccordionID).accordion();
-}
-
-campaignBuilder.loadCampaign = function(){
-  campaignBuilder.reset();
-  if ($(campaignBuilder.editorCampaignID).val() == 'new')
-    return;
-  editorAPI.loadCampaign($(campaignBuilder.editorSiteID).val(),$(this.editorCampaignID).val(),campaignBuilder.populateCampaign);
-}
-
-
-campaignBuilder.populateCampaign = function(data){
-  var templates = data.templates;
-  var inject_data = JSON.parse(data.data);
-  $(campaignBuilder.editorNameID).val(data.name);
-  $.each(templates,function(el,index,arr){
-    var dat = eval('inject_data.template_'+index.id);
-    editorAPI.loadTemplateWithData($(campaignBuilder.editorSitesID).val(),index.id,dat,campaignBuilder.addTemplate);
-  });
-}
-
-
-
-
-var i = 0;
-var dragging = false;
-   $(document).ready(function(){
-     $('.tabs').tabs();
-     $('.datetimepicker').datetimepicker({
-         format: 'DD/MM/YYYY HH:mm'
-     });
-     $('#preview_url').change(function(){
-       //$('#preview').attr('src','/proxy/index.php?url='+$('#preview_url').val());
-     });
-     editorAPI.init();
-     templateBuilder.init();
-     campaignBuilder.init();
-     scheduleBuilder.init();
-     $('#live_preview_time').datetimepicker({
-            inline: true,
-            sideBySide: true,
-            format: 'DD-MM-YYYY HH:mm',
-            useCurrent: true
-     });
-     //$('.datetimepicker').data('dateTimePicker').date(moment().format('DD/MM/YYYY HH:mm'));
-
-     $('#settings_save_button').click(function(){
-        var site_name = $('#site_editor_name').val();
-        var site_url = $('#site_editor_url').val();
-        var site_id = $(scheduleBuilder.editorSitesID).val();
-        var token = $('#_token').val();
-        $.post('/api/sites/'+site_id,{
-            'name' : site_name,
-            'url' : site_url,
-            '_token' : token
-        },function(data){
-            $( '#preview' ).attr( 'src', function ( i, val ) { return val; });
-        });
-     });
-   });
-
-
-   $('#behaviour input').change(function(){
-     targetFrame = document.getElementById('preview');
-     if ($('input[name=behaviour]:checked', '#behaviour').val() == 'select'){
-        msg = {message: 'set_select'};
-     } else {
-       msg = {message: 'set_navigate'};
-     }
-     targetFrame.contentWindow.postMessage(msg, '*');
-   });
-
-
-
-
-   function show_editor(){
-       $('.main-panel').removeClass('col-lg-12').addClass('col-lg-8');
-       $('.side-panel').removeClass('col-lg-0').addClass('col-lg-4');
-       $('.editor_hidden').show();
-   }
-
-   function hide_editor(){
-       $('.main-panel').removeClass('col-lg-8').addClass('col-lg-12');
-       $('.side-panel').removeClass('col-lg-4').addClass('col-lg-0');
-       $('.editor_hidden').hide();
-   }
-
-   $('#show_editor').click(function(){
-      show_editor();
-   });
-
-   $('#hide_editor').click(function(){
-      hide_editor();
-   });
-
-var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){var t="";var n,r,i,s,o,u,a;var f=0;e=Base64._utf8_encode(e);while(f<e.length){n=e.charCodeAt(f++);r=e.charCodeAt(f++);i=e.charCodeAt(f++);s=n>>2;o=(n&3)<<4|r>>4;u=(r&15)<<2|i>>6;a=i&63;if(isNaN(r)){u=a=64}else if(isNaN(i)){a=64}t=t+this._keyStr.charAt(s)+this._keyStr.charAt(o)+this._keyStr.charAt(u)+this._keyStr.charAt(a)}return t},decode:function(e){var t="";var n,r,i;var s,o,u,a;var f=0;e=e.replace(/[^A-Za-z0-9+/=]/g,"");while(f<e.length){s=this._keyStr.indexOf(e.charAt(f++));o=this._keyStr.indexOf(e.charAt(f++));u=this._keyStr.indexOf(e.charAt(f++));a=this._keyStr.indexOf(e.charAt(f++));n=s<<2|o>>4;r=(o&15)<<4|u>>2;i=(u&3)<<6|a;t=t+String.fromCharCode(n);if(u!=64){t=t+String.fromCharCode(r)}if(a!=64){t=t+String.fromCharCode(i)}}t=Base64._utf8_decode(t);return t},_utf8_encode:function(e){e=e.replace(/rn/g,"n");var t="";for(var n=0;n<e.length;n++){var r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r)}else if(r>127&&r<2048){t+=String.fromCharCode(r>>6|192);t+=String.fromCharCode(r&63|128)}else{t+=String.fromCharCode(r>>12|224);t+=String.fromCharCode(r>>6&63|128);t+=String.fromCharCode(r&63|128)}}return t},_utf8_decode:function(e){var t="";var n=0;var r=c1=c2=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}}
-
-
-
-
-var editorAPI = editorAPI || {};
-
-editorAPI.init = function(){
-  this.loadedSites = null;
-  this.loadedTemplates = null;
-  this.loadedCampaigns = null;
-  this.loadedSchedules = null;
-  this.uploadOptions = {
-		        success:       editorAPI.fileUploaded,
-		        dataType: 'json'
-                };
-}
-
-
-
-editorAPI.escapeJSON = function(str){
-  return str
-    .replace(/[\\]/g, '\\\\')
-    .replace(/[\"]/g, '\\\"')
-    .replace(/[\/]/g, '\\/')
-    .replace(/[\b]/g, '\\b')
-    .replace(/[\f]/g, '\\f')
-    .replace(/[\n]/g, '\\n')
-    .replace(/[\r]/g, '\\r')
-    .replace(/[\t]/g, '\\t');
-};
-
-editorAPI.afterFormRender = function(){
-    $('.spectrum').spectrum({preferredFormat: "name"});
-    $('.spectrum').show();
-}
-
-editorAPI.fileUploaded = function(dat){
-    var filename = dat.filename;
-    var target = dat.target;
-    $('#'+target).val(filename);
-}
-
-editorAPI.parseDataElements = function(html){
-  var dataElements = html.match(/{{\s*[\w\.]+\s*}}/g).map(function(x) { return x.match(/[\w\.]+/)[0]; });
-  returnArray = [];
-  for (var i = 0; i < dataElements.length; i++) {
-    var el = new Object();
-    el.name = dataElements[i];
-    el.type = "text";
-    if (html.indexOf('color:'+'{{'+el.name+'}}') > -1){
-      el.type = "colour";
-    }
-    if (html.indexOf('src\=\"'+'{{'+el.name+'}}') > -1){
-      el.type = "file";
-    }
-    returnArray.push(el);
-  }
-  return returnArray;
-}
-
-editorAPI.renderFormElement = function(id,name,type){
-    el = "";
-    switch (type){
-        case "colour":
-            el += "  <div class='rowElem spectrum'><label for='"+name+"'>"+name+": </label>";
-            el += "<input type='text' class='template_editor_data_input spectrum' data-inputname='"+name+"' id='"+id+"' value='placeholder' name='"+name+"' /></div>";
-            break;
-        case "file":
-            el += "  <div class='rowElem negPad'><label for='"+name+"'>"+name+": </label>";
-            el += "<form class='form-horizontal' id='form_"+id+"' enctype='multipart/form-data' method='post' action='/api/sites/"+$(scheduleBuilder.editorSitesID).val()+"/images' autocomplete='off'>";
-            el +=  "<input type='hidden' name='_token' value='"+$('#_token').val()+"' />";
-            el += "<input type='hidden' name='file_target' value='"+id+"' />";
-            el += "<input type='text' class='filename template_editor_data_input' data-inputname='"+name+"' id='"+id+"'/>";
-            el += "<div class='fileUpload btn btn-primary'>";
-            el += "<span>Upload</span>";
-            el += "<input type='file' class='upload ' name='image' id='upload_"+id+"' />";
-            el += "</div>";
-            el += "</form></div>";
-            el += "<script>";
-            el += "$('body').delegate('#upload_"+id+"','change', function(){ $('#form_"+id+"').ajaxForm(editorAPI.uploadOptions).submit(); });";
-            el += "</script>";
-            break;
-        default:
-            el += "  <div class='rowElem'><label for='"+name+"'>"+name+": </label>";
-            el += "<input type='text' class='template_editor_data_input' data-inputname='"+name+"' id='"+id+"' value='placeholder' name='"+name+"' /></div>";
-            break;
-
-    }
-    return el;
-
-}
-
-
-editorAPI.deleteTemplate = function(site_id,template_id,callback_func){
-    var url = '/api/sites/'+site_id+'/templates/'+template_id;
-    var dat = {
-                _token:$('#_token').val(),
-                delete:"true"
-            };
-    $.post(url,dat,function(ret){
-      editorAPI.loadedTemplates = null;
-      callback_func(ret);
-    });
-}
-
-editorAPI.deleteCampaign = function(site_id,campaign_id,callback_func){
-    var url = '/api/sites/'+site_id+'/campaigns/'+campaign_id;
-    var dat = {
-                _token:$('#_token').val(),
-                delete:"true"
-            };
-    $.post(url,dat,function(ret){
-      editorAPI.loadedCampaigns = null;
-      callback_func(ret);
-    });
-}
-
-editorAPI.deleteSchedule = function(site_id,schedule_id,callback_func){
-    var url = '/api/sites/'+site_id+'/schedules/'+schedule_id;
-    var dat = {
-                _token:$('#_token').val(),
-                delete:"true"
-            };
-    $.post(url,dat,function(ret){
-      editorAPI.loadedSchedules = null;
-      callback_func(ret);
-    });
-}
-
-editorAPI.returnSites = function(callback_func){
-  callback_func(editorAPI.loadedSites);
-}
-
-editorAPI.returnTemplates = function(callback_func){
-  callback_func(editorAPI.loadedTemplates);
-}
-
-editorAPI.returnTemplate = function(template_id,callback_func){
-  $.each(editorAPI.loadedTemplates,function(el,ind,arr){
-    if (template_id == ind.id){
-        callback_func(ind);
-    }
-  });
-}
-
-editorAPI.returnSchedule = function(schedule_id,callback_func){
-  $.each(editorAPI.loadedSchedules,function(el,ind,arr){
-    if (schedule_id == ind.id){
-        callback_func(ind);
-    }
-  });
-}
-
-editorAPI.returnCampaign = function(campaign_id,callback_func){
-  $.each(editorAPI.loadedCampaigns,function(el,ind,arr){
-    if (campaign_id == ind.id){
-        callback_func(ind);
-    }
-  });
-}
-
-editorAPI.returnTemplateWithData = function(template_id,data,callback_func){
-  $.each(editorAPI.loadedTemplates,function(el,ind,arr){
-    if (template_id == ind.id){
-        ind.data = data;
-        callback_func(ind);
-    }
-
-  });
-}
-
-editorAPI.saveCampaign = function(site_id,campaign_id,data,callback_func){
-  var url = '/api/sites/'+site_id+'/campaigns/'+campaign_id;
-  $.post(url,data,function(ret){
-    editorAPI.loadedCampaigns = null;
-    callback_func(ret);
-  });
-}
-
-editorAPI.saveSchedule = function(site_id,schedule_id,data,callback_func){
-    var url = '/api/sites/'+site_id+'/schedules/'+schedule_id;
-    $.post(url,data,function(ret){
-      editorAPI.loadedSchedules = null;
-      callback_func(ret);
-    });
-}
-
-
-editorAPI.loadSites = function(callback_func){
-  if (editorAPI.loadedSites === null){
-    $.getJSON('/api/sites',function(data){
-      var appen = "";
-      $.each(data,function(index,obj){
-        appen += "<option value='"+obj.id+"' >"+obj.label+"</option>";
-      });
-      editorAPI.loadedSites = appen;
-      editorAPI.returnSites(callback_func);
-    });
-  } else {
-    console.log('cached sites');
-    editorAPI.returnSites(callback_func);
-  }
-}
-
-editorAPI.saveTemplate = function(site_id,template_id,data,callback_func){
-  var url = '/api/sites/'+site_id+'/templates/'+template_id;
-  $.post(url,data,function(ret){
-    editorAPI.loadedTemplates = null;
-    callback_func(ret);
-  });
-}
-
-editorAPI.loadTemplates = function(site_id,callback_func){
-    $.getJSON('/api/sites/'+site_id+'/templates',function(data){
-      editorAPI.loadedTemplates = data;
-      editorAPI.returnTemplates(callback_func);
-    });
-}
-
-editorAPI.loadTemplate = function(site_id,template_id,callback_func){
-  if (editorAPI.loadedTemplates === null){
-    $.getJSON('/api/sites/'+site_id+'/templates',function(data){
-      editorAPI.loadedTemplates = data;
-      editorAPI.returnTemplate(template_id,callback_func);
-    });
-  } else {
-    editorAPI.returnTemplate(template_id,callback_func);
-  }
-}
-
-editorAPI.returnCampaigns = function(callback_func){
-  callback_func(editorAPI.loadedCampaigns);
-}
-
-editorAPI.loadCampaigns = function(site_id,callback_func){
-  if (editorAPI.loadedCampaigns === null){
-    $.getJSON('/api/sites/'+site_id+'/campaigns',function(data){
-      editorAPI.loadedCampaigns = data;
-      editorAPI.returnCampaigns(callback_func);
-    });
-  } else {
-    editorAPI.returnCampaigns(callback_func);
-  }
-}
-
-//SCHEDULES
-
-editorAPI.returnSchedules = function(callback_func){
-  callback_func(editorAPI.loadedSchedules);
-}
-
-editorAPI.loadSchedules = function(site_id,callback_func){
-  if (editorAPI.loadedSchedules === null){
-    $.getJSON('/api/sites/'+site_id+'/schedules',function(data){
-      editorAPI.loadedSchedules = data;
-      editorAPI.returnSchedules(callback_func);
-    });
-  } else {
-    editorAPI.returnSchedules(callback_func);
-  }
-}
-
-editorAPI.loadTemplateWithData = function(site_id,template_id,data,callback_func){
-    if (editorAPI.loadedTemplates === null){
-      $.getJSON('/api/sites/'+site_id+'/templates',function(templates){
-        editorAPI.loadedTemplates = templates;
-        editorAPI.returnTemplateWithData(template_id,data,callback_func);
-      });
-    } else {
-      editorAPI.returnTemplateWithData(template_id,data,callback_func);
-    }
-}
-
-editorAPI.loadCampaign = function(site_id,campaign_id,callback_func){
-  if (editorAPI.loadedCampaigns === null){
-    $.getJSON('/api/sites/'+site_id+'/campaigns',function(data){
-      editorAPI.loadedCampaigns = data;
-      editorAPI.returnCampaign(campaign_id,callback_func);
-    });
-  } else {
-    editorAPI.returnCampaign(campaign_id,callback_func);
-  }
-}
-
-editorAPI.loadSchedule = function(site_id, schedule_id, callback_func){
-    if (editorAPI.loadedSchedules === null){
-      $.getJSON('/api/sites/'+site_id+'/schedules',function(data){
-        editorAPI.loadedSchedules = data;
-        editorAPI.returnSchedule(schedule_id,callback_func);
-      });
-    } else {
-      editorAPI.returnSchedule(schedule_id,callback_func);
-    }
-}
-
-editorAPI.loadLive = function(site_id, timestring, callback_func){
-    $.ajax({
-        dataType: "json",
-        url: '/api/sites/'+site_id+'/schedules/live/'+encodeURIComponent(timestring),
-        beforeSend: function(request){
-                request.setRequestHeader("CF-IPCountry", $('#live_preview_country').val());
-                request.setRequestHeader("Preview-IPCountry", $('#live_preview_country').val());
-        },
-        success: function(data){
-            callback_func(data);
-        }
-    });
-}
-
-
-
-
-
-editorAPI.encodeString = function(string){
-  return Base64.encode(string);
-}
-
-editorAPI.decodeString = function(string){
-  return Base64.decode(string);
-}
-
-/*!
- * jQuery Form Plugin
- * version: 3.51.0-2014.06.20
- * Requires jQuery v1.5 or later
- * Copyright (c) 2014 M. Alsup
- * Examples and documentation at: http://malsup.com/jquery/form/
- * Project repository: https://github.com/malsup/form
- * Dual licensed under the MIT and GPL licenses.
- * https://github.com/malsup/form#copyright-and-license
- */
-!function(e){"use strict";"function"==typeof define&&define.amd?define(["jquery"],e):e("undefined"!=typeof jQuery?jQuery:window.Zepto)}(function(e){"use strict";function t(t){var r=t.data;t.isDefaultPrevented()||(t.preventDefault(),e(t.target).ajaxSubmit(r))}function r(t){var r=t.target,a=e(r);if(!a.is("[type=submit],[type=image]")){var n=a.closest("[type=submit]");if(0===n.length)return;r=n[0]}var i=this;if(i.clk=r,"image"==r.type)if(void 0!==t.offsetX)i.clk_x=t.offsetX,i.clk_y=t.offsetY;else if("function"==typeof e.fn.offset){var o=a.offset();i.clk_x=t.pageX-o.left,i.clk_y=t.pageY-o.top}else i.clk_x=t.pageX-r.offsetLeft,i.clk_y=t.pageY-r.offsetTop;setTimeout(function(){i.clk=i.clk_x=i.clk_y=null},100)}function a(){if(e.fn.ajaxSubmit.debug){var t="[jquery.form] "+Array.prototype.join.call(arguments,"");window.console&&window.console.log?window.console.log(t):window.opera&&window.opera.postError&&window.opera.postError(t)}}var n={};n.fileapi=void 0!==e("<input type='file'/>").get(0).files,n.formdata=void 0!==window.FormData;var i=!!e.fn.prop;e.fn.attr2=function(){if(!i)return this.attr.apply(this,arguments);var e=this.prop.apply(this,arguments);return e&&e.jquery||"string"==typeof e?e:this.attr.apply(this,arguments)},e.fn.ajaxSubmit=function(t){function r(r){var a,n,i=e.param(r,t.traditional).split("&"),o=i.length,s=[];for(a=0;o>a;a++)i[a]=i[a].replace(/\+/g," "),n=i[a].split("="),s.push([decodeURIComponent(n[0]),decodeURIComponent(n[1])]);return s}function o(a){for(var n=new FormData,i=0;i<a.length;i++)n.append(a[i].name,a[i].value);if(t.extraData){var o=r(t.extraData);for(i=0;i<o.length;i++)o[i]&&n.append(o[i][0],o[i][1])}t.data=null;var s=e.extend(!0,{},e.ajaxSettings,t,{contentType:!1,processData:!1,cache:!1,type:u||"POST"});t.uploadProgress&&(s.xhr=function(){var r=e.ajaxSettings.xhr();return r.upload&&r.upload.addEventListener("progress",function(e){var r=0,a=e.loaded||e.position,n=e.total;e.lengthComputable&&(r=Math.ceil(a/n*100)),t.uploadProgress(e,a,n,r)},!1),r}),s.data=null;var c=s.beforeSend;return s.beforeSend=function(e,r){r.data=t.formData?t.formData:n,c&&c.call(this,e,r)},e.ajax(s)}function s(r){function n(e){var t=null;try{e.contentWindow&&(t=e.contentWindow.document)}catch(r){a("cannot get iframe.contentWindow document: "+r)}if(t)return t;try{t=e.contentDocument?e.contentDocument:e.document}catch(r){a("cannot get iframe.contentDocument: "+r),t=e.document}return t}function o(){function t(){try{var e=n(g).readyState;a("state = "+e),e&&"uninitialized"==e.toLowerCase()&&setTimeout(t,50)}catch(r){a("Server abort: ",r," (",r.name,")"),s(k),j&&clearTimeout(j),j=void 0}}var r=f.attr2("target"),i=f.attr2("action"),o="multipart/form-data",c=f.attr("enctype")||f.attr("encoding")||o;w.setAttribute("target",p),(!u||/post/i.test(u))&&w.setAttribute("method","POST"),i!=m.url&&w.setAttribute("action",m.url),m.skipEncodingOverride||u&&!/post/i.test(u)||f.attr({encoding:"multipart/form-data",enctype:"multipart/form-data"}),m.timeout&&(j=setTimeout(function(){T=!0,s(D)},m.timeout));var l=[];try{if(m.extraData)for(var d in m.extraData)m.extraData.hasOwnProperty(d)&&l.push(e.isPlainObject(m.extraData[d])&&m.extraData[d].hasOwnProperty("name")&&m.extraData[d].hasOwnProperty("value")?e('<input type="hidden" name="'+m.extraData[d].name+'">').val(m.extraData[d].value).appendTo(w)[0]:e('<input type="hidden" name="'+d+'">').val(m.extraData[d]).appendTo(w)[0]);m.iframeTarget||v.appendTo("body"),g.attachEvent?g.attachEvent("onload",s):g.addEventListener("load",s,!1),setTimeout(t,15);try{w.submit()}catch(h){var x=document.createElement("form").submit;x.apply(w)}}finally{w.setAttribute("action",i),w.setAttribute("enctype",c),r?w.setAttribute("target",r):f.removeAttr("target"),e(l).remove()}}function s(t){if(!x.aborted&&!F){if(M=n(g),M||(a("cannot access response document"),t=k),t===D&&x)return x.abort("timeout"),void S.reject(x,"timeout");if(t==k&&x)return x.abort("server abort"),void S.reject(x,"error","server abort");if(M&&M.location.href!=m.iframeSrc||T){g.detachEvent?g.detachEvent("onload",s):g.removeEventListener("load",s,!1);var r,i="success";try{if(T)throw"timeout";var o="xml"==m.dataType||M.XMLDocument||e.isXMLDoc(M);if(a("isXml="+o),!o&&window.opera&&(null===M.body||!M.body.innerHTML)&&--O)return a("requeing onLoad callback, DOM not available"),void setTimeout(s,250);var u=M.body?M.body:M.documentElement;x.responseText=u?u.innerHTML:null,x.responseXML=M.XMLDocument?M.XMLDocument:M,o&&(m.dataType="xml"),x.getResponseHeader=function(e){var t={"content-type":m.dataType};return t[e.toLowerCase()]},u&&(x.status=Number(u.getAttribute("status"))||x.status,x.statusText=u.getAttribute("statusText")||x.statusText);var c=(m.dataType||"").toLowerCase(),l=/(json|script|text)/.test(c);if(l||m.textarea){var f=M.getElementsByTagName("textarea")[0];if(f)x.responseText=f.value,x.status=Number(f.getAttribute("status"))||x.status,x.statusText=f.getAttribute("statusText")||x.statusText;else if(l){var p=M.getElementsByTagName("pre")[0],h=M.getElementsByTagName("body")[0];p?x.responseText=p.textContent?p.textContent:p.innerText:h&&(x.responseText=h.textContent?h.textContent:h.innerText)}}else"xml"==c&&!x.responseXML&&x.responseText&&(x.responseXML=X(x.responseText));try{E=_(x,c,m)}catch(y){i="parsererror",x.error=r=y||i}}catch(y){a("error caught: ",y),i="error",x.error=r=y||i}x.aborted&&(a("upload aborted"),i=null),x.status&&(i=x.status>=200&&x.status<300||304===x.status?"success":"error"),"success"===i?(m.success&&m.success.call(m.context,E,"success",x),S.resolve(x.responseText,"success",x),d&&e.event.trigger("ajaxSuccess",[x,m])):i&&(void 0===r&&(r=x.statusText),m.error&&m.error.call(m.context,x,i,r),S.reject(x,"error",r),d&&e.event.trigger("ajaxError",[x,m,r])),d&&e.event.trigger("ajaxComplete",[x,m]),d&&!--e.active&&e.event.trigger("ajaxStop"),m.complete&&m.complete.call(m.context,x,i),F=!0,m.timeout&&clearTimeout(j),setTimeout(function(){m.iframeTarget?v.attr("src",m.iframeSrc):v.remove(),x.responseXML=null},100)}}}var c,l,m,d,p,v,g,x,y,b,T,j,w=f[0],S=e.Deferred();if(S.abort=function(e){x.abort(e)},r)for(l=0;l<h.length;l++)c=e(h[l]),i?c.prop("disabled",!1):c.removeAttr("disabled");if(m=e.extend(!0,{},e.ajaxSettings,t),m.context=m.context||m,p="jqFormIO"+(new Date).getTime(),m.iframeTarget?(v=e(m.iframeTarget),b=v.attr2("name"),b?p=b:v.attr2("name",p)):(v=e('<iframe name="'+p+'" src="'+m.iframeSrc+'" />'),v.css({position:"absolute",top:"-1000px",left:"-1000px"})),g=v[0],x={aborted:0,responseText:null,responseXML:null,status:0,statusText:"n/a",getAllResponseHeaders:function(){},getResponseHeader:function(){},setRequestHeader:function(){},abort:function(t){var r="timeout"===t?"timeout":"aborted";a("aborting upload... "+r),this.aborted=1;try{g.contentWindow.document.execCommand&&g.contentWindow.document.execCommand("Stop")}catch(n){}v.attr("src",m.iframeSrc),x.error=r,m.error&&m.error.call(m.context,x,r,t),d&&e.event.trigger("ajaxError",[x,m,r]),m.complete&&m.complete.call(m.context,x,r)}},d=m.global,d&&0===e.active++&&e.event.trigger("ajaxStart"),d&&e.event.trigger("ajaxSend",[x,m]),m.beforeSend&&m.beforeSend.call(m.context,x,m)===!1)return m.global&&e.active--,S.reject(),S;if(x.aborted)return S.reject(),S;y=w.clk,y&&(b=y.name,b&&!y.disabled&&(m.extraData=m.extraData||{},m.extraData[b]=y.value,"image"==y.type&&(m.extraData[b+".x"]=w.clk_x,m.extraData[b+".y"]=w.clk_y)));var D=1,k=2,A=e("meta[name=csrf-token]").attr("content"),L=e("meta[name=csrf-param]").attr("content");L&&A&&(m.extraData=m.extraData||{},m.extraData[L]=A),m.forceSync?o():setTimeout(o,10);var E,M,F,O=50,X=e.parseXML||function(e,t){return window.ActiveXObject?(t=new ActiveXObject("Microsoft.XMLDOM"),t.async="false",t.loadXML(e)):t=(new DOMParser).parseFromString(e,"text/xml"),t&&t.documentElement&&"parsererror"!=t.documentElement.nodeName?t:null},C=e.parseJSON||function(e){return window.eval("("+e+")")},_=function(t,r,a){var n=t.getResponseHeader("content-type")||"",i="xml"===r||!r&&n.indexOf("xml")>=0,o=i?t.responseXML:t.responseText;return i&&"parsererror"===o.documentElement.nodeName&&e.error&&e.error("parsererror"),a&&a.dataFilter&&(o=a.dataFilter(o,r)),"string"==typeof o&&("json"===r||!r&&n.indexOf("json")>=0?o=C(o):("script"===r||!r&&n.indexOf("javascript")>=0)&&e.globalEval(o)),o};return S}if(!this.length)return a("ajaxSubmit: skipping submit process - no element selected"),this;var u,c,l,f=this;"function"==typeof t?t={success:t}:void 0===t&&(t={}),u=t.type||this.attr2("method"),c=t.url||this.attr2("action"),l="string"==typeof c?e.trim(c):"",l=l||window.location.href||"",l&&(l=(l.match(/^([^#]+)/)||[])[1]),t=e.extend(!0,{url:l,success:e.ajaxSettings.success,type:u||e.ajaxSettings.type,iframeSrc:/^https/i.test(window.location.href||"")?"javascript:false":"about:blank"},t);var m={};if(this.trigger("form-pre-serialize",[this,t,m]),m.veto)return a("ajaxSubmit: submit vetoed via form-pre-serialize trigger"),this;if(t.beforeSerialize&&t.beforeSerialize(this,t)===!1)return a("ajaxSubmit: submit aborted via beforeSerialize callback"),this;var d=t.traditional;void 0===d&&(d=e.ajaxSettings.traditional);var p,h=[],v=this.formToArray(t.semantic,h);if(t.data&&(t.extraData=t.data,p=e.param(t.data,d)),t.beforeSubmit&&t.beforeSubmit(v,this,t)===!1)return a("ajaxSubmit: submit aborted via beforeSubmit callback"),this;if(this.trigger("form-submit-validate",[v,this,t,m]),m.veto)return a("ajaxSubmit: submit vetoed via form-submit-validate trigger"),this;var g=e.param(v,d);p&&(g=g?g+"&"+p:p),"GET"==t.type.toUpperCase()?(t.url+=(t.url.indexOf("?")>=0?"&":"?")+g,t.data=null):t.data=g;var x=[];if(t.resetForm&&x.push(function(){f.resetForm()}),t.clearForm&&x.push(function(){f.clearForm(t.includeHidden)}),!t.dataType&&t.target){var y=t.success||function(){};x.push(function(r){var a=t.replaceTarget?"replaceWith":"html";e(t.target)[a](r).each(y,arguments)})}else t.success&&x.push(t.success);if(t.success=function(e,r,a){for(var n=t.context||this,i=0,o=x.length;o>i;i++)x[i].apply(n,[e,r,a||f,f])},t.error){var b=t.error;t.error=function(e,r,a){var n=t.context||this;b.apply(n,[e,r,a,f])}}if(t.complete){var T=t.complete;t.complete=function(e,r){var a=t.context||this;T.apply(a,[e,r,f])}}var j=e("input[type=file]:enabled",this).filter(function(){return""!==e(this).val()}),w=j.length>0,S="multipart/form-data",D=f.attr("enctype")==S||f.attr("encoding")==S,k=n.fileapi&&n.formdata;a("fileAPI :"+k);var A,L=(w||D)&&!k;t.iframe!==!1&&(t.iframe||L)?t.closeKeepAlive?e.get(t.closeKeepAlive,function(){A=s(v)}):A=s(v):A=(w||D)&&k?o(v):e.ajax(t),f.removeData("jqxhr").data("jqxhr",A);for(var E=0;E<h.length;E++)h[E]=null;return this.trigger("form-submit-notify",[this,t]),this},e.fn.ajaxForm=function(n){if(n=n||{},n.delegation=n.delegation&&e.isFunction(e.fn.on),!n.delegation&&0===this.length){var i={s:this.selector,c:this.context};return!e.isReady&&i.s?(a("DOM not ready, queuing ajaxForm"),e(function(){e(i.s,i.c).ajaxForm(n)}),this):(a("terminating; zero elements found by selector"+(e.isReady?"":" (DOM not ready)")),this)}return n.delegation?(e(document).off("submit.form-plugin",this.selector,t).off("click.form-plugin",this.selector,r).on("submit.form-plugin",this.selector,n,t).on("click.form-plugin",this.selector,n,r),this):this.ajaxFormUnbind().bind("submit.form-plugin",n,t).bind("click.form-plugin",n,r)},e.fn.ajaxFormUnbind=function(){return this.unbind("submit.form-plugin click.form-plugin")},e.fn.formToArray=function(t,r){var a=[];if(0===this.length)return a;var i,o=this[0],s=this.attr("id"),u=t?o.getElementsByTagName("*"):o.elements;if(u&&!/MSIE [678]/.test(navigator.userAgent)&&(u=e(u).get()),s&&(i=e(':input[form="'+s+'"]').get(),i.length&&(u=(u||[]).concat(i))),!u||!u.length)return a;var c,l,f,m,d,p,h;for(c=0,p=u.length;p>c;c++)if(d=u[c],f=d.name,f&&!d.disabled)if(t&&o.clk&&"image"==d.type)o.clk==d&&(a.push({name:f,value:e(d).val(),type:d.type}),a.push({name:f+".x",value:o.clk_x},{name:f+".y",value:o.clk_y}));else if(m=e.fieldValue(d,!0),m&&m.constructor==Array)for(r&&r.push(d),l=0,h=m.length;h>l;l++)a.push({name:f,value:m[l]});else if(n.fileapi&&"file"==d.type){r&&r.push(d);var v=d.files;if(v.length)for(l=0;l<v.length;l++)a.push({name:f,value:v[l],type:d.type});else a.push({name:f,value:"",type:d.type})}else null!==m&&"undefined"!=typeof m&&(r&&r.push(d),a.push({name:f,value:m,type:d.type,required:d.required}));if(!t&&o.clk){var g=e(o.clk),x=g[0];f=x.name,f&&!x.disabled&&"image"==x.type&&(a.push({name:f,value:g.val()}),a.push({name:f+".x",value:o.clk_x},{name:f+".y",value:o.clk_y}))}return a},e.fn.formSerialize=function(t){return e.param(this.formToArray(t))},e.fn.fieldSerialize=function(t){var r=[];return this.each(function(){var a=this.name;if(a){var n=e.fieldValue(this,t);if(n&&n.constructor==Array)for(var i=0,o=n.length;o>i;i++)r.push({name:a,value:n[i]});else null!==n&&"undefined"!=typeof n&&r.push({name:this.name,value:n})}}),e.param(r)},e.fn.fieldValue=function(t){for(var r=[],a=0,n=this.length;n>a;a++){var i=this[a],o=e.fieldValue(i,t);null===o||"undefined"==typeof o||o.constructor==Array&&!o.length||(o.constructor==Array?e.merge(r,o):r.push(o))}return r},e.fieldValue=function(t,r){var a=t.name,n=t.type,i=t.tagName.toLowerCase();if(void 0===r&&(r=!0),r&&(!a||t.disabled||"reset"==n||"button"==n||("checkbox"==n||"radio"==n)&&!t.checked||("submit"==n||"image"==n)&&t.form&&t.form.clk!=t||"select"==i&&-1==t.selectedIndex))return null;if("select"==i){var o=t.selectedIndex;if(0>o)return null;for(var s=[],u=t.options,c="select-one"==n,l=c?o+1:u.length,f=c?o:0;l>f;f++){var m=u[f];if(m.selected){var d=m.value;if(d||(d=m.attributes&&m.attributes.value&&!m.attributes.value.specified?m.text:m.value),c)return d;s.push(d)}}return s}return e(t).val()},e.fn.clearForm=function(t){return this.each(function(){e("input,select,textarea",this).clearFields(t)})},e.fn.clearFields=e.fn.clearInputs=function(t){var r=/^(?:color|date|datetime|email|month|number|password|range|search|tel|text|time|url|week)$/i;return this.each(function(){var a=this.type,n=this.tagName.toLowerCase();r.test(a)||"textarea"==n?this.value="":"checkbox"==a||"radio"==a?this.checked=!1:"select"==n?this.selectedIndex=-1:"file"==a?/MSIE/.test(navigator.userAgent)?e(this).replaceWith(e(this).clone(!0)):e(this).val(""):t&&(t===!0&&/hidden/.test(a)||"string"==typeof t&&e(this).is(t))&&(this.value="")})},e.fn.resetForm=function(){return this.each(function(){("function"==typeof this.reset||"object"==typeof this.reset&&!this.reset.nodeType)&&this.reset()})},e.fn.enable=function(e){return void 0===e&&(e=!0),this.each(function(){this.disabled=!e})},e.fn.selected=function(t){return void 0===t&&(t=!0),this.each(function(){var r=this.type;if("checkbox"==r||"radio"==r)this.checked=t;else if("option"==this.tagName.toLowerCase()){var a=e(this).parent("select");t&&a[0]&&"select-one"==a[0].type&&a.find("option").selected(!1),this.selected=t}})},e.fn.ajaxSubmit.debug=!1});
-
-/*
- *
- * jqTransform
- * by mathieu vilaplana mvilaplana@dfc-e.com
- * Designer ghyslain armand garmand@dfc-e.com
- *
- *
- * Version 1.0 25.09.08
- * Version 1.1 06.08.09
- * Add event click on Checkbox and Radio
- * Auto calculate the size of a select element
- * Can now, disabled the elements
- * Correct bug in ff if click on select (overflow=hidden)
- * No need any more preloading !!
- *
- ******************************************** */
-
-(function($){
-	var defaultOptions = {preloadImg:true};
-	var jqTransformImgPreloaded = false;
-
-	var jqTransformPreloadHoverFocusImg = function(strImgUrl) {
-		//guillemets to remove for ie
-		strImgUrl = strImgUrl.replace(/^url\((.*)\)/,'$1').replace(/^\"(.*)\"$/,'$1');
-		var imgHover = new Image();
-		imgHover.src = strImgUrl.replace(/\.([a-zA-Z]*)$/,'-hover.$1');
-		var imgFocus = new Image();
-		imgFocus.src = strImgUrl.replace(/\.([a-zA-Z]*)$/,'-focus.$1');
-	};
-
-
-	/***************************
-	  Labels
-	***************************/
-	var jqTransformGetLabel = function(objfield){
-		var selfForm = $(objfield.get(0).form);
-		var oLabel = objfield.next();
-		if(!oLabel.is('label')) {
-			oLabel = objfield.prev();
-			if(oLabel.is('label')){
-				var inputname = objfield.attr('id');
-				if(inputname){
-					oLabel = selfForm.find('label[for="'+inputname+'"]');
-				}
-			}
-		}
-		if(oLabel.is('label')){return oLabel.css('cursor','pointer');}
-		return false;
-	};
-
-	/* Hide all open selects */
-	var jqTransformHideSelect = function(oTarget){
-		var ulVisible = $('.jqTransformSelectWrapper ul:visible');
-		ulVisible.each(function(){
-			var oSelect = $(this).parents(".jqTransformSelectWrapper:first").find("select").get(0);
-			//do not hide if click on the label object associated to the select
-			if( !(oTarget && oSelect.oLabel && oSelect.oLabel.get(0) == oTarget.get(0)) ){$(this).hide();}
-		});
-	};
-	/* Check for an external click */
-	var jqTransformCheckExternalClick = function(event) {
-		if ($(event.target).parents('.jqTransformSelectWrapper').length === 0) { jqTransformHideSelect($(event.target)); }
-	};
-
-	/* Apply document listener */
-	var jqTransformAddDocumentListener = function (){
-		$(document).mousedown(jqTransformCheckExternalClick);
-	};
-
-	/* Add a new handler for the reset action */
-	var jqTransformReset = function(f){
-		var sel;
-		$('.jqTransformSelectWrapper select', f).each(function(){sel = (this.selectedIndex<0) ? 0 : this.selectedIndex; $('ul', $(this).parent()).each(function(){$('a:eq('+ sel +')', this).click();});});
-		$('a.jqTransformCheckbox, a.jqTransformRadio', f).removeClass('jqTransformChecked');
-		$('input:checkbox, input:radio', f).each(function(){if(this.checked){$('a', $(this).parent()).addClass('jqTransformChecked');}});
-	};
-
-	/***************************
-	  Buttons
-	 ***************************/
-	$.fn.jqTransInputButton = function(){
-		return this.each(function(){
-			var newBtn = $('<button id="'+ this.id +'" name="'+ this.name +'" type="'+ this.type +'" class="'+ this.className +' jqTransformButton"><span><span>'+ $(this).attr('value') +'</span></span>')
-				.hover(function(){newBtn.addClass('jqTransformButton_hover');},function(){newBtn.removeClass('jqTransformButton_hover')})
-				.mousedown(function(){newBtn.addClass('jqTransformButton_click')})
-				.mouseup(function(){newBtn.removeClass('jqTransformButton_click')})
-			;
-			$(this).replaceWith(newBtn);
-		});
-	};
-
-	/***************************
-	  Text Fields
-	 ***************************/
-	$.fn.jqTransInputText = function(){
-		return this.each(function(){
-			var $input = $(this);
-
-			if($input.hasClass('jqtranformdone') || !$input.is('input')) {return;}
-			$input.addClass('jqtranformdone');
-
-			var oLabel = jqTransformGetLabel($(this));
-			oLabel && oLabel.bind('click',function(){$input.focus();});
-
-			var inputSize=$input.width();
-			if($input.attr('size')){
-				inputSize = $input.attr('size')*10;
-				$input.css('width',inputSize);
-			}
-
-			$input.addClass("jqTransformInput").wrap('<div class="jqTransformInputWrapper"><div class="jqTransformInputInner"><div></div></div></div>');
-			var $wrapper = $input.parent().parent().parent();
-			$wrapper.css("width", inputSize+10);
-			$input
-				.focus(function(){$wrapper.addClass("jqTransformInputWrapper_focus");})
-				.blur(function(){$wrapper.removeClass("jqTransformInputWrapper_focus");})
-				.hover(function(){$wrapper.addClass("jqTransformInputWrapper_hover");},function(){$wrapper.removeClass("jqTransformInputWrapper_hover");})
-			;
-
-			/* If this is safari we need to add an extra class */
-			//$.browser.safari && $wrapper.addClass('jqTransformSafari');
-			//$.browser.safari && $input.css('width',$wrapper.width()+16);
-			this.wrapper = $wrapper;
-
-		});
-	};
-
-	/***************************
-	  Check Boxes
-	 ***************************/
-	$.fn.jqTransCheckBox = function(){
-		return this.each(function(){
-			if($(this).hasClass('jqTransformHidden')) {return;}
-
-			var $input = $(this);
-			var inputSelf = this;
-
-			//set the click on the label
-			var oLabel=jqTransformGetLabel($input);
-			oLabel && oLabel.click(function(){aLink.trigger('click');});
-
-			var aLink = $('<a href="#" class="jqTransformCheckbox"></a>');
-			//wrap and add the link
-			$input.addClass('jqTransformHidden').wrap('<span class="jqTransformCheckboxWrapper"></span>').parent().prepend(aLink);
-			//on change, change the class of the link
-			$input.change(function(){
-				this.checked && aLink.addClass('jqTransformChecked') || aLink.removeClass('jqTransformChecked');
-				return true;
-			});
-			// Click Handler, trigger the click and change event on the input
-			aLink.click(function(){
-				//do nothing if the original input is disabled
-				if($input.attr('disabled')){return false;}
-				//trigger the envents on the input object
-				$input.trigger('click').trigger("change");
-				return false;
-			});
-
-			// set the default state
-			this.checked && aLink.addClass('jqTransformChecked');
-		});
-	};
-	/***************************
-	  Radio Buttons
-	 ***************************/
-	$.fn.jqTransRadio = function(){
-		return this.each(function(){
-			if($(this).hasClass('jqTransformHidden')) {return;}
-
-			var $input = $(this);
-			var inputSelf = this;
-
-			oLabel = jqTransformGetLabel($input);
-			oLabel && oLabel.click(function(){aLink.trigger('click');});
-
-			var aLink = $('<a href="#" class="jqTransformRadio" rel="'+ this.name +'"></a>');
-			$input.addClass('jqTransformHidden').wrap('<span class="jqTransformRadioWrapper"></span>').parent().prepend(aLink);
-
-			$input.change(function(){
-				inputSelf.checked && aLink.addClass('jqTransformChecked') || aLink.removeClass('jqTransformChecked');
-				return true;
-			});
-			// Click Handler
-			aLink.click(function(){
-				if($input.attr('disabled')){return false;}
-				$input.trigger('click').trigger('change');
-
-				// uncheck all others of same name input radio elements
-				$('input[name="'+$input.attr('name')+'"]',inputSelf.form).not($input).each(function(){
-					$(this).attr('type')=='radio' && $(this).trigger('change');
-				});
-
-				return false;
-			});
-			// set the default state
-			inputSelf.checked && aLink.addClass('jqTransformChecked');
-		});
-	};
-
-	/***************************
-	  TextArea
-	 ***************************/
-	$.fn.jqTransTextarea = function(){
-		return this.each(function(){
-			var textarea = $(this);
-
-			if(textarea.hasClass('jqtransformdone')) {return;}
-			textarea.addClass('jqtransformdone');
-
-			oLabel = jqTransformGetLabel(textarea);
-			oLabel && oLabel.click(function(){textarea.focus();});
-
-			var strTable = '<table cellspacing="0" cellpadding="0" border="0" class="jqTransformTextarea">';
-			strTable +='<tr><td id="jqTransformTextarea-tl"></td><td id="jqTransformTextarea-tm"></td><td id="jqTransformTextarea-tr"></td></tr>';
-			strTable +='<tr><td id="jqTransformTextarea-ml">&nbsp;</td><td id="jqTransformTextarea-mm"><div></div></td><td id="jqTransformTextarea-mr">&nbsp;</td></tr>';
-			strTable +='<tr><td id="jqTransformTextarea-bl"></td><td id="jqTransformTextarea-bm"></td><td id="jqTransformTextarea-br"></td></tr>';
-			strTable +='</table>';
-			var oTable = $(strTable)
-					.insertAfter(textarea)
-					.hover(function(){
-						!oTable.hasClass('jqTransformTextarea-focus') && oTable.addClass('jqTransformTextarea-hover');
-					},function(){
-						oTable.removeClass('jqTransformTextarea-hover');
-					})
-				;
-
-			textarea
-				.focus(function(){oTable.removeClass('jqTransformTextarea-hover').addClass('jqTransformTextarea-focus');})
-				.blur(function(){oTable.removeClass('jqTransformTextarea-focus');})
-				.appendTo($('#jqTransformTextarea-mm div',oTable))
-			;
-			this.oTable = oTable;
-			/*if($.browser.safari){
-				$('#jqTransformTextarea-mm',oTable)
-					.addClass('jqTransformSafariTextarea')
-					.find('div')
-						.css('height',textarea.height())
-						.css('width',textarea.width())
-				;
-			}*/
-		});
-	};
-
-	/***************************
-	  Select
-	 ***************************/
-	$.fn.jqTransSelect = function(){
-		return this.each(function(index){
-			var $select = $(this);
-
-			if($select.hasClass('jqTransformHidden')) {return;}
-			if($select.attr('multiple')) {return;}
-
-			var oLabel  =  jqTransformGetLabel($select);
-			/* First thing we do is Wrap it */
-			var $wrapper = $select
-				.addClass('jqTransformHidden')
-				.wrap('<div class="jqTransformSelectWrapper"></div>')
-				.parent()
-				.css({zIndex: 10-index})
-			;
-
-			/* Now add the html for the select */
-			$wrapper.prepend('<div><span></span><a href="#" class="jqTransformSelectOpen"></a></div><ul></ul>');
-			var $ul = $('ul', $wrapper).css('width',$select.width()).hide();
-			/* Now we add the options */
-			$('option', this).each(function(i){
-				var oLi = $('<li><a href="#" index="'+ i +'">'+ $(this).html() +'</a></li>');
-				$ul.append(oLi);
-			});
-
-			/* Add click handler to the a */
-			$ul.find('a').click(function(){
-					$('a.selected', $wrapper).removeClass('selected');
-					$(this).addClass('selected');
-					/* Fire the onchange event */
-					if ($select[0].selectedIndex != $(this).attr('index') && $select[0].onchange) { $select[0].selectedIndex = $(this).attr('index'); $select[0].onchange(); }
-					$select[0].selectedIndex = $(this).attr('index');
-					$('span:eq(0)', $wrapper).html($(this).html());
-					$ul.hide();
-					return false;
-			});
-			/* Set the default */
-			$('a:eq('+ this.selectedIndex +')', $ul).click();
-			$('span:first', $wrapper).click(function(){$("a.jqTransformSelectOpen",$wrapper).trigger('click');});
-			oLabel && oLabel.click(function(){$("a.jqTransformSelectOpen",$wrapper).trigger('click');});
-			this.oLabel = oLabel;
-
-			/* Apply the click handler to the Open */
-			var oLinkOpen = $('a.jqTransformSelectOpen', $wrapper)
-				.click(function(){
-					//Check if box is already open to still allow toggle, but close all other selects
-					if( $ul.css('display') == 'none' ) {jqTransformHideSelect();}
-					if($select.attr('disabled')){return false;}
-
-					$ul.slideToggle('fast', function(){
-						var offSet = ($('a.selected', $ul).offset().top - $ul.offset().top);
-						$ul.animate({scrollTop: offSet});
-					});
-					return false;
-				})
-			;
-
-			// Set the new width
-			var iSelectWidth = $select.outerWidth();
-			var oSpan = $('span:first',$wrapper);
-			var newWidth = (iSelectWidth > oSpan.innerWidth())?iSelectWidth+oLinkOpen.outerWidth():$wrapper.width();
-			$wrapper.css('width',newWidth);
-			$ul.css('width',newWidth-2);
-			oSpan.css({width:iSelectWidth});
-
-			// Calculate the height if necessary, less elements that the default height
-			//show the ul to calculate the block, if ul is not displayed li height value is 0
-			$ul.css({display:'block',visibility:'hidden'});
-			var iSelectHeight = ($('li',$ul).length)*($('li:first',$ul).height());//+1 else bug ff
-			(iSelectHeight < $ul.height()) && $ul.css({height:iSelectHeight,'overflow':'hidden'});//hidden else bug with ff
-			$ul.css({display:'none',visibility:'visible'});
-
-		});
-	};
-	$.fn.jqTransform = function(options){
-		var opt = $.extend({},defaultOptions,options);
-
-		/* each form */
-		 return this.each(function(){
-			var selfForm = $(this);
-			if(selfForm.hasClass('jqtransformdone')) {return;}
-			selfForm.addClass('jqtransformdone');
-
-			$('input:submit, input:reset, input[type="button"]', this).jqTransInputButton();
-			$('input:text, input:password', this).jqTransInputText();
-			$('input:checkbox', this).jqTransCheckBox();
-			$('input:radio', this).jqTransRadio();
-			$('textarea', this).jqTransTextarea();
-
-			if( $('select', this).jqTransSelect().length > 0 ){jqTransformAddDocumentListener();}
-			selfForm.bind('reset',function(){var action = function(){jqTransformReset(this);}; window.setTimeout(action, 10);});
-
-			//preloading dont needed anymore since normal, focus and hover image are the same one
-			/*if(opt.preloadImg && !jqTransformImgPreloaded){
-				jqTransformImgPreloaded = true;
-				var oInputText = $('input:text:first', selfForm);
-				if(oInputText.length > 0){
-					//pour ie on eleve les ""
-					var strWrapperImgUrl = oInputText.get(0).wrapper.css('background-image');
-					jqTransformPreloadHoverFocusImg(strWrapperImgUrl);
-					var strInnerImgUrl = $('div.jqTransformInputInner',$(oInputText.get(0).wrapper)).css('background-image');
-					jqTransformPreloadHoverFocusImg(strInnerImgUrl);
-				}
-
-				var oTextarea = $('textarea',selfForm);
-				if(oTextarea.length > 0){
-					var oTable = oTextarea.get(0).oTable;
-					$('td',oTable).each(function(){
-						var strImgBack = $(this).css('background-image');
-						jqTransformPreloadHoverFocusImg(strImgBack);
-					});
-				}
-			}*/
-
-
-		}); /* End Form each */
-
-	};/* End the Plugin */
-
-})(jQuery);
-
-var scheduleBuilder = scheduleBuilder || {};
-
-var schedule_campaigns = [];
-
-scheduleBuilder.init = function(){
-  this.editorSitesID = '#editor_siteid';
-  this.editorSchedulesID = '#schedule_editor_schedule';
-  this.editorNameID = "#schedule_editor_name";
-  this.editorStartID = "#schedule_editor_start";
-  this.editorFinishID = "#schedule_editor_finish";
-  this.editorGeoID = '#schedule_editor_geo';
-  this.editorCampaignsID = "#schedule_editor_campaigns";
-  this.editorPreviewButtonID = "#schedule_editor_preview_schedule";
-  this.editorAddScheduleID = "#schedule_editor_add_campaign";
-  this.editorSaveButtonID = "#schedule_save_button";
-  this.editorAccordionID = "#schedule_editor_accordion";
-  this.editorDeleteButtonID = "#schedule_delete_button";
-  this.livePreviewButtonID = "#live_preview_schedule";
-  this.liveTimer = window.setTimeout(scheduleBuilder.loadLive, 500);
-
-  scheduleBuilder.loadSchedules();
-  scheduleBuilder.loadCampaigns();
-  schedule_campaigns = [];
-
-  $(this.editorAddScheduleID).click(function(){
-    var campaign = $(scheduleBuilder.editorCampaignsID).val();
-    editorAPI.loadCampaign($(scheduleBuilder.editorSitesID).val(),campaign,scheduleBuilder.addCampaign);
-  });
-
-  $(this.editorSchedulesID).change(function(){
-    scheduleBuilder.loadSchedule();
-  });
-
-  $(this.editorPreviewButtonID).click(function(){
-    scheduleBuilder.getPreviewData();
-  });
-
-
-
-  $('#live_preview_time').on('dp.change',function(){
-      clearTimeout(scheduleBuilder.liveTimer);
-      scheduleBuilder.liveTimer = window.setTimeout(scheduleBuilder.loadLive, 500);
-  });
-
-  $('#live_preview_country').change(function(){
-      clearTimeout(scheduleBuilder.liveTimer);
-      scheduleBuilder.liveTimer = window.setTimeout(scheduleBuilder.loadLive, 500);
-  });
-
-
-  $(this.editorSaveButtonID).click(function(){
-    scheduleBuilder.saveSchedule();
-  });
-
-  $(this.editorDeleteButtonID).click(function(){
-    scheduleBuilder.deleteSchedule();
-  });
-}
-
-scheduleBuilder.setLive = function(){
-    //console.log('setting time to '+moment().format("DD-MM-YYYY HH:mm"));
-    $('#live_preview_time').data("DateTimePicker").date(moment().format("DD-MM-YYYY HH:mm"));
-}
-
-scheduleBuilder.populateLiveSchedule = function(){
-    $(scheduleBuilder.editorSchedulesID).val($('#live_schedule_id').val());
-    scheduleBuilder.loadSchedule();
-}
-
-scheduleBuilder.liveEdit = function(){
-    $('#editorTabs a[href="#schedule"]').tab('show');
-    scheduleBuilder.populateLiveSchedule();
-
-}
-
-scheduleBuilder.livePreview = function(){
-    scheduleBuilder.populateLiveSchedule();
-    scheduleBuilder.getPreviewData();
-}
-
-scheduleBuilder.updateLive = function(ret){
-    $('#live_schedule_target').html('');
-    var appen = "";
-    if (ret.name !== undefined){
-        appen += "<input type='text' style='display:none' value='"+ret.id+"' id='live_schedule_id' >";
-        appen += "<span>"+ret.name+" expires at "+ret.expire+"</span>";
-        appen += "<div class='live_schedule_buttons'><button type='button' class='btn btn-primary' id='live_schedule_preview'>Preview</button>&nbsp;<button type='button' class= 'btn btn-primary' id='live_schedule_edit'>Edit Schedule</button></div>";
-    } else {
-        appen += "<span>No Schedule Defined</span>";
-    }
-    $('#live_schedule_target').html(appen);
-    $('#live_schedule_preview').click(function(){
-        scheduleBuilder.livePreview();
-    });
-    $('#live_schedule_edit').click(function(){
-        scheduleBuilder.liveEdit();
-    });
-}
-
-scheduleBuilder.loadLive = function(){
-    editorAPI.loadLive($(scheduleBuilder.editorSitesID).val(),$('#live_preview_time').data("DateTimePicker").date().format('DD-MM-YYYY HH:mm'),scheduleBuilder.updateLive);
-
-}
-
-scheduleBuilder.reInit = function(){
-  scheduleBuilder.reset();
-  $(scheduleBuilder.editorAccordionID).html(' ');
-  $(scheduleBuilder.editorAccordionID).accordion().accordion('destroy');
-  scheduleBuilder.loadSchedules();
-  scheduleBuilder.loadCampaigns();
-  $('.datetimepicker').datetimepicker({
-      format: 'DD/MM/YYYY HH:mm'
-  });
-  schedule_campaigns = [];
-}
-
-scheduleBuilder.addTemplate = function(template){
-    if (template.data == undefined || template.data == null){
-      data = template.default;
-    } else {
-      data = template.data;
-    }
-      var label = template.name;
-      var template_id = template.id;
-      if (!$('#schedule_template_container_'+template_id).length){ //if template is already contained in this schedule don't add it again!
-        var html = editorAPI.decodeString(template.html);
-        var js = editorAPI.decodeString(template.javascript);
-        var formElements = editorAPI.parseDataElements(html+" "+js);
-        el = "<h3>"+label+"</h3>";
-        el += "<div id='schedule_template_container_"+template_id+"' class='schedule_editor_data_elements' data-templatename='"+label+"' data-templateid='"+template_id+"' data-target='"+template.target+"' data-inject='"+template.inject+"'>";
-        var html_id = "schedule_input_"+label+"_html";
-        var js_id = "schedule_input_"+label+"_js";
-        el += "<textarea id='"+html_id+"' style='display:none' class='html_textarea'>"+html+"</textarea>";
-        el += "<textarea id='"+js_id+"' style='display:none' class='js_textarea'>"+js+"</textarea>";
-        for (var i = 0; i < formElements.length; i++) {
-          var dat = formElements[i];
-          var el_id = "schedule_input_"+label+"_"+dat.name;
-          el += editorAPI.renderFormElement(el_id,dat.name,dat.type);
-        }
-        el += "</div>";
-        $(scheduleBuilder.editorAccordionID).append(el);
-        $(scheduleBuilder.editorAccordionID).accordion().accordion('destroy').accordion();
-      }
-    $.each(data,function(index,obj){
-      $("#schedule_input_"+label+"_"+index).val(obj);
-    });
-    editorAPI.afterFormRender();
-}
-
-scheduleBuilder.addCampaign = function(data){
-  var templates = data.templates;
-  var inject_data = JSON.parse(data.data);
-  schedule_campaigns.push(data.id);
-  $.each(templates,function(el,index,arr){
-    var dat = eval('inject_data.template_'+index.id);
-    editorAPI.loadTemplateWithData($(scheduleBuilder.editorSitesID).val(),index.id,dat,scheduleBuilder.addTemplate);
-  });
-}
-
-scheduleBuilder.deleteSchedule = function(data){
-    editorAPI.deleteSchedule($(scheduleBuilder.editorSitesID).val(),$(scheduleBuilder.editorSchedulesID).val(),scheduleBuilder.savedSchedule);
-
-}
-
-scheduleBuilder.loadCampaigns = function(){
-  editorAPI.loadCampaigns($(scheduleBuilder.editorSitesID).val(),scheduleBuilder.populateCampaigns);
-}
-
-  scheduleBuilder.loadSchedules = function(){
-    editorAPI.loadSchedules($(scheduleBuilder.editorSitesID).val(),scheduleBuilder.populateSchedules);
-  }
-
-  scheduleBuilder.populateCampaigns = function(data){
-    var appen = "";
-    appen += "<option value='select'>Select...</option>";
-    $.each(data,function(index,obj){
-      appen += "<option value='"+obj.id+"' >"+obj.name+"</option>";
-    });
-    $(scheduleBuilder.editorCampaignsID).html(appen);
-  }
-
-  scheduleBuilder.populateSchedules = function(data){
-    var appen = "";
-    appen += "<option value='new'>New...</option>";
-    $.each(data,function(index,obj){
-      appen += "<option value='"+obj.id+"' >"+obj.name+"</option>";
-    });
-    $(scheduleBuilder.editorSchedulesID).html(appen);
-    $(scheduleBuilder.editorScheduleID).accordion();
-  }
-
-  scheduleBuilder.getPreviewData = function(){
-      var html = "";
-      datstr = '[';
-
-      $('.schedule_editor_data_elements').each(function(){
-        var template_name = $(this).data('templatename');
-        var template_target = $(this).data('target');
-        var template_inject = $(this).data('inject');
-        //console.log(template_name);
-        //build html
-        html += "<div class='"+template_name+" preview_div' data-target='"+template_target+"' data-inject='"+template_inject+"'>";
-        var str = $(this).children('textarea.html_textarea').html();
-        var js = editorAPI.encodeString($(this).children('textarea.js_textarea').val());
-        str = jQuery('<div/>').html(str).text();
-        //js = jQuery('<div/>').html(js).text();
-        html += str;
-        html += "</div>";
-        //build data
-        datstr +=  '{"preview":';
-        datstr += '{';
-        datstr += '"template" : "'+template_name+'",';
-        $(this).find('input').each(function(){
-            if ($(this).data('inputname') !== undefined)
-                datstr += '"'+$(this).data('inputname')+'":"'+$(this).val()+'",';
-        });
-        datstr += '"javascript":"'+js+'"';
-        //datstr = datstr.slice(0, -1);
-        datstr += '}';
-        datstr += '},';
-      });
-      datstr = datstr.slice(0, -1);
-      datstr += ']';
-      dat = JSON.parse(datstr);
-      console.log(dat);
-      targetFrame = document.getElementById('preview');
-      var msg = {message: 'template_preview', html: html, dat: dat };
-      targetFrame.contentWindow.postMessage(msg, '*');
-  }
-
-  scheduleBuilder.saveSchedule = function(){
-      if ($(scheduleBuilder.editorNameID).val() == ""){
-        alert('please enter a name for this campaign!!');
-        return false;
-      } else {
-         var returnData = {};
-         returnData.name = $(scheduleBuilder.editorNameID).val();
-         returnData.campaigns = schedule_campaigns;
-         returnData._token = $('#_token').val();
-         returnData.begin = $(scheduleBuilder.editorStartID).val();
-         returnData.finish = $(scheduleBuilder.editorFinishID).val();
-         returnData.geo = $(scheduleBuilder.editorGeoID).val();
-         returnData.templates = {};
-         $('.schedule_editor_data_elements').each(function(){
-             var template_data = {};
-             $(this).find('input').each(function(){
-               if ($(this).data('inputname') !== undefined)
-                    eval("template_data."+$(this).data('inputname')+" = '"+$(this).val()+"';");
-             });
-             eval("returnData.templates.template_"+$(this).data('templateid')+" = template_data;");
-         });
-         editorAPI.saveSchedule($(scheduleBuilder.editorSitesID).val(),$(scheduleBuilder.editorSchedulesID).val(),returnData,scheduleBuilder.savedSchedule);
-
-      }
-  }
-
-  scheduleBuilder.savedSchedule = function(ret){
-      ret = JSON.parse(ret);
-      if (ret.status == 'success'){
-        scheduleBuilder.reInit();
-        alert('schedule saved');
-      } else {
-        alert('Error saving data!!');
-      }
-  }
-
-  scheduleBuilder.reset = function(){
-      $(scheduleBuilder.editorNameID).val('');
-      $(scheduleBuilder.editorStartID).val('');
-      $(scheduleBuilder.editorFinishID).val('');
-      $(scheduleBuilder.editorAccordionID).html(' ');
-      $(scheduleBuilder.editorAccordionID).accordion().accordion('destroy');
-  }
-
-  scheduleBuilder.loadSchedule = function(){
-      scheduleBuilder.reset();
-      if ($(scheduleBuilder.editorSchedulesID).val() == 'new')
-        return;
-      console.log('loading schedule '+$(scheduleBuilder.editorSchedulesID).val());
-      editorAPI.loadSchedule($(scheduleBuilder.editorSiteID).val(),$(scheduleBuilder.editorSchedulesID).val(),scheduleBuilder.populateSchedule);
-  }
-
-  scheduleBuilder.populateSchedule = function(ret){
-      $(scheduleBuilder.editorNameID).val(ret.name);
-      $(scheduleBuilder.editorStartID).val(ret.start_at);
-      $(scheduleBuilder.editorFinishID).val(ret.finish_at);
-      $(scheduleBuilder.editorGeoID).val(ret.country_codes);
-      var inject_data = JSON.parse(ret.data);
-      $.each(ret.campaigns,function(el,index,arr){
-          schedule_campaigns.push(index.id);
-      });
-      $.each(inject_data,function(el,index,arr){
-          var template_id = el.replace('template_','');
-          editorAPI.loadTemplateWithData($(scheduleBuilder.editorSitesID).val(),template_id,index,scheduleBuilder.addTemplate);
-      });
-      $('.datetimepicker').datetimepicker({
-          format: 'DD/MM/YYYY HH:mm'
-      });
-  }
-
 // Spectrum Colorpicker v1.8.0
 // https://github.com/bgrins/spectrum
 // Author: Brian Grinstead
@@ -9964,6 +9049,328 @@ scheduleBuilder.loadCampaigns = function(){
 
 });
 
+var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){var t="";var n,r,i,s,o,u,a;var f=0;e=Base64._utf8_encode(e);while(f<e.length){n=e.charCodeAt(f++);r=e.charCodeAt(f++);i=e.charCodeAt(f++);s=n>>2;o=(n&3)<<4|r>>4;u=(r&15)<<2|i>>6;a=i&63;if(isNaN(r)){u=a=64}else if(isNaN(i)){a=64}t=t+this._keyStr.charAt(s)+this._keyStr.charAt(o)+this._keyStr.charAt(u)+this._keyStr.charAt(a)}return t},decode:function(e){var t="";var n,r,i;var s,o,u,a;var f=0;e=e.replace(/[^A-Za-z0-9+/=]/g,"");while(f<e.length){s=this._keyStr.indexOf(e.charAt(f++));o=this._keyStr.indexOf(e.charAt(f++));u=this._keyStr.indexOf(e.charAt(f++));a=this._keyStr.indexOf(e.charAt(f++));n=s<<2|o>>4;r=(o&15)<<4|u>>2;i=(u&3)<<6|a;t=t+String.fromCharCode(n);if(u!=64){t=t+String.fromCharCode(r)}if(a!=64){t=t+String.fromCharCode(i)}}t=Base64._utf8_decode(t);return t},_utf8_encode:function(e){e=e.replace(/rn/g,"n");var t="";for(var n=0;n<e.length;n++){var r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r)}else if(r>127&&r<2048){t+=String.fromCharCode(r>>6|192);t+=String.fromCharCode(r&63|128)}else{t+=String.fromCharCode(r>>12|224);t+=String.fromCharCode(r>>6&63|128);t+=String.fromCharCode(r&63|128)}}return t},_utf8_decode:function(e){var t="";var n=0;var r=c1=c2=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}}
+
+
+
+
+var editorAPI = editorAPI || {};
+
+editorAPI.init = function(){
+  this.loadedSites = null;
+  this.loadedTemplates = null;
+  this.loadedCampaigns = null;
+  this.loadedSchedules = null;
+  this.uploadOptions = {
+		        success:       editorAPI.fileUploaded,
+		        dataType: 'json'
+                };
+}
+
+
+
+editorAPI.escapeJSON = function(str){
+  return str
+    .replace(/[\\]/g, '\\\\')
+    .replace(/[\"]/g, '\\\"')
+    .replace(/[\/]/g, '\\/')
+    .replace(/[\b]/g, '\\b')
+    .replace(/[\f]/g, '\\f')
+    .replace(/[\n]/g, '\\n')
+    .replace(/[\r]/g, '\\r')
+    .replace(/[\t]/g, '\\t');
+};
+
+editorAPI.afterFormRender = function(){
+    $('.spectrum').spectrum({preferredFormat: "name"});
+    $('.spectrum').show();
+}
+
+editorAPI.fileUploaded = function(dat){
+    var filename = dat.filename;
+    var target = dat.target;
+    $('#'+target).val(filename);
+}
+
+editorAPI.parseDataElements = function(html){
+  var dataElements = html.match(/{{\s*[\w\.]+\s*}}/g).map(function(x) { return x.match(/[\w\.]+/)[0]; });
+  returnArray = [];
+  for (var i = 0; i < dataElements.length; i++) {
+    var el = new Object();
+    el.name = dataElements[i];
+    el.type = "text";
+    if (html.indexOf('color:'+'{{'+el.name+'}}') > -1){
+      el.type = "colour";
+    }
+    if (html.indexOf('src\=\"'+'{{'+el.name+'}}') > -1){
+      el.type = "file";
+    }
+    returnArray.push(el);
+  }
+  return returnArray;
+}
+
+editorAPI.renderFormElement = function(id,name,type){
+    el = "";
+    switch (type){
+        case "colour":
+            el += "  <div class='rowElem spectrum'><label for='"+name+"'>"+name+": </label>";
+            el += "<input type='text' class='template_editor_data_input spectrum' data-inputname='"+name+"' id='"+id+"' value='placeholder' name='"+name+"' /></div>";
+            break;
+        case "file":
+            el += "  <div class='rowElem negPad'><label for='"+name+"'>"+name+": </label>";
+            el += "<form class='form-horizontal' id='form_"+id+"' enctype='multipart/form-data' method='post' action='/api/sites/"+$(scheduleBuilder.editorSitesID).val()+"/images' autocomplete='off'>";
+            el +=  "<input type='hidden' name='_token' value='"+$('#_token').val()+"' />";
+            el += "<input type='hidden' name='file_target' value='"+id+"' />";
+            el += "<input type='text' class='filename template_editor_data_input' data-inputname='"+name+"' id='"+id+"'/>";
+            el += "<div class='fileUpload btn btn-primary'>";
+            el += "<span>Upload</span>";
+            el += "<input type='file' class='upload ' name='image' id='upload_"+id+"' />";
+            el += "</div>";
+            el += "</form></div>";
+            el += "<script>";
+            el += "$('body').delegate('#upload_"+id+"','change', function(){ $('#form_"+id+"').ajaxForm(editorAPI.uploadOptions).submit(); });";
+            el += "</script>";
+            break;
+        default:
+            el += "  <div class='rowElem'><label for='"+name+"'>"+name+": </label>";
+            el += "<input type='text' class='template_editor_data_input' data-inputname='"+name+"' id='"+id+"' value='placeholder' name='"+name+"' /></div>";
+            break;
+
+    }
+    return el;
+
+}
+
+
+editorAPI.deleteTemplate = function(site_id,template_id,callback_func){
+    var url = '/api/sites/'+site_id+'/templates/'+template_id;
+    var dat = {
+                _token:$('#_token').val(),
+                delete:"true"
+            };
+    $.post(url,dat,function(ret){
+      editorAPI.loadedTemplates = null;
+      callback_func(ret);
+    });
+}
+
+editorAPI.deleteCampaign = function(site_id,campaign_id,callback_func){
+    var url = '/api/sites/'+site_id+'/campaigns/'+campaign_id;
+    var dat = {
+                _token:$('#_token').val(),
+                delete:"true"
+            };
+    $.post(url,dat,function(ret){
+      editorAPI.loadedCampaigns = null;
+      callback_func(ret);
+    });
+}
+
+editorAPI.deleteSchedule = function(site_id,schedule_id,callback_func){
+    var url = '/api/sites/'+site_id+'/schedules/'+schedule_id;
+    var dat = {
+                _token:$('#_token').val(),
+                delete:"true"
+            };
+    $.post(url,dat,function(ret){
+      editorAPI.loadedSchedules = null;
+      callback_func(ret);
+    });
+}
+
+editorAPI.returnSites = function(callback_func){
+  callback_func(editorAPI.loadedSites);
+}
+
+editorAPI.returnTemplates = function(callback_func){
+  callback_func(editorAPI.loadedTemplates);
+}
+
+editorAPI.returnTemplate = function(template_id,callback_func){
+  $.each(editorAPI.loadedTemplates,function(el,ind,arr){
+    if (template_id == ind.id){
+        callback_func(ind);
+    }
+  });
+}
+
+editorAPI.returnSchedule = function(schedule_id,callback_func){
+  $.each(editorAPI.loadedSchedules,function(el,ind,arr){
+    if (schedule_id == ind.id){
+        callback_func(ind);
+    }
+  });
+}
+
+editorAPI.returnCampaign = function(campaign_id,callback_func){
+  $.each(editorAPI.loadedCampaigns,function(el,ind,arr){
+    if (campaign_id == ind.id){
+        callback_func(ind);
+    }
+  });
+}
+
+editorAPI.returnTemplateWithData = function(template_id,data,callback_func){
+  $.each(editorAPI.loadedTemplates,function(el,ind,arr){
+    if (template_id == ind.id){
+        ind.data = data;
+        callback_func(ind);
+    }
+
+  });
+}
+
+editorAPI.saveCampaign = function(site_id,campaign_id,data,callback_func){
+  var url = '/api/sites/'+site_id+'/campaigns/'+campaign_id;
+  $.post(url,data,function(ret){
+    editorAPI.loadedCampaigns = null;
+    callback_func(ret);
+  });
+}
+
+editorAPI.saveSchedule = function(site_id,schedule_id,data,callback_func){
+    var url = '/api/sites/'+site_id+'/schedules/'+schedule_id;
+    $.post(url,data,function(ret){
+      editorAPI.loadedSchedules = null;
+      callback_func(ret);
+    });
+}
+
+
+editorAPI.loadSites = function(callback_func){
+  if (editorAPI.loadedSites === null){
+    $.getJSON('/api/sites',function(data){
+      var appen = "";
+      $.each(data,function(index,obj){
+        appen += "<option value='"+obj.id+"' >"+obj.label+"</option>";
+      });
+      editorAPI.loadedSites = appen;
+      editorAPI.returnSites(callback_func);
+    });
+  } else {
+    console.log('cached sites');
+    editorAPI.returnSites(callback_func);
+  }
+}
+
+editorAPI.saveTemplate = function(site_id,template_id,data,callback_func){
+  var url = '/api/sites/'+site_id+'/templates/'+template_id;
+  $.post(url,data,function(ret){
+    editorAPI.loadedTemplates = null;
+    callback_func(ret);
+  });
+}
+
+editorAPI.loadTemplates = function(site_id,callback_func){
+    $.getJSON('/api/sites/'+site_id+'/templates',function(data){
+      editorAPI.loadedTemplates = data;
+      editorAPI.returnTemplates(callback_func);
+    });
+}
+
+editorAPI.loadTemplate = function(site_id,template_id,callback_func){
+  if (editorAPI.loadedTemplates === null){
+    $.getJSON('/api/sites/'+site_id+'/templates',function(data){
+      editorAPI.loadedTemplates = data;
+      editorAPI.returnTemplate(template_id,callback_func);
+    });
+  } else {
+    editorAPI.returnTemplate(template_id,callback_func);
+  }
+}
+
+editorAPI.returnCampaigns = function(callback_func){
+  callback_func(editorAPI.loadedCampaigns);
+}
+
+editorAPI.loadCampaigns = function(site_id,callback_func){
+  if (editorAPI.loadedCampaigns === null){
+    $.getJSON('/api/sites/'+site_id+'/campaigns',function(data){
+      editorAPI.loadedCampaigns = data;
+      editorAPI.returnCampaigns(callback_func);
+    });
+  } else {
+    editorAPI.returnCampaigns(callback_func);
+  }
+}
+
+//SCHEDULES
+
+editorAPI.returnSchedules = function(callback_func){
+  callback_func(editorAPI.loadedSchedules);
+}
+
+editorAPI.loadSchedules = function(site_id,callback_func){
+  if (editorAPI.loadedSchedules === null){
+    $.getJSON('/api/sites/'+site_id+'/schedules',function(data){
+      editorAPI.loadedSchedules = data;
+      editorAPI.returnSchedules(callback_func);
+    });
+  } else {
+    editorAPI.returnSchedules(callback_func);
+  }
+}
+
+editorAPI.loadTemplateWithData = function(site_id,template_id,data,callback_func){
+    if (editorAPI.loadedTemplates === null){
+      $.getJSON('/api/sites/'+site_id+'/templates',function(templates){
+        editorAPI.loadedTemplates = templates;
+        editorAPI.returnTemplateWithData(template_id,data,callback_func);
+      });
+    } else {
+      editorAPI.returnTemplateWithData(template_id,data,callback_func);
+    }
+}
+
+editorAPI.loadCampaign = function(site_id,campaign_id,callback_func){
+  if (editorAPI.loadedCampaigns === null){
+    $.getJSON('/api/sites/'+site_id+'/campaigns',function(data){
+      editorAPI.loadedCampaigns = data;
+      editorAPI.returnCampaign(campaign_id,callback_func);
+    });
+  } else {
+    editorAPI.returnCampaign(campaign_id,callback_func);
+  }
+}
+
+editorAPI.loadSchedule = function(site_id, schedule_id, callback_func){
+    if (editorAPI.loadedSchedules === null){
+      $.getJSON('/api/sites/'+site_id+'/schedules',function(data){
+        editorAPI.loadedSchedules = data;
+        editorAPI.returnSchedule(schedule_id,callback_func);
+      });
+    } else {
+      editorAPI.returnSchedule(schedule_id,callback_func);
+    }
+}
+
+editorAPI.loadLive = function(site_id, timestring, callback_func){
+    $.ajax({
+        dataType: "json",
+        url: '/api/sites/'+site_id+'/schedules/live/'+encodeURIComponent(timestring),
+        beforeSend: function(request){
+                request.setRequestHeader("CF-IPCountry", $('#live_preview_country').val());
+                request.setRequestHeader("Preview-IPCountry", $('#live_preview_country').val());
+        },
+        success: function(data){
+            callback_func(data);
+        }
+    });
+}
+
+
+
+
+
+editorAPI.encodeString = function(string){
+  return Base64.encode(string);
+}
+
+editorAPI.decodeString = function(string){
+  return Base64.decode(string);
+}
+
 var templateBuilder = templateBuilder || {};
 
 
@@ -10187,3 +9594,596 @@ templateBuilder.getData = function(){
     targetFrame = document.getElementById('preview');
     targetFrame.contentWindow.postMessage({message: 'target_change', target: $(templateBuilder.editorTargetID).val()}, '*');
   }
+
+var campaignBuilder = campaignBuilder || {};
+
+campaignBuilder.init = function(){
+  this.editorSitesID = '#editor_siteid';
+  this.editorCampaignID = '#campaign_editor_campaign';
+  this.editorTemplatesID = '#campaign_editor_template';
+  this.editorAddTemplateID = '#campaign_editor_add_template';
+  this.editorAccordionID = "#campaign_editor_accordion";
+  this.editorPreviewButtonID = "#campaign_editor_preview_campaign";
+  this.editorSaveButtonID = "#campaign_save_button";
+  this.editorNameID = "#campaign_editor_name";
+  this.editorDeleteButtonID = "#campaign_delete_button";
+  campaignBuilder.loadCampaigns();
+
+  $(this.editorAddTemplateID).click(function(){
+    var template = $(campaignBuilder.editorTemplatesID).val();
+    editorAPI.loadTemplate($(campaignBuilder.editorSitesID).val(),template,campaignBuilder.addTemplate);
+  });
+
+  $(this.editorCampaignID).change(function(){
+    campaignBuilder.loadCampaign();
+  });
+
+  $(this.editorPreviewButtonID).click(function(){
+    campaignBuilder.getPreviewData();
+  });
+
+  $(this.editorSaveButtonID).click(function(){
+    campaignBuilder.saveCampaign();
+  });
+
+  $(this.editorDeleteButtonID).click(function(){
+    campaignBuilder.deleteCampaign();
+  });
+
+}
+
+campaignBuilder.deleteCampaign = function(){
+    editorAPI.deleteCampaign($(campaignBuilder.editorSitesID).val(),$(campaignBuilder.editorCampaignID).val(),campaignBuilder.savedCampaign);
+}
+
+campaignBuilder.reInit = function(){
+  $(campaignBuilder.editorAccordionID).html(' ');
+  $(campaignBuilder.editorAccordionID).accordion().accordion('destroy');
+  $(campaignBuilder.editorNameID).val('');
+  campaignBuilder.loadCampaigns();
+}
+
+campaignBuilder.saveCampaign = function(){
+  if ($(campaignBuilder.editorNameID).val() == ""){
+    alert('please enter a name for this campaign!!');
+    return false;
+  } else {
+    var datstr = '{"name":"'+$(campaignBuilder.editorNameID).val()+'",';
+    datstr += '"_token":"'+$('#_token').val()+'",'
+    datstr += '"templates":{'
+    $('.campaign_editor_data_elements').each(function(){
+      var template_id= $(this).data('templateid');
+      datstr += '"template_'+template_id+'":{';
+      $(this).find('input').each(function(){
+        if ($(this).data('inputname') !== undefined)
+            datstr += '"'+$(this).data('inputname')+'":"'+$(this).val()+'",';
+      });
+      datstr = datstr.slice(0, -1);
+      datstr += '},';
+    });
+    datstr = datstr.slice(0, -1);
+    datstr += '}}';
+    var dat = JSON.parse(datstr);
+    editorAPI.saveCampaign($(campaignBuilder.editorSitesID).val(),$(campaignBuilder.editorCampaignID).val(),dat,campaignBuilder.savedCampaign);
+  }
+}
+
+campaignBuilder.savedCampaign = function(ret){
+  ret = JSON.parse(ret);
+  if (ret.status == 'success'){
+    campaignBuilder.reset();
+    campaignBuilder.loadCampaigns();
+    //alert('campaign saved');
+  } else {
+    alert('Error saving data!!');
+  }
+}
+
+campaignBuilder.getPreviewData = function(){
+  var html = "";
+  datstr = '[';
+
+  $('.campaign_editor_data_elements').each(function(){
+    var template_name = $(this).data('templatename');
+    var template_target = $(this).data('target');
+    var template_inject = $(this).data('inject');
+    //console.log(template_name);
+    //build html
+    html += "<div class='"+template_name+" preview_div' data-target='"+template_target+"' data-inject='"+template_inject+"'>";
+    var str = $(this).children('textarea.html_textarea').html();
+    var js = editorAPI.encodeString($(this).children('textarea.js_textarea').val());
+    str = jQuery('<div/>').html(str).text();
+    //js = jQuery('<div/>').html(js).text();
+    html += str;
+    html += "</div>";
+    //build data
+    datstr +=  '{"preview":';
+    datstr += '{';
+    datstr += '"template" : "'+template_name+'",';
+    $(this).find('input').each(function(){
+        if ($(this).data('inputname') !== undefined)
+            datstr += '"'+$(this).data('inputname')+'":"'+$(this).val()+'",';
+    });
+    datstr += '"javascript":"'+js+'"';
+    //datstr = datstr.slice(0, -1);
+    datstr += '}';
+    datstr += '},';
+  });
+  datstr = datstr.slice(0, -1);
+  datstr += ']';
+  dat = JSON.parse(datstr);
+  targetFrame = document.getElementById('preview');
+  var msg = {message: 'template_preview', html: html, dat: dat };
+  targetFrame.contentWindow.postMessage(msg, '*');
+}
+
+
+campaignBuilder.reset = function(){
+  $(campaignBuilder.editorAccordionID).html(' ');
+
+  $(campaignBuilder.editorAccordionID).accordion('destroy');
+  campaignBuilder.loadTemplates();
+}
+
+campaignBuilder.addTemplate = function(template){
+  console.log(template);
+  //TODO: check if template already present in this campaign!!
+  if (template.data == undefined || template.data == null){
+    data = template.default;
+  } else {
+    data = template.data;
+  }
+  var label = template.name;
+  var template_id = template.id;
+  var html = editorAPI.decodeString(template.html);
+  var js = editorAPI.decodeString(template.javascript);
+  var formElements = editorAPI.parseDataElements(html+" "+js);
+  el = "<h3>"+label+"</h3>";
+  el += "<div class='campaign_editor_data_elements' data-templatename='"+label+"' data-templateid='"+template_id+"' data-target='"+template.target+"' data-inject='"+template.inject+"'>";
+  var html_id = "campaign_input_"+label+"_html";
+  var js_id = "campaign_input_"+label+"_js";
+  el += "<textarea id='"+html_id+"' style='display:none' class='html_textarea'>"+html+"</textarea>";
+  el += "<textarea id='"+js_id+"' style='display:none' class='js_textarea'>"+js+"</textarea>";
+  for (var i = 0; i < formElements.length; i++) {
+    var dat = formElements[i];
+    var el_id = "campaign_input_"+label+"_"+dat.name;
+    var typeclass = '';
+    el += editorAPI.renderFormElement(el_id,dat.name,dat.type);
+  }
+  el += "</div>";
+  $(campaignBuilder.editorAccordionID).append(el);
+  $(campaignBuilder.editorAccordionID).accordion().accordion('destroy').accordion();
+  $.each(data,function(index,obj){
+    $("#campaign_input_"+label+"_"+index).val(obj);
+  });
+  editorAPI.afterFormRender();
+}
+
+campaignBuilder.loadSites = function(){
+  editorAPI.loadSites(campaignBuilder.populateSites);
+}
+
+campaignBuilder.populateSites = function(html){
+    $(campaignBuilder.editorSitesID).html(html);
+    campaignBuilder.loadCampaigns();
+}
+
+campaignBuilder.loadCampaigns = function(){
+  editorAPI.loadCampaigns($(campaignBuilder.editorSitesID).val(),campaignBuilder.populateCampaigns);
+}
+
+campaignBuilder.populateCampaigns = function(data){
+  var appen = "";
+  appen += "<option value='new'>New...</option>";
+  $.each(data,function(index,obj){
+    appen += "<option value='"+obj.id+"' >"+obj.name+"</option>";
+  });
+  $(campaignBuilder.editorCampaignID).html(appen);
+  campaignBuilder.loadTemplates();
+}
+
+campaignBuilder.loadTemplates = function(){
+  editorAPI.loadTemplates($(campaignBuilder.editorSitesID).val(),campaignBuilder.populateTemplates);
+}
+
+campaignBuilder.populateTemplates = function(data){
+  var appen = "";
+  appen += "<option value=''>Select...</option>";
+  $.each(data,function(index,obj){
+    appen += "<option value='"+obj.id+"' >"+obj.name+"</option>";
+  });
+  $(campaignBuilder.editorTemplatesID).html(appen);
+  $(campaignBuilder.editorAccordionID).accordion();
+}
+
+campaignBuilder.loadCampaign = function(){
+  campaignBuilder.reset();
+  if ($(campaignBuilder.editorCampaignID).val() == 'new')
+    return;
+  editorAPI.loadCampaign($(campaignBuilder.editorSiteID).val(),$(this.editorCampaignID).val(),campaignBuilder.populateCampaign);
+}
+
+
+campaignBuilder.populateCampaign = function(data){
+  var templates = data.templates;
+  var inject_data = JSON.parse(data.data);
+  $(campaignBuilder.editorNameID).val(data.name);
+  $.each(templates,function(el,index,arr){
+    var dat = eval('inject_data.template_'+index.id);
+    editorAPI.loadTemplateWithData($(campaignBuilder.editorSitesID).val(),index.id,dat,campaignBuilder.addTemplate);
+  });
+}
+
+var scheduleBuilder = scheduleBuilder || {};
+
+var schedule_campaigns = [];
+
+scheduleBuilder.init = function(){
+  this.editorSitesID = '#editor_siteid';
+  this.editorSchedulesID = '#schedule_editor_schedule';
+  this.editorNameID = "#schedule_editor_name";
+  this.editorStartID = "#schedule_editor_start";
+  this.editorFinishID = "#schedule_editor_finish";
+  this.editorGeoID = '#schedule_editor_geo';
+  this.editorCampaignsID = "#schedule_editor_campaigns";
+  this.editorPreviewButtonID = "#schedule_editor_preview_schedule";
+  this.editorAddScheduleID = "#schedule_editor_add_campaign";
+  this.editorSaveButtonID = "#schedule_save_button";
+  this.editorAccordionID = "#schedule_editor_accordion";
+  this.editorDeleteButtonID = "#schedule_delete_button";
+  this.livePreviewButtonID = "#live_preview_schedule";
+  this.liveTimer = window.setTimeout(scheduleBuilder.loadLive, 500);
+
+  scheduleBuilder.loadSchedules();
+  scheduleBuilder.loadCampaigns();
+  schedule_campaigns = [];
+
+  $(this.editorAddScheduleID).click(function(){
+    var campaign = $(scheduleBuilder.editorCampaignsID).val();
+    editorAPI.loadCampaign($(scheduleBuilder.editorSitesID).val(),campaign,scheduleBuilder.addCampaign);
+  });
+
+  $(this.editorSchedulesID).change(function(){
+    scheduleBuilder.loadSchedule();
+  });
+
+  $(this.editorPreviewButtonID).click(function(){
+    scheduleBuilder.getPreviewData();
+  });
+
+
+
+  $('#live_preview_time').on('dp.change',function(){
+      clearTimeout(scheduleBuilder.liveTimer);
+      scheduleBuilder.liveTimer = window.setTimeout(scheduleBuilder.loadLive, 500);
+  });
+
+  $('#live_preview_country').change(function(){
+      clearTimeout(scheduleBuilder.liveTimer);
+      scheduleBuilder.liveTimer = window.setTimeout(scheduleBuilder.loadLive, 500);
+  });
+
+
+  $(this.editorSaveButtonID).click(function(){
+    scheduleBuilder.saveSchedule();
+  });
+
+  $(this.editorDeleteButtonID).click(function(){
+    scheduleBuilder.deleteSchedule();
+  });
+}
+
+scheduleBuilder.setLive = function(){
+    //console.log('setting time to '+moment().format("DD-MM-YYYY HH:mm"));
+    $('#live_preview_time').data("DateTimePicker").date(moment().format("DD-MM-YYYY HH:mm"));
+}
+
+scheduleBuilder.populateLiveSchedule = function(){
+    $(scheduleBuilder.editorSchedulesID).val($('#live_schedule_id').val());
+    scheduleBuilder.loadSchedule();
+}
+
+scheduleBuilder.liveEdit = function(){
+    $('#editorTabs a[href="#schedule"]').tab('show');
+    scheduleBuilder.populateLiveSchedule();
+
+}
+
+scheduleBuilder.livePreview = function(){
+    scheduleBuilder.populateLiveSchedule();
+    scheduleBuilder.getPreviewData();
+}
+
+scheduleBuilder.updateLive = function(ret){
+    $('#live_schedule_target').html('');
+    var appen = "";
+    if (ret.name !== undefined){
+        appen += "<input type='text' style='display:none' value='"+ret.id+"' id='live_schedule_id' >";
+        appen += "<span>"+ret.name+" expires at "+ret.expire+"</span>";
+        appen += "<div class='live_schedule_buttons'><button type='button' class='btn btn-primary' id='live_schedule_preview'>Preview</button>&nbsp;<button type='button' class= 'btn btn-primary' id='live_schedule_edit'>Edit Schedule</button></div>";
+    } else {
+        appen += "<span>No Schedule Defined</span>";
+    }
+    $('#live_schedule_target').html(appen);
+    $('#live_schedule_preview').click(function(){
+        scheduleBuilder.livePreview();
+    });
+    $('#live_schedule_edit').click(function(){
+        scheduleBuilder.liveEdit();
+    });
+}
+
+scheduleBuilder.loadLive = function(){
+    editorAPI.loadLive($(scheduleBuilder.editorSitesID).val(),$('#live_preview_time').data("DateTimePicker").date().format('DD-MM-YYYY HH:mm'),scheduleBuilder.updateLive);
+
+}
+
+scheduleBuilder.reInit = function(){
+  scheduleBuilder.reset();
+  $(scheduleBuilder.editorAccordionID).html(' ');
+  $(scheduleBuilder.editorAccordionID).accordion().accordion('destroy');
+  scheduleBuilder.loadSchedules();
+  scheduleBuilder.loadCampaigns();
+  $('.datetimepicker').datetimepicker({
+      format: 'DD/MM/YYYY HH:mm'
+  });
+  schedule_campaigns = [];
+}
+
+scheduleBuilder.addTemplate = function(template){
+    if (template.data == undefined || template.data == null){
+      data = template.default;
+    } else {
+      data = template.data;
+    }
+      var label = template.name;
+      var template_id = template.id;
+      if (!$('#schedule_template_container_'+template_id).length){ //if template is already contained in this schedule don't add it again!
+        var html = editorAPI.decodeString(template.html);
+        var js = editorAPI.decodeString(template.javascript);
+        var formElements = editorAPI.parseDataElements(html+" "+js);
+        el = "<h3>"+label+"</h3>";
+        el += "<div id='schedule_template_container_"+template_id+"' class='schedule_editor_data_elements' data-templatename='"+label+"' data-templateid='"+template_id+"' data-target='"+template.target+"' data-inject='"+template.inject+"'>";
+        var html_id = "schedule_input_"+label+"_html";
+        var js_id = "schedule_input_"+label+"_js";
+        el += "<textarea id='"+html_id+"' style='display:none' class='html_textarea'>"+html+"</textarea>";
+        el += "<textarea id='"+js_id+"' style='display:none' class='js_textarea'>"+js+"</textarea>";
+        for (var i = 0; i < formElements.length; i++) {
+          var dat = formElements[i];
+          var el_id = "schedule_input_"+label+"_"+dat.name;
+          el += editorAPI.renderFormElement(el_id,dat.name,dat.type);
+        }
+        el += "</div>";
+        $(scheduleBuilder.editorAccordionID).append(el);
+        $(scheduleBuilder.editorAccordionID).accordion().accordion('destroy').accordion();
+      }
+    $.each(data,function(index,obj){
+      $("#schedule_input_"+label+"_"+index).val(obj);
+    });
+    editorAPI.afterFormRender();
+}
+
+scheduleBuilder.addCampaign = function(data){
+  var templates = data.templates;
+  var inject_data = JSON.parse(data.data);
+  schedule_campaigns.push(data.id);
+  $.each(templates,function(el,index,arr){
+    var dat = eval('inject_data.template_'+index.id);
+    editorAPI.loadTemplateWithData($(scheduleBuilder.editorSitesID).val(),index.id,dat,scheduleBuilder.addTemplate);
+  });
+}
+
+scheduleBuilder.deleteSchedule = function(data){
+    editorAPI.deleteSchedule($(scheduleBuilder.editorSitesID).val(),$(scheduleBuilder.editorSchedulesID).val(),scheduleBuilder.savedSchedule);
+
+}
+
+scheduleBuilder.loadCampaigns = function(){
+  editorAPI.loadCampaigns($(scheduleBuilder.editorSitesID).val(),scheduleBuilder.populateCampaigns);
+}
+
+  scheduleBuilder.loadSchedules = function(){
+    editorAPI.loadSchedules($(scheduleBuilder.editorSitesID).val(),scheduleBuilder.populateSchedules);
+  }
+
+  scheduleBuilder.populateCampaigns = function(data){
+    var appen = "";
+    appen += "<option value='select'>Select...</option>";
+    $.each(data,function(index,obj){
+      appen += "<option value='"+obj.id+"' >"+obj.name+"</option>";
+    });
+    $(scheduleBuilder.editorCampaignsID).html(appen);
+  }
+
+  scheduleBuilder.populateSchedules = function(data){
+    var appen = "";
+    appen += "<option value='new'>New...</option>";
+    $.each(data,function(index,obj){
+      appen += "<option value='"+obj.id+"' >"+obj.name+"</option>";
+    });
+    $(scheduleBuilder.editorSchedulesID).html(appen);
+    $(scheduleBuilder.editorScheduleID).accordion();
+  }
+
+  scheduleBuilder.getPreviewData = function(){
+      var html = "";
+      datstr = '[';
+
+      $('.schedule_editor_data_elements').each(function(){
+        var template_name = $(this).data('templatename');
+        var template_target = $(this).data('target');
+        var template_inject = $(this).data('inject');
+        //console.log(template_name);
+        //build html
+        html += "<div class='"+template_name+" preview_div' data-target='"+template_target+"' data-inject='"+template_inject+"'>";
+        var str = $(this).children('textarea.html_textarea').html();
+        var js = editorAPI.encodeString($(this).children('textarea.js_textarea').val());
+        str = jQuery('<div/>').html(str).text();
+        //js = jQuery('<div/>').html(js).text();
+        html += str;
+        html += "</div>";
+        //build data
+        datstr +=  '{"preview":';
+        datstr += '{';
+        datstr += '"template" : "'+template_name+'",';
+        $(this).find('input').each(function(){
+            if ($(this).data('inputname') !== undefined)
+                datstr += '"'+$(this).data('inputname')+'":"'+$(this).val()+'",';
+        });
+        datstr += '"javascript":"'+js+'"';
+        //datstr = datstr.slice(0, -1);
+        datstr += '}';
+        datstr += '},';
+      });
+      datstr = datstr.slice(0, -1);
+      datstr += ']';
+      dat = JSON.parse(datstr);
+      console.log(dat);
+      targetFrame = document.getElementById('preview');
+      var msg = {message: 'template_preview', html: html, dat: dat };
+      targetFrame.contentWindow.postMessage(msg, '*');
+  }
+
+  scheduleBuilder.saveSchedule = function(){
+      if ($(scheduleBuilder.editorNameID).val() == ""){
+        alert('please enter a name for this campaign!!');
+        return false;
+      } else {
+         var returnData = {};
+         returnData.name = $(scheduleBuilder.editorNameID).val();
+         returnData.campaigns = schedule_campaigns;
+         returnData._token = $('#_token').val();
+         returnData.begin = $(scheduleBuilder.editorStartID).val();
+         returnData.finish = $(scheduleBuilder.editorFinishID).val();
+         returnData.geo = $(scheduleBuilder.editorGeoID).val();
+         returnData.templates = {};
+         $('.schedule_editor_data_elements').each(function(){
+             var template_data = {};
+             $(this).find('input').each(function(){
+               if ($(this).data('inputname') !== undefined)
+                    eval("template_data."+$(this).data('inputname')+" = '"+$(this).val()+"';");
+             });
+             eval("returnData.templates.template_"+$(this).data('templateid')+" = template_data;");
+         });
+         editorAPI.saveSchedule($(scheduleBuilder.editorSitesID).val(),$(scheduleBuilder.editorSchedulesID).val(),returnData,scheduleBuilder.savedSchedule);
+
+      }
+  }
+
+  scheduleBuilder.savedSchedule = function(ret){
+      ret = JSON.parse(ret);
+      if (ret.status == 'success'){
+        scheduleBuilder.reInit();
+        alert('schedule saved');
+      } else {
+        alert('Error saving data!!');
+      }
+  }
+
+  scheduleBuilder.reset = function(){
+      $(scheduleBuilder.editorNameID).val('');
+      $(scheduleBuilder.editorStartID).val('');
+      $(scheduleBuilder.editorFinishID).val('');
+      $(scheduleBuilder.editorAccordionID).html(' ');
+      $(scheduleBuilder.editorAccordionID).accordion().accordion('destroy');
+  }
+
+  scheduleBuilder.loadSchedule = function(){
+      scheduleBuilder.reset();
+      if ($(scheduleBuilder.editorSchedulesID).val() == 'new')
+        return;
+      console.log('loading schedule '+$(scheduleBuilder.editorSchedulesID).val());
+      editorAPI.loadSchedule($(scheduleBuilder.editorSiteID).val(),$(scheduleBuilder.editorSchedulesID).val(),scheduleBuilder.populateSchedule);
+  }
+
+  scheduleBuilder.populateSchedule = function(ret){
+      $(scheduleBuilder.editorNameID).val(ret.name);
+      $(scheduleBuilder.editorStartID).val(ret.start_at);
+      $(scheduleBuilder.editorFinishID).val(ret.finish_at);
+      $(scheduleBuilder.editorGeoID).val(ret.country_codes);
+      var inject_data = JSON.parse(ret.data);
+      $.each(ret.campaigns,function(el,index,arr){
+          schedule_campaigns.push(index.id);
+      });
+      $.each(inject_data,function(el,index,arr){
+          var template_id = el.replace('template_','');
+          editorAPI.loadTemplateWithData($(scheduleBuilder.editorSitesID).val(),template_id,index,scheduleBuilder.addTemplate);
+      });
+      $('.datetimepicker').datetimepicker({
+          format: 'DD/MM/YYYY HH:mm'
+      });
+  }
+
+
+
+
+var i = 0;
+var dragging = false;
+   $(document).ready(function(){
+     $('.tabs').tabs();
+     $('.datetimepicker').datetimepicker({
+         format: 'DD/MM/YYYY HH:mm'
+     });
+     $('#preview_url').change(function(){
+       //$('#preview').attr('src','/proxy/index.php?url='+$('#preview_url').val());
+     });
+     editorAPI.init();
+     templateBuilder.init();
+     campaignBuilder.init();
+     scheduleBuilder.init();
+     $('#live_preview_time').datetimepicker({
+            inline: true,
+            sideBySide: true,
+            format: 'DD-MM-YYYY HH:mm',
+            useCurrent: true
+     });
+     //$('.datetimepicker').data('dateTimePicker').date(moment().format('DD/MM/YYYY HH:mm'));
+
+     $('#settings_save_button').click(function(){
+        var site_name = $('#site_editor_name').val();
+        var site_url = $('#site_editor_url').val();
+        var site_id = $(scheduleBuilder.editorSitesID).val();
+        var token = $('#_token').val();
+        $.post('/api/sites/'+site_id,{
+            'name' : site_name,
+            'url' : site_url,
+            '_token' : token
+        },function(data){
+            $( '#preview' ).attr( 'src', function ( i, val ) { return val; });
+        });
+     });
+   });
+
+
+   $('#behaviour input').change(function(){
+     targetFrame = document.getElementById('preview');
+     if ($('input[name=behaviour]:checked', '#behaviour').val() == 'select'){
+        msg = {message: 'set_select'};
+     } else {
+       msg = {message: 'set_navigate'};
+     }
+     targetFrame.contentWindow.postMessage(msg, '*');
+   });
+
+
+
+
+   function show_editor(){
+       $('.main-panel').removeClass('col-lg-12').addClass('col-lg-8');
+       $('.side-panel').removeClass('col-lg-0').addClass('col-lg-4');
+       $('.editor_hidden').show();
+   }
+
+   function hide_editor(){
+       $('.main-panel').removeClass('col-lg-8').addClass('col-lg-12');
+       $('.side-panel').removeClass('col-lg-4').addClass('col-lg-0');
+       $('.editor_hidden').hide();
+   }
+
+   $('#show_editor').click(function(){
+      show_editor();
+   });
+
+   $('#hide_editor').click(function(){
+      hide_editor();
+   });
