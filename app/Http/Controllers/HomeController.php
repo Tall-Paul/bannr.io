@@ -24,6 +24,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+
+        if (Auth::user()){
+            return redirect()->action('TeamsController@index');
+        } else {
+            return redirect('/login');
+        }
+
     }
+
+
 }

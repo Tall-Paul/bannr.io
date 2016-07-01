@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return Redirect::to('/login');
-});
+Route::get('/', 'HomeController@index');
 
 Route::get('/api/sites/{site_id}/schedules/current','ApiController@getCurrentSchedule');
 Route::get('/loader/{site_id}.js','ApiController@getJsFile');
