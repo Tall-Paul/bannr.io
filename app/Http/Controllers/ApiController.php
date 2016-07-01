@@ -303,6 +303,11 @@ class ApiController extends Controller
         }
     }
 
+    public function getCurrentScheduleJson($site_id){
+        $out = Array('data'=>json_encode($this->getCurrentSchedule($site_id)));
+        return view('api/response')->with($out);
+    }
+
     public function getLiveSchedule($site_id,$time){
         $team = $this->checkTeam($site_id);
         if ($team == null)
