@@ -15,7 +15,7 @@ class ProxyController extends Controller
         CURLOPT_FOLLOWLOCATION => true,   // follow redirects
         CURLOPT_MAXREDIRS      => 10,     // stop after 10 redirects
         CURLOPT_ENCODING       => "",     // handle compressed
-        CURLOPT_USERAGENT      => "test", // name of client
+        CURLOPT_USERAGENT      => "bannr.io", // name of client
         CURLOPT_AUTOREFERER    => true,   // set referrer on redirect
         CURLOPT_CONNECTTIMEOUT => 120,    // time-out on connect
         CURLOPT_TIMEOUT        => 120,    // time-out on response
@@ -31,6 +31,7 @@ class ProxyController extends Controller
     public function index($site_id)
     {
         $proxy_url = Redis::hget('routes',$site_id);
+        header('X-Frame-Options: GOFORIT');
         echo $this->proxy_curl($proxy_url);
         return;
     }
