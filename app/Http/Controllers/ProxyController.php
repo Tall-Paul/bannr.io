@@ -43,8 +43,8 @@ class ProxyController extends Controller
          </body>
         ",$response);
         $trunc_url = str_replace('https://','',$proxy_url);
-        $trunc_url = str_replace('http://','',$proxy_url);
-        $response = str_replace($url,$site_id.".proxy.bannr.io",$response);
+        $trunc_url = str_replace('http://','',$proxy_url);        
+        $response = str_replace($trunc_url,$site_id.".proxy.bannr.io",$response);
         echo $response;
     }
 
