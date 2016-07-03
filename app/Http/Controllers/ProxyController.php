@@ -37,6 +37,7 @@ class ProxyController extends Controller
         if (stristr(request()->path,'.css'))
             header('Content-Type: text/css');
         $response = $this->proxy_curl($proxy_url."/".request()->path);
+        header('proxy-path: '.$proxy_url."/".request()->path);
         $response = str_replace("</body>",
         "<script src='https://admin.bannr.io/js/inject.js'></script>
          <link rel='stylesheet' href='https://admin.bannr.io/css/inject.css'></link>
