@@ -71,7 +71,7 @@ function waitForJquery(){
            return;
   }
   var script = document.createElement('script');
-  script.setAttribute('src', '/jquery/select.js');
+  script.setAttribute('src', 'https://admin.bannr.io/js/select.js');
   script.setAttribute('type', 'text/javascript');
   document.getElementsByTagName('head')[0].appendChild(script);
   //replace all hrefs to avoid breaking out of frame
