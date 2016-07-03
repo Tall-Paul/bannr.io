@@ -30,11 +30,11 @@ class ProxyController extends Controller
    }
 
 
-    public function index($site_id)
+    public function index($site_id,$slug)
     {
         $proxy_url = Redis::hget('routes',$site_id);
         header('X-Frame-Options: ALLOW');
-        $response = $this->proxy_curl($proxy_url.$request->path);
+        $response = $this->proxy_curl($proxy_url.$slug);
         $response = str_replace("</head>",
         "<script src='https://admin.bannr.io/js/inject.js'></script>
          <script src='https://admin.bannr.io/js/select.js'></script>

@@ -13,7 +13,7 @@
 
 Route::group(array('domain' => '{site}.proxy.bannr.io'), function()
 {
-    Route::get('/', 'ProxyController@index');
+    Route::any('{slug}', 'ProxyController@index');
 });
 
 
