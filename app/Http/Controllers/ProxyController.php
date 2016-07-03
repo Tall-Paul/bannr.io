@@ -31,7 +31,9 @@ class ProxyController extends Controller
     public function index($site_id)
     {
         $proxy_url = Redis::hget('routes',$site_id);
-        header('X-Frame-Options: GOFORIT');
+        foreach (headers_list() as $header)
+            header_remove($header);
+        header('X-Frame-Options: ALLOW');
         echo $this->proxy_curl($proxy_url);
         return;
     }
