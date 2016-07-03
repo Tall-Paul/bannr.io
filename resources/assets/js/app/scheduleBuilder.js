@@ -225,7 +225,7 @@ scheduleBuilder.loadCampaigns = function(){
       dat = JSON.parse(datstr);
       //console.log(dat);
       targetFrame = document.getElementById('preview');
-      var msg = {message: 'template_preview', html: html, dat: dat };
+      var msg = {message: 'template_preview', html: html, dat: dat, data: [] };
       targetFrame.contentWindow.postMessage(msg, '*');
   }
 

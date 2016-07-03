@@ -49,7 +49,7 @@ templateBuilder.init = function(){
 
   $(templateBuilder.editorTargetID).change(function(){
     targetFrame = document.getElementById('preview');
-    targetFrame.contentWindow.postMessage({message: 'target_change', target: $(templateBuilder.editorTargetID).val()}, '*');
+    targetFrame.contentWindow.postMessage({data: [], message: 'target_change', target: $(templateBuilder.editorTargetID).val()}, '*');
 
   });
 
@@ -168,7 +168,7 @@ templateBuilder.getData = function(){
     html += "</div>"
     //post preview data to preview frame
     targetFrame = document.getElementById('preview');
-    var msg = {message: 'template_preview', html: html, dat: dat };
+    var msg = {message: 'template_preview', html: html, dat: dat, data: [] };
     targetFrame.contentWindow.postMessage(msg, '*');
   }
  }
@@ -219,5 +219,5 @@ templateBuilder.getData = function(){
     $('.spectrum').spectrum({preferredFormat: "name"});
     $('.spectrum').show();
     targetFrame = document.getElementById('preview');
-    targetFrame.contentWindow.postMessage({message: 'target_change', target: $(templateBuilder.editorTargetID).val()}, '*');
+    targetFrame.contentWindow.postMessage({data : [], message: 'target_change', target: $(templateBuilder.editorTargetID).val()}, '*');
   }
