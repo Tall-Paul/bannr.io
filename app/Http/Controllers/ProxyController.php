@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Redis;
+use App\Http\Requests;
+use Illuminate\Http\Request;
 
 
 class ProxyController extends Controller
@@ -32,13 +34,14 @@ class ProxyController extends Controller
     {
         $proxy_url = Redis::hget('routes',$site_id);
         header('X-Frame-Options: ALLOW');
-        $response = proxy_curl($proxy_url);
+        $response = $this->proxy_curl($proxy_url.Request::path);
         $response = str_replace("</head>",
         "<script src='https://admin.bannr.io/js/inject.js'></script>
          <script src='https://admin.bannr.io/js/select.js'></script>
          <link rel='stylesheet' href='https://admin.bannr.io/css/inject.css'></link>
+         </head>
         ",$response);
-        echo $this->proxy_curl($proxy_url);
+        echo $response;
     }
 
 }
