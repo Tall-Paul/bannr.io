@@ -32,7 +32,7 @@ class ProxyController extends Controller
     {
         $proxy_url = Redis::hget('routes',$site_id);
         foreach (headers_list() as $header){
-            $dat = split(':',$header);
+            $dat = explode(':',$header);
             header_remove($dat[0]);
         }
         header('X-Frame-Options: ALLOW');
