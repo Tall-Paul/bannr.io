@@ -30,7 +30,7 @@ class ProxyController extends Controller
    }
 
 
-    public function index($site_id,$path = "/")
+    public function index($site_id,$path = "")
     {
         $proxy_url = Redis::hget('routes',$site_id);
         header('X-Frame-Options: ALLOW');
