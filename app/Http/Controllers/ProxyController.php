@@ -42,6 +42,9 @@ class ProxyController extends Controller
          <link rel='stylesheet' href='https://admin.bannr.io/css/inject.css'></link>
          </body>
         ",$response);
+        $trunc_url = str_replace('https://','',$proxy_url);
+        $trunc_url = str_replace('http://','',$proxy_url);
+        $response = str_replace($url,$site_id.".proxy.bannr.io",$response);
         echo $response;
     }
 
