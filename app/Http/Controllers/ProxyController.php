@@ -38,10 +38,11 @@ class ProxyController extends Controller
             header('Content-Type: text/css');
         $response = $this->proxy_curl($proxy_url."/".$path);
         header('proxy-path: '.$proxy_url."/".$path);
-        $response = str_replace("</head>",
-        "<script src='https://admin.bannr.io/js/inject.js'></script>
+        $response = str_replace("<head>",
+        "<head>
+        <script src='https://admin.bannr.io/js/inject.js'></script>
          <link rel='stylesheet' href='https://admin.bannr.io/css/inject.css'></link>
-         </head>
+
         ",$response);
 
         $single_replacement = "<a href='https://$site_id.proxy.bannr.io";
