@@ -31,7 +31,7 @@ class ProxyController extends Controller
     public function index($site_id)
     {
         $proxy_url = Redis::hget('routes',$site_id);
-        echo proxy_curl($proxy_url);
+        echo $this->proxy_curl($proxy_url);
         return;
     }
 
