@@ -39,7 +39,6 @@ class ProxyController extends Controller
         $response = $this->proxy_curl($proxy_url."/".request()->path);
         $response = str_replace("</body>",
         "<script src='https://admin.bannr.io/js/inject.js'></script>
-         <script src='https://admin.bannr.io/js/select.js'></script>
          <link rel='stylesheet' href='https://admin.bannr.io/css/inject.css'></link>
          </body>
         ",$response);
