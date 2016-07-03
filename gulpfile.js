@@ -36,7 +36,7 @@ elixir.config.sourcemaps = false;
 elixir.extend('uglify', function() {
 
 new elixir.Task('uglify', function() {
-            return gulp.src('public/js/all.js').pipe(obfuscate()).pipe(gulp.dest('public/js/',{overwrite:true}));
+            return gulp.src('public/js/app.js').pipe(obfuscate()).pipe(gulp.dest('public/js/',{overwrite:true}));
         })
         .watch('./app/**');
 
@@ -59,11 +59,16 @@ elixir(function(mix) {
         "ordered/bundle.js",
         "ordered/spectrum.js",
         "ordered/bootstrap-tour.min.js",
+        "*.js",
+    ],'public/js/vendor.js');
+
+    mix.scripts([
         "app/editorAPI.js",
         "app/templateBuilder.js",
         "app/campaignBuilder.js",
         "app/scheduleBuilder.js",
-        "app/editor.js",
-        "*.js",
-    ]).uglify();
+        "app/editor.js"
+    ],'public/js/app.js');
+
+    mix.uglify();
 });
