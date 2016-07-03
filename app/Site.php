@@ -29,8 +29,9 @@ class Site extends Model
   }
 
   public function save(array $options = Array()){
+    $id = parent::save();
     Redis::hset('routes',$this->id,$this->url);
-    return parent::save();
+    return $id;
   }
 
   public function clearCachedSchedules(){
