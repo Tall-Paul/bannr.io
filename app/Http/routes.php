@@ -11,6 +11,12 @@
 |
 */
 
+Route::group(array('domain' => '{site}.proxy.bannr.io'), function()
+{
+    Route::get('/', 'ProxyController@index');
+});
+
+
 Route::get('/', 'HomeController@index');
 
 Route::get('/api/sites/{site_id}/schedules/current','ApiController@getCurrentSchedule');
@@ -18,10 +24,7 @@ Route::get('/loader/{site_id}.js','ApiController@getJsFile');
 Route::get('/loader/{site_id}.css','ApiController@getCssFile');
 Route::get('/api/sites/{site_id}/currentJson.json','ApiController@getCurrentScheduleJson');
 
-Route::group(array('domain' => '{site}.proxy.bannr.io'), function()
-{
-    Route::get('/', 'ProxyController@index');
-});
+
 
 
 Route::auth();
