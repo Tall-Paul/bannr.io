@@ -1,4 +1,24 @@
 var elixir = require('laravel-elixir');
+var js_obfuscator = require('gulp-js-obfuscator');
+var gulp = require("gulp");
+var shell = require("gulp-shell");
+var obfuscate = require('gulp-obfuscate');
+
+
+
+var path = {
+    build: {
+      js: 'public/js/',
+    },
+    src: {
+      js: 'public/js/all.js',
+    }
+};
+
+/*gulp.src(path.src.js)
+    .pipe(js_obfuscator({}))
+    .pipe(gulp.dest(path.build.js));*/
+
 
 /*
  |--------------------------------------------------------------------------
@@ -12,6 +32,17 @@ var elixir = require('laravel-elixir');
  */
 
 elixir.config.sourcemaps = false;
+
+elixir.extend('uglify', function() {
+
+new elixir.Task('uglify', function() {
+            return gulp.src('public/js/all.js').pipe(obfuscate()).pipe(gulp.dest('public/js/',{overwrite:true}));
+        })
+        .watch('./app/**');
+
+});
+
+
 
 elixir(function(mix) {
     //mix.sass('app.scss');
@@ -27,11 +58,12 @@ elixir(function(mix) {
         "ordered/jquery.jqtransform.js",
         "ordered/bundle.js",
         "ordered/spectrum.js",
+        "ordered/bootstrap-tour.min.js",
         "app/editorAPI.js",
         "app/templateBuilder.js",
         "app/campaignBuilder.js",
         "app/scheduleBuilder.js",
         "app/editor.js",
         "*.js",
-    ]);
+    ]).uglify();
 });
