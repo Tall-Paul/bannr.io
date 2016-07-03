@@ -37,7 +37,7 @@ class ProxyController extends Controller
         }
         header('X-Frame-Options: ALLOW');
         echo $this->proxy_curl($proxy_url);
-        return;
+        die();
     }
 
 }
