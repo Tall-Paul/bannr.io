@@ -27,6 +27,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        App::forgetMiddleware('Illuminate\Http\FrameGuard');
+        //App::forgetMiddleware('Illuminate\Http\FrameGuard');
     }
 }

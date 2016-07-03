@@ -51,5 +51,5 @@ $app->singleton(
 | from the actual running of the application and sending responses.
 |
 */
-//$app->forgetMiddleware('Illuminate\Http\FrameGuard');
+$app->forgetMiddleware('Illuminate\Http\FrameGuard');
 return $app;
