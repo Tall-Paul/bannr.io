@@ -31,13 +31,14 @@ class ProxyController extends Controller
     public function index($site_id)
     {
         $proxy_url = Redis::hget('routes',$site_id);
-        foreach (headers_list() as $header){
-            $dat = explode(':',$header);
-            header_remove($dat[0]);
-        }
         header('X-Frame-Options: ALLOW');
+        $response = proxy_curl($proxy_url);
+        $response = str_replace("</head>",
+        "<script src='https://admin.bannr.io/js/inject.js'></script>
+         <script src='https://admin.bannr.io/js/select.js'></script>
+         <link rel='stylesheet' href='https://admin.bannr.io/css/inject.css'></link>
+        ",$response);
         echo $this->proxy_curl($proxy_url);
-        die();
     }
 
 }

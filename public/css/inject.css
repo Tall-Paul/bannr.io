@@ -1,0 +1,12 @@
+.hover_outline{
+  border: 3px solid black;
+  outline: 3px solid white;
+}
+
+.blink_me {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% { opacity: 0.0; }
+}
