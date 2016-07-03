@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Redis;
 
 
-class SitesController extends Controller
+class ProxyController extends Controller
 {
 
    protected function proxy_curl($url){
