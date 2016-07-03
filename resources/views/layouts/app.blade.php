@@ -39,7 +39,7 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Bannr.io
+                    Bannr.io <p style='font-size:0.5em;margin:0px;margin-top:-6px;margin-left:46px;font-color:white'>Beta</p>
                 </a>
             </div>
 
