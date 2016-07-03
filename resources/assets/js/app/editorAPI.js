@@ -15,17 +15,7 @@ editorAPI.init = function(){
 
 
 
-editorAPI.escapeJSON = function(str){
-  return str
-    .replace(/[\\]/g, '\\\\')
-    .replace(/[\"]/g, '\\\"')
-    .replace(/[\/]/g, '\\/')
-    .replace(/[\b]/g, '\\b')
-    .replace(/[\f]/g, '\\f')
-    .replace(/[\n]/g, '\\n')
-    .replace(/[\r]/g, '\\r')
-    .replace(/[\t]/g, '\\t');
-};
+
 
 editorAPI.afterFormRender = function(){
     $('.spectrum').spectrum({preferredFormat: "name"});
@@ -39,7 +29,7 @@ editorAPI.fileUploaded = function(dat){
 }
 
 editorAPI.parseDataElements = function(html){
-  var dataElements = html.match(/{{\s*[\w\.]+\s*}}/g).map(function(x) { return x.match(/[\w\.]+/)[0]; });
+  dataElements = matchHTML(html); //moved into bundle.js
   returnArray = [];
   for (var i = 0; i < dataElements.length; i++) {
     var el = new Object();
@@ -195,7 +185,7 @@ editorAPI.loadSites = function(callback_func){
       editorAPI.returnSites(callback_func);
     });
   } else {
-    console.log('cached sites');
+    //console.log('cached sites');
     editorAPI.returnSites(callback_func);
   }
 }

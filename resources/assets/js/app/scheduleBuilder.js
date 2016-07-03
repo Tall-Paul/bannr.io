@@ -3,7 +3,7 @@ var scheduleBuilder = scheduleBuilder || {};
 var schedule_campaigns = [];
 
 scheduleBuilder.init = function(){
-    
+
   this.editorSitesID = '#editor_siteid';
   this.editorSchedulesID = '#schedule_editor_schedule';
   this.editorNameID = "#schedule_editor_name";
@@ -223,7 +223,7 @@ scheduleBuilder.loadCampaigns = function(){
       datstr = datstr.slice(0, -1);
       datstr += ']';
       dat = JSON.parse(datstr);
-      console.log(dat);
+      //console.log(dat);
       targetFrame = document.getElementById('preview');
       var msg = {message: 'template_preview', html: html, dat: dat };
       targetFrame.contentWindow.postMessage(msg, '*');
@@ -277,7 +277,7 @@ scheduleBuilder.loadCampaigns = function(){
       scheduleBuilder.reset();
       if ($(scheduleBuilder.editorSchedulesID).val() == 'new')
         return;
-      console.log('loading schedule '+$(scheduleBuilder.editorSchedulesID).val());
+      //console.log('loading schedule '+$(scheduleBuilder.editorSchedulesID).val());
       editorAPI.loadSchedule($(scheduleBuilder.editorSiteID).val(),$(scheduleBuilder.editorSchedulesID).val(),scheduleBuilder.populateSchedule);
   }
 

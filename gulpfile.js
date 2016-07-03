@@ -3,6 +3,7 @@ var js_obfuscator = require('gulp-js-obfuscator');
 var gulp = require("gulp");
 var shell = require("gulp-shell");
 var obfuscate = require('gulp-obfuscate');
+var minify = require('gulp-minify');
 
 
 
@@ -34,14 +35,22 @@ var path = {
 elixir.config.sourcemaps = false;
 
 elixir.extend('uglify', function() {
-
-new elixir.Task('uglify', function() {
-            return gulp.src('public/js/app.js').pipe(obfuscate()).pipe(gulp.dest('public/js/',{overwrite:true}));
-        })
-        .watch('./app/**');
-
+    new elixir.Task('uglify', function() {
+                return gulp.src('public/js/app.js').pipe(obfuscate({ replaceMethod: obfuscate.ZALGO, exclude: ['document','reInit','setLive','dateTimePicker','init'] })).pipe(gulp.dest('public/js/',{overwrite:true}));
+            })
+            .watch('./app/**');
 });
 
+elixir.extend('minify',function(){
+    new elixir.Task('minify',function(){
+        return gulp.src('public/js/*.js').pipe(minify({
+            ext:{
+                src:'-debug.js',
+                min:'.js'
+            }
+        })).pipe(gulp.dest('public/js/'));
+    });
+})
 
 
 elixir(function(mix) {
@@ -70,5 +79,5 @@ elixir(function(mix) {
         "app/editor.js"
     ],'public/js/app.js');
 
-    mix.uglify();
+    mix.minify();
 });

@@ -129,7 +129,7 @@ campaignBuilder.reset = function(){
 }
 
 campaignBuilder.addTemplate = function(template){
-  console.log(template);
+  //console.log(template);
   //TODO: check if template already present in this campaign!!
   if (template.data == undefined || template.data == null){
     data = template.default;
