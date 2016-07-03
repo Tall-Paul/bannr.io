@@ -40,7 +40,7 @@ function bannr_template_preview(templates,data){
   });
 };
 
-var onMessagePosted = null;
+
 
 window.addEventListener('message', function (m) {
   switch (m.data.message){
