@@ -46,11 +46,11 @@ class ProxyController extends Controller
         $double_replacement = "<a href='https://$site_id.proxy.bannr.io";
         $single_replacement = "<a href=\"https://$site_id.proxy.bannr.io";
 
-        $response = str_replace('<a href="'.$proxy_url,$single_replacement,$response);
+        $response = str_replace('<a href="'.$proxy_url,$double_replacement,$response);
         $response = str_replace("<a href='".$proxy_url,$single_replacement,$response);
         $non_ssl = str_replace('https','http',$proxy_url);
         $response = str_replace('<a href="'.$non_ssl,$double_replacement,$response);
-        $response = str_replace("<a href='".$non_ssl,$double_replacement,$response);
+        $response = str_replace("<a href='".$non_ssl,$single_replacement,$response);
 
         echo $response;
     }
