@@ -42,12 +42,14 @@ class ProxyController extends Controller
          <link rel='stylesheet' href='https://admin.bannr.io/css/inject.css'></link>
          </body>
         ",$response);
+        /*
         $replacement = "a href='https://$site_id.proxy.bannr.io";
         $response = str_replace('a href="'.$proxy_url,$replacement,$response);
         $response = str_replace("a href='".$proxy_url,$replacement,$response);
         $non_ssl = str_replace('https','http',$proxy_url);
         $response = str_replace('a href="'.$non_ssl,$replacement,$response);
         $response = str_replace("a href='".$non_ssl,$replacement,$response);
+        */
 
         echo $response;
     }
