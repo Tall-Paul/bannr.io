@@ -34,7 +34,7 @@ class ProxyController extends Controller
     {
         $proxy_url = Redis::hget('routes',$site_id);
         header('X-Frame-Options: ALLOW');
-        if (stristr($request()->path,'.css'))
+        if (stristr(request()->path,'.css'))
             header('Content-Type: text/css');
         $response = $this->proxy_curl($proxy_url."/".request()->path);
         $response = str_replace("</head>",
