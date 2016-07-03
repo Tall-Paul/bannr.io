@@ -43,7 +43,7 @@ function bannr_template_preview(templates,data){
 
 
 window.addEventListener('message', function (m) {
-  console.log("here");
+  console.log(m.origin);
   switch (m.data.message){
     case "template_preview":
       bannr_template_preview(m.data.html,m.data.dat);
