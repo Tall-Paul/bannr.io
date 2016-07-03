@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Providers;
+
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -26,6 +27,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        App::removeMiddleware('Illuminate\Http\FrameGuard');
+        App::forgetMiddleware('Illuminate\Http\FrameGuard');
     }
 }
