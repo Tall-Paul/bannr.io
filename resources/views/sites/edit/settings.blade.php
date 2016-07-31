@@ -14,6 +14,8 @@
       <p>Add the following tag to your site within the head tag</p>
       <pre><?php echo htmlentities("<script src='https://loader.bannr.io/loader/".$site->id.".js'></script>"); ?></pre>
   </div>
+  @if (!$demo)
   <button type="button" class='btn btn-primary' id="settings_save_button">Save</button>
+  @endif
 </form>
 @endsection
