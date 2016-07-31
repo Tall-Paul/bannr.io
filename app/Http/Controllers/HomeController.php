@@ -27,7 +27,10 @@ class HomeController extends Controller
     {
 
         if (Auth::user()){
-            return redirect()->action('TeamsController@index');
+            if (Auth::user()->email == 'demo@bannr.io')
+                return redirect('https://admin.bannr.io/sites/edit?modify=6');
+            else
+                return redirect()->action('TeamsController@index');
         } else {
             return redirect('/login');
         }
