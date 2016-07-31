@@ -59,7 +59,7 @@ class SitesController extends Controller
           'sites' => Auth::user()->sites,
           'user' => Auth::user(),
           'grid' => $grid,
-
+          'demo' => Auth::user()->isDemo()
         );
         return view('sites')->with($data);
     }

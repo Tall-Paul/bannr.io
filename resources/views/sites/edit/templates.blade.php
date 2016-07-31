@@ -23,6 +23,10 @@
           <input type='text' id='template_editor_target' name='target' />
         </div>
         <div class="rowElem">
+          <label for="target">url: </label>
+          <input type='text' id='template_editor_url' name='url' />
+        </div>
+        <div class="rowElem">
           <label for="replacement">inject: </label>
           <select id='template_editor_inject'>
             <option value="replace">replace</option>
@@ -49,8 +53,10 @@
 
 <button type="button" class='btn btn-primary' id="template_preview_button">Preview</button>
 <button type="button" class= 'btn btn-primary' id="template_save_button">Save</button>
+<?php if (!$demo){ ?>
 <div class="pull-right">
     <button type="button" class= 'btn btn-primary' id="template_delete_button">Delete</button>
 </div>
+<?php } ?>
 </div>
 @endsection

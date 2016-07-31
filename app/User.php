@@ -28,4 +28,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Team');
     }
+
+    public function isDemo(){
+        if ($this->email == 'demo@bannr.io'){
+            return true;
+        }
+        return false;
+    }
 }
