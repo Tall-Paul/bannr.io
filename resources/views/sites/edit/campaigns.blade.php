@@ -23,7 +23,9 @@
 </div>
 <button type="button" class='btn btn-primary' id="campaign_editor_preview_campaign">Preview</button>
   <button type="button" class= 'btn btn-primary' id="campaign_save_button">Save</button>
+  @if (!$demo)
   <div class="pull-right">
       <button type="button" class= 'btn btn-primary' id="campaign_delete_button">Delete</button>
   </div>
+  @endif
   @endsection

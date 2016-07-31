@@ -59,7 +59,6 @@ class SitesController extends Controller
           'sites' => Auth::user()->sites,
           'user' => Auth::user(),
           'grid' => $grid,
-          'demo' => Auth::user()->isDemo()
         );
         return view('sites')->with($data);
     }
@@ -122,7 +121,8 @@ class SitesController extends Controller
         return redirect()->action('TeamsController@index');
       $data = array(
         'site' => $site,
-        'tier' => $tier
+        'tier' => $tier,
+        'demo' => Auth::user()->isDemo()
       );
       return view('sites/edit')->with($data);
     }

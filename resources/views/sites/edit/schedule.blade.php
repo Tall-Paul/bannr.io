@@ -36,7 +36,9 @@
   </div>
   <button type="button" class='btn btn-primary' id="schedule_editor_preview_schedule">Preview</button>
     <button type="button" class='btn btn-primary' id="schedule_save_button">Save</button>
+    @if (!$demo)
     <div class="pull-right">
         <button type="button" class= 'btn btn-primary' id="schedule_delete_button">Delete</button>
     </div>
+    @endif
   @endsection

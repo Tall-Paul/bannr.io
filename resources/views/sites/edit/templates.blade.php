@@ -53,10 +53,10 @@
 
 <button type="button" class='btn btn-primary' id="template_preview_button">Preview</button>
 <button type="button" class= 'btn btn-primary' id="template_save_button">Save</button>
-<?php if (!$demo){ ?>
+@if (!$demo)
 <div class="pull-right">
     <button type="button" class= 'btn btn-primary' id="template_delete_button">Delete</button>
 </div>
-<?php } ?>
+@endif
 </div>
 @endsection
