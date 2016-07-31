@@ -7,10 +7,18 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">
+                    <div class="row">
+                    <div class="col-md-8 col-md-offset-2" style="text-align:center">
+                        <span class="help-block">
+                            <p>For a quick demo, use 'demo@bannr.io' and '123456' to login</p>
+                        </span>
+                    </div>
+                </div>
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+
                             <label class="col-md-4 control-label">E-Mail Address</label>
 
                             <div class="col-md-6">
