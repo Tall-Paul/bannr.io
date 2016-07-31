@@ -60,7 +60,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
-
+                            @if (!Auth::user()->isDemo())
                             <ul class="dropdown-menu" role="menu">
                                 @if (Auth::user()->superuser == 1)
                                   <li><a href="{{ url('/tiers') }}"><i class="fa fa-btn fa-edit"></i>Tiers</a></li>
@@ -68,6 +68,7 @@
                                 <li><a href="{{ url('/teams') }}"><i class="fa fa-btn fa-edit"></i>Teams</a></li>
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
+                            @endif
                         </li>
                     @endif
                 </ul>
