@@ -9,6 +9,6 @@ document.write('<scr'+'ipt type="text/javascript" src="http://loader.bannr.io/js
 
 
 //var script = document.createElement('script');
-//script.setAttribute('src', 'http://loader.bannr.io/js/bQuery.js');
+//script.setAttribute('src', 'https://loader.bannr.io/js/bQuery.js');
 //script.setAttribute('type', 'text/javascript');
 //document.getElementsByTagName('head')[0].appendChild(script);
