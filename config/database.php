@@ -54,7 +54,7 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', 'localhost'),
+            'host' => env('DB_HOST', 'mariadb'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'bannr'),
             'username' => env('DB_USERNAME', 'homestead'),
@@ -109,14 +109,14 @@ return [
         'cluster' => false,
 
         'default' => [
-            'host' => env('REDIS_HOST', 'localhost'),
+            'host' => env('REDIS_HOST', 'redis'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 6379),
             'database' => env('REDIS_DB_DEFAULT', 0),
         ],
 
         'proxy' => [
-            'host' => env('REDIS_HOST', 'localhost'),
+            'host' => env('REDIS_HOST', 'redis'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_POST', 6379),
             'database' => env('REDIS_DB_PROXY', 0),
