@@ -15,6 +15,7 @@ class CreateBannrTables extends Migration
       Schema::create('teams', function (Blueprint $table) {
           $table->increments('id');
           $table->string('name');
+          $table->string('url');
           $table->integer('tier_id');
           $table->dateTime('created_at');
           $table->dateTime('updated_at');
@@ -86,6 +87,12 @@ class CreateBannrTables extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('teams');
+        Schema::drop('sites');
+        Schema::drop('templates');
+        Schema::drop('campaigns');
+        Schema::drop('tiers');
+        Schema::drop('team_user');
+        Schema::drop('campaign_template');
     }
 }

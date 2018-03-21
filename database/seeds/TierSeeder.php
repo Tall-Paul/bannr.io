@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Tier;
 
-class DatabaseSeeder extends Seeder
+class TierSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +12,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(UserSeeder::class);
-        $this->call(TierSeeder::class);
+      $tier = Array(
+        'name' => 'beta',
+        'special' => 1
+      );
+      Tier::insert($tier);
     }
 }

@@ -38,6 +38,7 @@ class CreateScheduleTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('schedules');
+        Schema::drop('campaign_schedule');
     }
 }
