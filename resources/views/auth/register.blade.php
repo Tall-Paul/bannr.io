@@ -66,6 +66,23 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('team_name') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">Team URL</label>
+
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" name="team_name">
+
+                                @if ($errors->has('team_name'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('team_name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="col-md-4">
+                              <label class="control-label">.bannr.io</label>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
