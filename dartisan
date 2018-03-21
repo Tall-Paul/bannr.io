@@ -1,0 +1,2 @@
+#!/bin/bash
+docker exec -ti bannr_stack_php /code/artisan $1 $2
