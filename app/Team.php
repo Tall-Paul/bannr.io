@@ -7,6 +7,10 @@ use Auth;
 
 class Team extends Model
 {
+  protected $fillable = [
+      'name', 'url', 'tier'
+  ];
+
   public function users()
   {
       return $this->belongsToMany('App\User')->withPivot('admin');
@@ -28,6 +32,6 @@ class Team extends Model
 
   public function save(array $options = Array()){
     parent::save($options);
-    $this->users()->attach(Auth::user()->id);
+    //$this->users()->attach(Auth::user()->id);
   }
 }

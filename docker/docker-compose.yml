@@ -11,8 +11,6 @@ services:
             - redis
         volumes:
             - "..:/code:delegated"
-            - "./php/local.xml:/code/http/app/etc/local.xml"
-            - "./php/n98-magerun.phar:/code/n98-magerun.phar"
         #command: mount -t overlay -o lowerdir=/code-src,upperdir=/var/local-code,workdir=/var/workdir none /code
         #mount -t aufs -o br=/var/local-code:/code-src none /code/
     mariadb:

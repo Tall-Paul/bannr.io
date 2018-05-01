@@ -70,11 +70,11 @@
                             <label class="col-md-4 control-label">Team URL</label>
 
                             <div class="col-md-4">
-                                <input type="text" class="form-control" name="team_name">
+                                <input type="text" class="form-control" name="url">
 
-                                @if ($errors->has('team_name'))
+                                @if ($errors->has('url'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('team_name') }}</strong>
+                                        <strong>{{ $errors->first('url') }}</strong>
                                     </span>
                                 @endif
                             </div>

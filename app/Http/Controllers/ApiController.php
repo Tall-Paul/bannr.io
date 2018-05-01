@@ -356,4 +356,16 @@ class ApiController extends Controller
             return Response::json(['success' => true, 'filename' => 'http://images.bannr.io/'.$filePath, 'target' => request('file_target')]);
         }
     }
+
+    public function checkUrlAvailable(){
+      $urlToCheck = Request('url');
+      $check = Team::where('url',$urlToCheck);
+      if ($check == null){
+        $out = Array('data'=>'ok';
+        return view('api/response')->with($out);
+      } else {
+        $out = Array('data'=>'inuse';
+        return view('api/response')->with($out);
+      }
+    }
 }

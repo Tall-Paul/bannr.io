@@ -11,6 +11,8 @@
 |
 */
 
+Validator::extend('teamurl', 'customValidation@teamurl','That url is taken! You need to be invited to join an existing team');
+
 Route::group(array('domain' => '{site}.proxy.bannr.io'), function()
 {
     Route::any('/', 'ProxyController@index');

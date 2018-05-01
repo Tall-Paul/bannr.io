@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Team;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -40,6 +41,7 @@ class AuthController extends Controller
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -52,6 +54,8 @@ class AuthController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+            'url' => 'required|max:100|min:6|unique:teams'
+             /*'team_url' => 'required|teamurl|min:6'*/
         ]);
     }
 
@@ -63,10 +67,21 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+      //create team
+        $team = Team::create([
+          'name' => $data['url'],
+          'url' => $data['url'],
+          'tier_id' => 0
+        ]);
+
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        $team->users()->attach($user->id);
+
+        return $user;
     }
 }
