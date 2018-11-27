@@ -32,6 +32,6 @@ class Team extends Model
 
   public function save(array $options = Array()){
     parent::save($options);
-    //$this->users()->attach(Auth::user()->id);
+    $this->users()->attach(Auth::user()->id);
   }
 }

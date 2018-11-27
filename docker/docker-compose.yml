@@ -11,8 +11,6 @@ services:
             - redis
         volumes:
             - "..:/code:delegated"
-        #command: mount -t overlay -o lowerdir=/code-src,upperdir=/var/local-code,workdir=/var/workdir none /code
-        #mount -t aufs -o br=/var/local-code:/code-src none /code/
     mariadb:
         container_name: bannr_stack_db
         build:
