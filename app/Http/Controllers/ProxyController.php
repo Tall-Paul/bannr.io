@@ -45,6 +45,13 @@ class ProxyController extends Controller
          </body>
         ",$response);
 
+        //remove trackjs
+
+        $response = str_replace(
+          '<script type="text/javascript" src="https://cdn.trackjs.com/releases/current/tracker.js"></script>',
+          '',$response
+        );
+
         $single_replacement = "<a href='https://proxy.bannr.io/$site_id";
         $double_replacement = "<a href=\"https://proxy.bannr.io/$site_id";
 
