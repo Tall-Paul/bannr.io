@@ -13,11 +13,11 @@
 
 Validator::extend('teamurl', 'customValidation@teamurl','That url is taken! You need to be invited to join an existing team');
 
-Route::group(array('domain' => 'proxy.bannr.io/{site}'), function()
+Route::group(array('domain' => 'proxy.bannr.io'), function()
 {
-    Route::any('/', 'ProxyController@index');
-    Route::any('/{any}', 'ProxyController@index');
-    Route::get("{path}", "ProxyController@index")->where('path', '.+');
+    Route::any('/{site_id}/', 'ProxyController@index');
+    Route::any('/{site_id}/{any}', 'ProxyController@index');
+    Route::get("/{site_id}/{path}", "ProxyController@index")->where('path', '.+');
 });
 
 
