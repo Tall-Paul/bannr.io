@@ -21,7 +21,7 @@
                        <label class="radio-inline"><input type="radio" name="behaviour" checked='1' value='navigate'>Navigate</label>
                        <label class="radio-inline"><input type="radio" name="behaviour" value='select'>Select</label>
                      </div>
-                    <iframe id="preview" class='preview_iframe' src= "https://{{$site->id}}.proxy.bannr.io"></iframe>
+                    <iframe id="preview" class='preview_iframe' src= "https://proxy.bannr.io/{{$site->id}}"></iframe>
                   </div>
                   <div class="col-lg-4 side-panel" style="padding:0px">
 
