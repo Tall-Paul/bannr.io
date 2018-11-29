@@ -361,10 +361,10 @@ class ApiController extends Controller
       $urlToCheck = Request('url');
       $check = Team::where('url',$urlToCheck);
       if ($check == null){
-        $out = Array('data'=>'ok';
+        $out = Array('data'=>'ok');
         return view('api/response')->with($out);
       } else {
-        $out = Array('data'=>'inuse';
+        $out = Array('data'=>'inuse');
         return view('api/response')->with($out);
       }
     }
